@@ -44,7 +44,7 @@ bash setup-tintin.sh
 cd prot-prot-bm5 && bash setup.sh && cd ..
 
 ## Temporary: replace the path to the benchmarking suite
-sed -i "s|/trinity/login/rodrigo/repos/benchmarking/|$(pwd)|g" prot-prot-bm5-simple.yaml
+sed -i "s|/trinity/login/rodrigo/repos/benchmarking|$(pwd)|g" prot-prot-bm5-simple.yaml
 
 # Run the benchmark
 ./haddock-runner prot-prot-bm5-simple.yaml
