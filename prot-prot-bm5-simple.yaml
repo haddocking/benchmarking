@@ -1,0 +1,25 @@
+general:
+  executable: /trinity/login/rodrigo/repos/benchmarking/run-haddock3.sh
+  max_concurrent: 4
+  haddock_dir: /trinity/login/rodrigo/repos/benchmarking/haddock3
+  receptor_suffix: _r_u
+  ligand_suffix: _l_u
+  input_list: /trinity/login/rodrigo/repos/benchmarking/prot-prot-bm5/bm5-input.txt
+  work_dir: /trinity/login/rodrigo/repos/benchmarking/prot-prot-bm5/simple
+
+scenarios:
+  - name: center-of-mass
+    parameters:
+      general:
+        mode: hpc
+        queue: short
+        queue_limit: 100
+        concat: 5
+
+      modules:
+        order: [topoaa, rigidbody]
+        topoaa:
+          autohis: true
+        rigidbody:
+          sampling: 2
+          cmrest: true

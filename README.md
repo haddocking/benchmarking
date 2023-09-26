@@ -33,3 +33,21 @@ Simply run:
 ```
 
 You don't need to activate the virtual environment or wory about python, the `haddock-runner` takes care of it.
+
+## Example
+
+```bash
+# Setup the project
+bash setup-tintin.sh
+
+# Setup BM5
+cd prot-prot-bm5 && bash setup.sh && cd ..
+
+## Temporary: replace the path to the benchmarking suite
+sed -i "s|/trinity/login/rodrigo/repos/benchmarking/|$(pwd)|g" prot-prot-bm5-simple.yaml
+
+# Run the benchmark
+./haddock-runner prot-prot-bm5-simple.yaml
+```
+
+This will run the benchmarking suite for the BM5 dataset using a simple scenario, the results will be stored in the `prot-prot-bm5/simple` directory.
