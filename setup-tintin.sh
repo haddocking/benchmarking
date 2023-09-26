@@ -15,6 +15,7 @@ echo "[+]     - pyenv in your HOME directory"
 echo "[+]     - python ${PYTHON_VERSION} in your HOME directory"
 echo "[+]     - virtual environment ${VENV_NAME} in the current directory"
 echo "[+]     - HADDOCK3 in the virtual environment"
+echo "[+]     - Download the haddock-runner"
 echo "[+]"
 echo "[!!] This will NOT USE ANACONDA/MINICONDA"
 echo "[!!] All installations will be LOCAL (your HOME/.pyenv and this directory)"
@@ -90,6 +91,7 @@ echo "[+] Get the CNS binary"
 mkdir -p bin/
 curl https://surfdrive.surf.nl/files/index.php/s/f2Iy0Zg1xObSA69/download -o bin/cns  >/dev/null 2>&1
 chmod +x bin/cns
+cd ..
 
 # Check if `haddock3` is installed
 if ! command -v haddock3 &> /dev/null
@@ -99,8 +101,7 @@ then
     exit 1
 fi
 
+# Download the latest release of the `haddock-runner`
+bash download-haddock-runner.sh
 
 echo "[+] Done"
-
-echo "[+] To activate the virtual environment, run:"
-echo "[+]     source ${VENV_NAME}/bin/activate"

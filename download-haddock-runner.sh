@@ -11,3 +11,4 @@ wget -qO- ${URL} | tar xvz
 rm LICENSE README.md
 chmod +x haddock-runner
 cd -
+mv bin/haddock-runner .
