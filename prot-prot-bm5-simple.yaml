@@ -1,11 +1,12 @@
 general:
-  executable: /trinity/login/rodrigo/repos/benchmarking/run-haddock3.sh
+  # Paths to data
+  haddock_dir: _ABSPATH_PWD_/haddock3
+  executable: _ABSPATH_PWD_/run-haddock3.sh
+  input_list: _ABSPATH_PWD_/prot-prot-bm5/bm5-input.txt
+  work_dir: _ABSPATH_PWD_/prot-prot-bm5/HADDOCK3_BM5
   max_concurrent: 4
-  haddock_dir: /trinity/login/rodrigo/repos/benchmarking/haddock3
   receptor_suffix: _r_u
   ligand_suffix: _l_u
-  input_list: /trinity/login/rodrigo/repos/benchmarking/prot-prot-bm5/bm5-input.txt
-  work_dir: /trinity/login/rodrigo/repos/benchmarking/prot-prot-bm5/simple
 
 scenarios:
   - name: center-of-mass
