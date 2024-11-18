@@ -70,28 +70,31 @@ echo "[+] Activating virtual environment"
 source ${VENV_NAME}/bin/activate
 
 
-if [ ! -d "haddock3" ]
-then
-    echo "[+] Cloning HADDOCK3"
-    git clone --recursive https://github.com/haddocking/haddock3.git  >/dev/null 2>&1
-fi
+# if [ ! -d "haddock3" ]
+# then
+#     echo "[+] Cloning HADDOCK3"
+#     git clone --recursive https://github.com/haddocking/haddock3.git  >/dev/null 2>&1
+# fi
 
-echo "[+] Installing/Updating HADDOCK3"
-cd haddock3
-cd src/fcc/src
-chmod u+x Makefile
-make  >/dev/null 2>&1
-cd -
-pip install -r requirements.txt  >/dev/null 2>&1
-# send stdout and err to null
+# echo "[+] Installing/Updating HADDOCK3"
+# cd haddock3
+# cd src/fcc/src
+# chmod u+x Makefile
+# make  >/dev/null 2>&1
+# cd -
+# pip install -r requirements.txt  >/dev/null 2>&1
+# # send stdout and err to null
 
-python setup.py develop   >/dev/null 2>&1
+# python setup.py develop   >/dev/null 2>&1
 
-echo "[+] Get the CNS binary"
-mkdir -p bin/
-curl https://surfdrive.surf.nl/files/index.php/s/f2Iy0Zg1xObSA69/download -o bin/cns  >/dev/null 2>&1
-chmod +x bin/cns
-cd ..
+# echo "[+] Get the CNS binary"
+# mkdir -p bin/
+# curl https://surfdrive.surf.nl/files/index.php/s/f2Iy0Zg1xObSA69/download -o bin/cns  >/dev/null 2>&1
+# chmod +x bin/cns
+# cd ..
+
+# Install haddock3
+pip install haddock3
 
 # Check if `haddock3` is installed
 if ! command -v haddock3 &> /dev/null
