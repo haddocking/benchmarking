@@ -16,7 +16,7 @@ scenarios:
   - name: HADDOCK24_default
     parameters:
       general:
-        mode: hpc
+        mode: batch
         queue: short
         queue_limit: 200
         concat: 5
@@ -69,7 +69,7 @@ scenarios:
   - name: HADDOCK24_default_5Aambig
     parameters:
       general:
-        mode: hpc
+        mode: batch
         queue: short
         queue_limit: 200
         concat: 5
@@ -122,7 +122,7 @@ scenarios:
   - name: HADDOCK24_ab_initio
     parameters:
       general:
-        mode: hpc
+        mode: batch
         queue: short
         queue_limit: 400
         concat: 5
@@ -186,7 +186,7 @@ scenarios:
   - name: HADDOCK3_clustfcc
     parameters:
       general:
-        mode: hpc
+        mode: batch
         queue: short
         queue_limit: 100
         concat: 5
@@ -239,7 +239,7 @@ scenarios:
   - name: HADDOCK3_rmsdclustering
     parameters:
       general:
-        mode: hpc
+        mode: batch
         queue: short
         queue_limit: 100
         concat: 5

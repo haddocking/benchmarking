@@ -12,7 +12,7 @@ scenarios:
   - name: center-of-mass
     parameters:
       general:
-        mode: hpc
+        mode: batch
         queue: short
         queue_limit: 100
         concat: 5
