@@ -5,7 +5,6 @@ python3 haddock2_to_haddock3.py
 """
 
 import os
-import sys
 import shutil
 import subprocess
 
@@ -89,7 +88,7 @@ def references():
         new_target_path = Path(references_dirpath, target)
         new_target_path.mkdir(exist_ok=True)
 
-        for fname, suffix in zip(("bound.pdb", "bound_ligand.pdb", ), ("ref", "ligref, ")):
+        for fname, suffix in zip(("bound.pdb", "bound_ligand.pdb", ), ("ref", "ligref", )):
             fpath = Path(target_path, fname)
             new_conformer_path = Path(new_target_path, f"{target}_{suffix}.pdb")
             shutil.copyfile(fpath, new_conformer_path)
