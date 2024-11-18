@@ -93,8 +93,20 @@ source ${VENV_NAME}/bin/activate
 # chmod +x bin/cns
 # cd ..
 
+
+if [ ! -d "haddock3" ]
+then
+  echo "[+] Cloning HADDOCK3"
+  git clone https://github.com/haddocking/haddock3.git >/dev/null 2>&1
+fi
+
 # Install haddock3
-pip install haddock3
+echo "[+] Installing/Updating HADDOCK3"
+cd haddock3
+git pull >/dev/null 2>&1
+pip install .
+cd ..
+
 
 # Check if `haddock3` is installed
 if ! command -v haddock3 &> /dev/null
