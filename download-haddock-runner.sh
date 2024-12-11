@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Download the latest release of the `haddock-runner`
-export VERSION="1.7.0"
+export VERSION="1.11.0"
 export URL=https://github.com/haddocking/haddock-runner/releases/download/v${VERSION}/haddock-runner_${VERSION}_linux_386.tar.gz
 
 # Download and extract the binary
