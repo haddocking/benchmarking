@@ -156,6 +156,13 @@ def gen_input_mapper():
                 filout.write(f"{fpath.resolve()}\n")
 
 
+def smaller_set():
+    subprocess.run(
+        'cat input_list.txt | grep "/ppar" > input_list_ppar.txt',
+        shell=True,
+        )
+
+
 def all_files(dirname: str):
     for path, _subdirs, files in os.walk(dirname):
         for name in files:
@@ -181,6 +188,9 @@ def main():
 
     # Generate input file
     gen_input_mapper()
+
+    # Generate smaller set
+    smaller_set()
     
 
 def runmain():
