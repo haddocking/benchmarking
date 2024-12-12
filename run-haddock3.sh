@@ -3,7 +3,8 @@
 # This is a script to run HADDOCK3, don't change it unless you know what you are
 # doing.
 #===============================================================================
-source .venv/bin/activate
+
+source _ABSPATH_PWD_/.venv/bin/activate
 
 haddock3 "$@"
 #===============================================================================
