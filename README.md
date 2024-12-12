@@ -68,3 +68,27 @@ nohup ./haddock-runner protprotbm5-haddock3-scenarios.yaml > bm5-scenarios.out &
 
 # Wait several hours
 ```
+
+## Run the protein - ligand shape docking
+
+### Setting it up
+
+```bash
+cd protein-ligand-shape
+chmod u+x setup.sh
+./setup.sh
+cd ..
+```
+
+### Running example
+
+```bash
+./haddock-runner protein-ligand-shape/benchmark-unbound-unbound-small.yml
+```
+
+
+### Running actual benchmark
+
+```bash
+./haddock-runner protein-ligand-shape/benchmark-unbound-unbound-small.yml
+```
