@@ -60,6 +60,8 @@ def restraints():
                     suffix = "unambig" if "unambig" in str(tbl) else "ambig"
                 else:
                     suffix = tbl.stem
+                    if "low_sim_unbound" in suffix:
+                        suffix = suffix.replace("unbound", "unb")
                 new_tbl_path = Path(new_target_path, f"{target}_{suffix}.tbl")
                 shutil.copyfile(tbl, new_tbl_path)
 
@@ -109,7 +111,7 @@ def receptors():
             new_target_path.mkdir(exist_ok=True)
 
             for pdb in target_recept_path.glob("*unbound.pdb"):
-                new_rec_path = Path(new_target_path, f"{target}_r_u.pdb")
+                new_rec_path = Path(new_target_path, f"{target}_r_u_{recept_type}.pdb")
                 shutil.copyfile(pdb, new_rec_path)
 
 
@@ -189,9 +191,6 @@ def main():
     # Generate input file
     gen_input_mapper()
 
-    # Generate smaller set
-    smaller_set()
-    
 
 def runmain():
     initdir = os.getcwd()
@@ -202,3 +201,4 @@ def runmain():
 
 if __name__ == "__main__":
     runmain()
+
