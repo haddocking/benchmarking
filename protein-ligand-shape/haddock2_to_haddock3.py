@@ -29,6 +29,7 @@ def conformers():
             conf_id = int(conformer.stem.split("_")[-1])
             new_conformer_path = Path(new_target_path, f"{target}_l_u_{conf_id}.pdb")
             shutil.copyfile(conformer, new_conformer_path)
+            correct_chainid(new_conformer_path, "B")
 
 
 def smiles():
@@ -113,6 +114,19 @@ def receptors():
             for pdb in target_recept_path.glob("*unbound.pdb"):
                 new_rec_path = Path(new_target_path, f"{target}_r_u_{recept_type}.pdb")
                 shutil.copyfile(pdb, new_rec_path)
+                correct_chainid(new_rec_path, "A")
+
+
+def correct_chainid(pdbpath, chainid):
+    with open(pdbpath, "r") as filin:
+        filedt = filin.readlines()
+    with open(pdbpath, "w") as fout:
+        for _ in filedt:
+            if _.startswith(("ATOM", "HETATM", )):
+                n_ = _[:21] + chainid[0] + _[22:]
+                fout.write(n_)
+            else:
+                fout.write(_)
 
 
 def toppars():

@@ -90,5 +90,5 @@ nohup ./haddock-runner protein-ligand-shape/benchmark-unbound-unbound-small.yml 
 ### Running actual benchmark
 
 ```bash
-./haddock-runner protein-ligand-shape/benchmark-unbound-unbound-small.yml
+./haddock-runner protein-ligand-shape/benchmark-unbound-unbound-shape.yml
 ```
