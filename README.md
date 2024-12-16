@@ -83,7 +83,7 @@ cd ..
 ### Running example
 
 ```bash
-./haddock-runner protein-ligand-shape/benchmark-unbound-unbound-small.yml
+nohup ./haddock-runner protein-ligand-shape/benchmark-unbound-unbound-small.yml > prot-lig-test.out & disown && tail -f prot-lig-test.out
 ```
 
 
