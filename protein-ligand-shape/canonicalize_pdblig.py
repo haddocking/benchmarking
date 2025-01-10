@@ -26,7 +26,7 @@ def renumber(pdbblock):
             # Set new atom name based on counts
             new_atname = f"{attype}{count}"
             # Re-build the line
-            new_ = f"{_[:12]}{new_atname:^4s}{_[16:]}\n"
+            new_ = f"{_[:12]} {new_atname:<3s}{_[16:]}\n"
             # Hold it
             renumbered += new_
         # Do not keep CONECT records
@@ -57,8 +57,9 @@ def main(fname):
     renumbered = renumber(newref_block)
     # Write canonical version of the ligand
     input_path = Path(fname)
-    newpath = Path(input_path.parent.resolve(), f"canonical_{input_path.name}")
+    newpath = Path(input_path.parent.resolve(), f"{input_path.stem}_can.pdb")
     newpath.write_text(renumbered)
+    return newpath
 
 
 def maincli():
