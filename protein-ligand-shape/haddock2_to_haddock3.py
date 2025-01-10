@@ -9,6 +9,8 @@ import shutil
 import subprocess
 
 from pathlib import Path
+from canonicalize_pdblig import main as canonicalize_pdblig
+
 
 LIGAND_SHAPE_GIT_REPO_URL = "https://github.com/haddocking/shape-restrained-haddocking.git"
 SHAPE_ROOT = "./shape-restrained-haddocking/"
@@ -96,6 +98,27 @@ def references():
             new_conformer_path = Path(new_target_path, f"{target}_{suffix}.pdb")
             shutil.copyfile(fpath, new_conformer_path)
 
+        # Search for ligand alone
+        ligand_pdb_fpath = Path(new_target_path, f"{target}_ligref.pdb")
+        # Canonicalise it
+        canonical_lig = canonicalize_pdblig(ligand_pdb_fpath.resolve())
+        # Add file content in ref.pdb
+        replace_in_ref(canonical_lig, f"{new_target_path}/{target}_ref.pdb")
+
+
+def replace_in_ref(canonical, original):
+    original_fpath = Path(original)
+    canonical_ref = Path(original_fpath.parent.resolve(), f"{original_fpath.stem}_can.pdb")
+    with open(original, "r") as fin, open(canonical_ref, "w") as filout, open(canonical, "r") as canlig:
+        for _ in fin:
+            if _.startswith(("ATOM", "HETATM", )):
+                if _[17:20] != "UNK":
+                    filout.write(_)
+            elif _.startswith("TER"):
+                filout.write(_)
+        for lig_ in canlig:
+            filout.write(lig_.replace("HETATM", "ATOM  "))
+
 
 def receptors():
     recept_dirpath = Path("receptors")
@@ -170,13 +193,6 @@ def gen_input_mapper():
             filout.write(f"# {d.upper()}\n")
             for fpath in all_files(d):
                 filout.write(f"{fpath.resolve()}\n")
-
-
-def smaller_set():
-    subprocess.run(
-        'cat input_list.txt | grep "/ppar" > input_list_ppar.txt',
-        shell=True,
-        )
 
 
 def all_files(dirname: str):

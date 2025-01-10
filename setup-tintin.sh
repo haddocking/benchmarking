@@ -116,10 +116,17 @@ then
     exit 1
 fi
 
+# Install matplotlib
+pip install matplotlib
+
+# Install RDKit
+pip install rdkit
+
 # Download the latest release of the `haddock-runner`
 bash download-haddock-runner.sh
 
 # Modify path in run_haddock.sh file
 sed -i "s|_ABSPATH_PWD_|$PWD|g" run-haddock3.sh
+find . -type f -name "protein-ligand-shape/*.yml" -exec sed -i "s|_ABSPATH_PWD_|$PWD|g" {} +
 
 echo "[+] Done"
