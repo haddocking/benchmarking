@@ -127,6 +127,6 @@ bash download-haddock-runner.sh
 
 # Modify path in run_haddock.sh file
 sed -i "s|_ABSPATH_PWD_|$PWD|g" run-haddock3.sh
-find . -type f -name "protein-ligand-shape/*.yml" -exec sed -i "s|_ABSPATH_PWD_|$PWD|g" {} +
+find "protein-ligand-shape/" -type f -name "*.yml" -exec sed -i "s|_ABSPATH_PWD_|$PWD|g" {} +
 
 echo "[+] Done"
