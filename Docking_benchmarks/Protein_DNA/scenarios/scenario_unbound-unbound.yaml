@@ -1,0 +1,80 @@
+general:
+  haddock_dir: /trinity/login/skhatri/Benchmarking/benchmarking/haddock3
+  executable: /trinity/login/skhatri/Benchmarking/benchmarking/run-haddock3.sh
+  input_list: /trinity/login/skhatri/Benchmarking/benchmarking/benchmarking_datasets/protein-DNA/prot-dna-input.txt
+  work_dir: /trinity/login/skhatri/Benchmarking/benchmarking/results/HADDOCK-Prot-DNA
+
+  execution: slurm
+  partition: medium
+  ncores: 40
+  cpus_per_task: 40
+  max_concurrent: 7
+
+  mol_suffixes:
+    - _p1_u
+    - _p2_u
+    - _p3_u
+    - _p4_u
+    - _d_u
+
+scenarios:
+  - name: unbound-unbound
+
+    parameters:
+      general:
+        clean: true
+
+    workflow:
+      topoaa:
+        autohis: true
+
+      rigidbody:
+        tolerance: 5
+        sampling: 1000
+        ambig_fname: _u_ambig.tbl
+        epsilon: 78
+        dielec: cdie
+        w_desolv: 0
+
+      caprieval:
+        reference_fname: _target.pdb
+
+      seletop:
+        select: 200
+
+      caprieval.1:
+        reference_fname: _target.pdb
+
+      flexref:
+        tolerance: 5
+        ambig_fname: _u_ambig.tbl
+        dnarest_on: true
+        epsilon: 78
+        dielec: cdie
+        w_desolv: 0
+        tadfactor: 4
+        temp_cool3_init: 300
+
+      caprieval.2:
+        reference_fname: _target.pdb
+
+      mdref:
+        tolerance: 5
+        ambig_fname: _u_ambig.tbl
+        dnarest_on: true
+        w_desolv: 0
+        watersteps: 750
+
+      caprieval.3:
+        reference_fname: _target.pdb
+
+      rmsdmatrix:
+
+      clustrmsd:
+        clust_cutoff: 5.5
+
+      seletopclusts:
+        top_models: 4
+
+      caprieval.4:
+        reference_fname: _target.pdb
