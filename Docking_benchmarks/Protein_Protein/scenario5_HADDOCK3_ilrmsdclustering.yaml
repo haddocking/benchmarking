@@ -1,0 +1,79 @@
+general:
+  haddock_dir: /trinity/login/skhatri/Benchmarking/benchmarking/haddock3
+  executable: /trinity/login/skhatri/Benchmarking/benchmarking/run-haddock3.sh
+  input_list: /trinity/login/skhatri/Benchmarking/benchmarking/benchmarking_datasets/prot-prot-bm5/bm5-input.txt
+  work_dir: /trinity/login/skhatri/Benchmarking/benchmarking/results/HADDOCK3_ilrmsdclustering
+
+  execution: slurm
+  ncores: 5
+  cpus_per_task: 4
+  max_concurrent: 5
+  mol_suffixes:
+    - _r_u
+    - _l_u
+
+scenarios:
+  - name: HADDOCK3_ilrmsdclustering
+
+    parameters:
+      general:
+        clean: true
+
+    workflow:
+        topoaa:
+          autohis: true
+
+        rigidbody:
+          ambig_fname: _ambig.tbl
+          unambig_fname: _restraint-bodies
+          hbond_fname: _hbonds
+          ligand_param_fname: _ligand.param
+          ligand_top_fname: _ligand.top
+          tolerance: 5
+
+        caprieval:
+          reference_fname: _target
+
+        ilrmsdmatrix: {}
+
+        clustrmsd:
+          min_population: 4
+
+        seletopclusts:
+          top_models: 4
+
+        caprieval.1:
+          reference_fname: _target
+
+        flexref:
+          ambig_fname: _ambig.tbl
+          unambig_fname: _restraint-bodies
+          hbond_fname: _hbonds
+          ligand_param_fname: _ligand.param
+          ligand_top_fname: _ligand.top
+          tolerance: 5
+
+        caprieval.2:
+          reference_fname: _target
+
+        mdref:
+          ambig_fname: _ambig.tbl
+          unambig_fname: _restraint-bodies
+          hbond_fname: _hbonds
+          ligand_param_fname: _ligand.param
+          ligand_top_fname: _ligand.top
+          tolerance: 5
+
+        caprieval.3:
+          reference_fname: _target
+
+        ilrmsdmatrix.1: {}
+
+        clustrmsd.1:
+          min_population: 4
+
+        seletopclusts.1:
+          top_models: 4
+
+        caprieval.4:
+          reference_fname: _target
