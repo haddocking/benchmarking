@@ -1,0 +1,67 @@
+general:
+  haddock_dir: /trinity/login/skhatri/Benchmarking/benchmarking/haddock3
+  executable: /trinity/login/skhatri/Benchmarking/benchmarking/run-haddock3.sh
+  input_list: /trinity/login/skhatri/Benchmarking/benchmarking/benchmarking_datasets/protein-glycan/prot-glycan-input.txt
+  work_dir: /trinity/login/skhatri/Benchmarking/benchmarking/results/bound_vdw_ti-aa
+
+  execution: slurm
+  ncores: 40
+  cpus_per_task: 40
+  max_concurrent: 7
+  mol_suffixes:
+    - _r_b
+    - _l_b
+
+scenarios:
+  - name: bound_vdw_ti-aa
+
+    parameters:
+      general:
+        clean: true
+
+    workflow:
+      topoaa:
+
+      rigidbody:
+        ambig_fname: _ti-aa.tbl
+        w_vdw: 1
+        sampling: 1000
+
+      caprieval:
+        reference_fname: _analysis
+        keep_hetatm: true
+
+      ilrmsdmatrix:
+
+      clustrmsd:
+        criterion: maxclust
+        n_clusters: 50
+
+      seletopclusts:
+        top_clusters: 50
+        top_models: 20
+
+      caprieval.1:
+        reference_fname: _analysis
+        keep_hetatm: true
+
+      flexref:
+        ambig_fname: _ti-aa.tbl
+
+      caprieval.2:
+        reference_fname: _analysis
+        keep_hetatm: true
+
+      ilrmsdmatrix.1:
+
+      clustrmsd.1:
+        criterion: distance
+        clust_cutoff: 2.5
+        linkage: average
+
+      seletopclusts.1:
+        top_models: 4
+
+      caprieval.3:
+        reference_fname: _analysis
+        keep_hetatm: true
