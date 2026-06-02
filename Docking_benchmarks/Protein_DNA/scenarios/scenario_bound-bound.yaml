@@ -1,5 +1,5 @@
 general:
-  input_list: _ABSPATH_PWD_/benchmarking_datasets/protein-DNA/prot-dna-input.txt
+  input_list: _ABSPATH_PWD_/protein-dna-input.txt
   work_dir: _ABSPATH_PWD_/protein_dna/bound-bound
 
   execution: slurm

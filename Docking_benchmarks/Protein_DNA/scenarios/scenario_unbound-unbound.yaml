@@ -1,6 +1,6 @@
 general:
-  input_list: _ABSPATH_PWD_/benchmarking_datasets/protein-DNA/prot-dna-input.txt
-  work_dir: _ABSPATH_PWD_/results/HADDOCK-Prot-DNA
+  input_list: _ABSPATH_PWD_/protein-dna-input.txt
+  work_dir: _ABSPATH_PWD_/protein_dna/unbound-unbound
 
   execution: slurm
   partition: short
