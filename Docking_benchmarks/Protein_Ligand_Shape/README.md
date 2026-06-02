@@ -1,34 +1,50 @@
 # Protein-Ligand Shape Docking Benchmarks
 
-Benchmarking scenarios for protein-ligand docking guided by ligand shape information using HADDOCK3. Shape beads derived from the ligand are used as a surrogate to guide docking in the absence of exact ligand coordinates.
+This directory contains benchmarking scenarios for protein-ligand docking guided by ligand shape information using HADDOCK3. Traditional protein-ligand docking assumes that the exact chemical structure of the ligand is known. However, in many real-world drug discovery scenarios — particularly in fragment-based screening, cross-docking, or cases where only approximate ligand geometry is available — the precise atomic positions of the ligand are uncertain.
+
+Shape-guided docking addresses this by using a set of pseudoatoms (shape beads) that represent the approximate three-dimensional volume and surface of the ligand as derived from a reference or related compound. These beads act as a spatial template that guides the docking without requiring exact knowledge of the ligand structure. This benchmark evaluates two flavours of shape-guided docking: pure shape-based and pharmacophore-enhanced shape-based.
 
 ## Dataset
 
-- Input list: `protein-ligand-shape/input_list.txt`
-- Molecule suffixes: `_r_u_shape` (receptor with shape), `_l_u` (ligand, unbound), `_shape_beads` (shape pseudoatoms)
+- **Input list**: `protein-ligand-shape/input_list.txt`
+- **Molecule suffixes**:
+  - `_r_u_shape` — receptor protein in unbound conformation, already aligned with the shape bead template
+  - `_l_u` — small molecule ligand in unbound conformation
+  - `_shape_beads` — pseudoatom file defining the ligand shape template
+- **Ligand parameters**: `_ligand.param` and `_ligand.top` provide the CNS topology and parameter files for the small molecule
+
+## Shape Bead Protocol
+
+During docking, the shape beads are treated as a third molecule (`mol_shape_3: true`) that is held fixed in space (`mol_fix_origin_3: true`). The receptor is also fixed (`mol_fix_origin_1: true`) so that only the ligand is free to move and explore the shape-defined binding pocket. Ambiguous distance restraints between the ligand and the shape beads (`_unbound_shape.tbl` or `_ambig.tbl`) pull the ligand towards the correct pose. The VdW weight in rigid-body docking is set to zero (`w_vdw: 0`) to prevent the pseudoatoms from causing steric clashes that would distort the scoring.
 
 ## Scenarios
 
-| Scenario | Description |
-|---|---|
-| `scenario_h24_unbound_unbound_shape` | Shape-guided docking using shape beads as ambiguous restraints |
-| `scenario_h24_unbound_unbound_pharm` | Pharmacophore-guided docking using pharmacophore restraints |
+### scenario_h24_unbound_unbound_shape
 
-## Workflow
+This scenario uses purely geometric shape restraints to guide docking. The shape beads define the approximate volume of the binding pocket and the ligand is driven towards the bead template via ambiguous distance restraints. During flexible refinement (`flexref`) and energy minimisation (`emref`), the shape beads remain fixed while the ligand is allowed to adjust its internal degrees of freedom within the envelope defined by the beads. Clustering of the final poses is performed using ilRMSD at a tight 1.5 Å cutoff to identify convergent solutions.
 
-```
-topoaa → rigidbody → caprieval → seletop → flexref → emref → caprieval → ilrmsdmatrix → clustrmsd → seletopclusts → caprieval
-```
+`autohis: true` and `delenph: false` ensure correct hydrogen handling for the ligand during topology generation.
 
-## Notes
+**Workflow**: `topoaa → rigidbody (1000, w_vdw=0, shape-guided) → caprieval → seletop (200) → flexref → caprieval → emref → caprieval → ilrmsdmatrix → clustrmsd (1.5 Å) → seletopclusts → caprieval`
 
-- `mol_fix_origin_1` and `mol_fix_origin_3: true` fix the receptor and shape beads in place during docking
-- `mol_shape_3: true` flags the third molecule as shape pseudoatoms
-- `w_vdw: 0.0` in rigidbody to avoid clashes with shape beads
-- Ligand topology and parameters provided via `_ligand.param` / `_ligand.top`
+### scenario_h24_unbound_unbound_pharm
 
-## SLURM settings
+This scenario extends the shape-guided approach by incorporating pharmacophoric features alongside the geometric shape restraints. Pharmacophore points encode chemical interaction preferences — such as hydrogen bond donors/acceptors and hydrophobic regions — in addition to the spatial volume of the ligand. This provides richer chemical context for guiding the docking, and is expected to perform better than pure shape docking when the pharmacophore model accurately reflects the binding requirements of the receptor.
 
+The receptor topology is handled via a split `topoaa` call: `topoaa.mol1` is run with `autohis: true` for the protein, while the main `topoaa` block handles the ligand without automatic histidine detection (`autohis: false`) and with B-factor setting disabled (`set_bfactor: false`). The restraint files (`_ambig.tbl`, `_unambig.tbl`) include pharmacophore-derived distance restraints in addition to shape-based ones.
+
+**Workflow**: `topoaa (ligand) + topoaa.mol1 (receptor) → rigidbody (1000, pharm+shape guided) → caprieval → seletop (200) → flexref → caprieval → emref → caprieval → ilrmsdmatrix → clustrmsd (1.5 Å) → seletopclusts → caprieval`
+
+## SLURM Cluster Settings
+
+- `execution: slurm`
 - `partition: short`
 - `ncores: 40`
 - `max_concurrent: 10`
+
+## Running
+
+```bash
+find . -type f -name "*.yaml" -exec sed -i "s|_ABSPATH_PWD_|$PWD|g" {} +
+./haddock-runner Docking_benchmarks/Protein_Ligand_Shape/scenario/<scenario>.yaml
+```

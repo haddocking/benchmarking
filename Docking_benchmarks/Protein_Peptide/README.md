@@ -1,28 +1,49 @@
 # Protein-Peptide Docking Benchmarks
 
-Benchmarking scenarios for protein-peptide docking using HADDOCK3. The peptide ligand is provided as a multi-model PDB ensemble; HADDOCK3 automatically detects MODEL records and treats it as an ensemble.
+This directory contains benchmarking scenarios for protein-peptide docking using HADDOCK3. Protein-peptide interactions are among the most common and biologically important molecular recognition events, mediating processes such as signal transduction, enzyme regulation, and protein complex assembly.
+
+Peptide docking presents unique challenges compared to protein-protein docking. Peptides are inherently flexible in solution and often adopt a defined structure only upon binding to their receptor. The small size of the peptide ligand also means that the binding interface is relatively small, making both sampling and scoring more sensitive to small structural differences.
+
+In these benchmarks, the peptide ligand (`_l_u`) is provided as a multi-model PDB file containing an ensemble of conformations. HADDOCK3 automatically detects the MODEL records in the file and treats each model as a member of the ensemble, sampling from it during the docking process.
 
 ## Dataset
 
-- Input list: `prot-peptide-input.txt`
-- Molecule suffixes: `_r_u` (receptor, unbound), `_l_u` (peptide ligand, unbound ensemble)
+- **Input list**: `prot-peptide-input.txt`
+- **Molecule suffixes**: `_r_u` (receptor protein, unbound), `_l_u` (peptide ligand, unbound ensemble)
+- **Restraint files**: `_b_ambig.tbl` (interface AIRs for restrained scenarios), `_u_ambig.tbl` (unbound-derived AIRs)
 
 ## Scenarios
 
-| Scenario | Description |
-|---|---|
-| `scenario_true_interface` | Docking using true interface restraints derived from the bound structure |
-| `scenario_abinitio` | Ab initio docking without interface restraints |
-| `scenario_clustfcc` | Docking with FCC-based clustering |
+### true_interface
 
-## Workflow
+This scenario uses ambiguous interaction restraints (AIRs) derived directly from the true binding interface, as known from the crystal structure. It represents the best-case restraint scenario and is used to assess the ceiling performance of the docking protocol — how well HADDOCK3 can place the peptide when it is told where to look. The workflow proceeds through rigid-body docking, semi-flexible refinement (`flexref`), and energy minimisation (`emref`), followed by RMSD-based clustering.
 
-```
-topoaa → rigidbody → caprieval → seletop → flexref → emref → clustrmsd → seletopclusts → caprieval
-```
+**Workflow**: `topoaa → rigidbody (1000) → caprieval → seletop (200) → flexref → caprieval → emref → caprieval → clustrmsd → seletopclusts → caprieval`
 
-## SLURM settings
+### ab_initio
 
+The ab initio scenario docks the peptide without any prior knowledge of the binding site. Random ambiguous interaction restraints (`ranair: true`) are used in the rigid-body stage, effectively sampling the entire surface of the receptor. A much larger initial pool of 10,000 rigid-body models is generated to compensate for the lack of directional guidance. In the flexible refinement stages, contact-derived AIRs are automatically computed from the best rigid-body poses (`contactairs: true`), allowing the refinement to focus on the most plausible interface without requiring experimental restraints.
+
+This scenario is the most computationally demanding and the most realistic for blind docking predictions.
+
+**Workflow**: `topoaa → rigidbody (10000, ranair=true) → caprieval → seletop (400) → flexref (contactairs) → caprieval → emref (contactairs) → caprieval → clustrmsd → seletopclusts → caprieval`
+
+### clustfcc
+
+This scenario applies FCC (Fraction of Common Contacts) clustering immediately after the rigid-body stage, before flexible refinement. By first clustering the rigid-body output and selecting diverse representative models, this approach improves the structural diversity of structures entering the refinement pipeline and avoids wasting computational resources on near-duplicate poses. A second round of FCC clustering is applied after the final refinement stage to produce the ranked output.
+
+**Workflow**: `topoaa → rigidbody → caprieval → clustfcc → seletopclusts → caprieval → flexref → caprieval → emref → caprieval → clustfcc → seletopclusts → caprieval`
+
+## SLURM Cluster Settings
+
+- `execution: slurm`
 - `partition: short`
 - `ncores: 40`
 - `max_concurrent: 10`
+
+## Running
+
+```bash
+find . -type f -name "*.yaml" -exec sed -i "s|_ABSPATH_PWD_|$PWD|g" {} +
+./haddock-runner Docking_benchmarks/Protein_Peptide/Scenarios/<scenario>.yaml
+```
