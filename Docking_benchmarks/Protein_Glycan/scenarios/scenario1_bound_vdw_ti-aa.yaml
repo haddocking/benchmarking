@@ -1,24 +1,17 @@
 general:
-  haddock_dir: /trinity/login/skhatri/Benchmarking/benchmarking/haddock3
-  executable: /trinity/login/skhatri/Benchmarking/benchmarking/run-haddock3.sh
-  input_list: /trinity/login/skhatri/Benchmarking/benchmarking/benchmarking_datasets/protein-glycan/prot-glycan-input.txt
-  work_dir: /trinity/login/skhatri/Benchmarking/benchmarking/results/bound_vdw_ti-aa
+  input_list: _ABSPATH_PWD_/benchmarking_datasets/protein-glycan/prot-glycan-input.txt
+  work_dir: _ABSPATH_PWD_/results/bound_vdw_ti-aa
 
   execution: slurm
+  partition: short
   ncores: 40
-  cpus_per_task: 40
-  max_concurrent: 7
+  max_concurrent: 10
   mol_suffixes:
     - _r_b
     - _l_b
 
 scenarios:
   - name: bound_vdw_ti-aa
-
-    parameters:
-      general:
-        clean: true
-
     workflow:
       topoaa:
 

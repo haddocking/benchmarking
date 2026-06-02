@@ -1,13 +1,10 @@
 general:
-  haddock_dir: /trinity/login/skhatri/Benchmarking/benchmarking/haddock3
-  executable: /trinity/login/skhatri/Benchmarking/benchmarking/run-haddock3.sh
-  input_list: /trinity/login/skhatri/Benchmarking/benchmarking/benchmarking_datasets/protein-peptide/prot-peptide-input.txt
-  work_dir: /trinity/login/skhatri/Benchmarking/benchmarking/results/prot-peptide-HADDOCK24_default/haddock3_clustfcc
+  input_list: _ABSPATH_PWD_/benchmarking_datasets/protein-peptide/prot-peptide-input.txt
+  work_dir: _ABSPATH_PWD_/results/prot-peptide-HADDOCK24_default/haddock3_clustfcc
   execution: slurm
   ncores: 40
   partition: short
-  cpus_per_task: 40
-  max_concurrent: 7
+  max_concurrent: 10
 
   mol_suffixes:
     - _r_u

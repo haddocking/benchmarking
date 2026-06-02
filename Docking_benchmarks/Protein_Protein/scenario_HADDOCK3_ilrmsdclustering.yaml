@@ -1,31 +1,23 @@
 general:
-  haddock_dir: /trinity/login/skhatri/Benchmarking/benchmarking/haddock3
-  executable: /trinity/login/skhatri/Benchmarking/benchmarking/run-haddock3.sh
-  input_list: /trinity/login/skhatri/Benchmarking/benchmarking/benchmarking_datasets/prot-prot-bm5/bm5-input.txt
-  work_dir: /trinity/login/skhatri/Benchmarking/benchmarking/results/HADDOCK24_default_5Aambig
+  input_list: _ABSPATH_PWD_/benchmarking_datasets/prot-prot-bm5/bm5-input.txt
+  work_dir: _ABSPATH_PWD_/results/HADDOCK3_ilrmsdclustering
 
   execution: slurm
-  ncores: 5
-  cpus_per_task: 4
-  max_concurrent: 5
+  partition: short
+  ncores: 40
+  max_concurrent: 10
   mol_suffixes:
     - _r_u
     - _l_u
 
 scenarios:
-  - name: HADDOCK24_default_5Aambig
-
-    parameters:
-      general:
-        clean: true
-
+  - name: HADDOCK3_ilrmsdclustering
     workflow:
         topoaa:
           autohis: true
 
         rigidbody:
-          sampling: 1000
-          ambig_fname: _ambig5.tbl
+          ambig_fname: _ambig.tbl
           unambig_fname: _restraint-bodies
           hbond_fname: _hbonds
           ligand_param_fname: _ligand.param
@@ -35,14 +27,19 @@ scenarios:
         caprieval:
           reference_fname: _target
 
-        seletop:
-          select: 200
+        ilrmsdmatrix: {}
+
+        clustrmsd:
+          min_population: 4
+
+        seletopclusts:
+          top_models: 4
 
         caprieval.1:
           reference_fname: _target
 
         flexref:
-          ambig_fname: _ambig5.tbl
+          ambig_fname: _ambig.tbl
           unambig_fname: _restraint-bodies
           hbond_fname: _hbonds
           ligand_param_fname: _ligand.param
@@ -53,7 +50,7 @@ scenarios:
           reference_fname: _target
 
         mdref:
-          ambig_fname: _ambig5.tbl
+          ambig_fname: _ambig.tbl
           unambig_fname: _restraint-bodies
           hbond_fname: _hbonds
           ligand_param_fname: _ligand.param
@@ -63,10 +60,12 @@ scenarios:
         caprieval.3:
           reference_fname: _target
 
-        clustfcc:
+        ilrmsdmatrix.1: {}
+
+        clustrmsd.1:
           min_population: 4
 
-        seletopclusts:
+        seletopclusts.1:
           top_models: 4
 
         caprieval.4:

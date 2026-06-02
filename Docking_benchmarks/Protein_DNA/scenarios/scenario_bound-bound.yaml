@@ -1,14 +1,11 @@
 general:
-  haddock_dir: /trinity/login/skhatri/Benchmarking/benchmarking/haddock3
-  executable: /trinity/login/skhatri/Benchmarking/benchmarking/run-haddock3.sh
-  input_list: /trinity/login/skhatri/Benchmarking/benchmarking/benchmarking_datasets/protein-DNA/prot-dna-input.txt
-  work_dir: /trinity/login/skhatri/Benchmarking/benchmarking/results/HADDOCK-Prot-DNA/bound-bound
+  input_list: _ABSPATH_PWD_/benchmarking_datasets/protein-DNA/prot-dna-input.txt
+  work_dir: _ABSPATH_PWD_/protein_dna/bound-bound
 
   execution: slurm
-  partition: medium
+  partition: short
   ncores: 40
-  cpus_per_task: 40
-  max_concurrent: 7
+  max_concurrent: 10
 
   mol_suffixes:
     - _p1_b
@@ -19,11 +16,6 @@ general:
 
 scenarios:
   - name: bound-bound
-
-    parameters:
-      general:
-        clean: true
-
     workflow:
       topoaa:
         autohis: true

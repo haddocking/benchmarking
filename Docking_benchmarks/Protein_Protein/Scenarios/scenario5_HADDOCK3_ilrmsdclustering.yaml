@@ -1,24 +1,17 @@
 general:
-  haddock_dir: /trinity/login/skhatri/Benchmarking/benchmarking/haddock3
-  executable: /trinity/login/skhatri/Benchmarking/benchmarking/run-haddock3.sh
-  input_list: /trinity/login/skhatri/Benchmarking/benchmarking/benchmarking_datasets/prot-prot-bm5/bm5-input.txt
-  work_dir: /trinity/login/skhatri/Benchmarking/benchmarking/results/HADDOCK3_ilrmsdclustering
+  input_list: _ABSPATH_PWD_/benchmarking_datasets/prot-prot-bm5/bm5-input.txt
+  work_dir: _ABSPATH_PWD_/results/HADDOCK3_ilrmsdclustering
 
   execution: slurm
-  ncores: 5
-  cpus_per_task: 4
-  max_concurrent: 5
+  partition: short
+  ncores: 40
+  max_concurrent: 10
   mol_suffixes:
     - _r_u
     - _l_u
 
 scenarios:
   - name: HADDOCK3_ilrmsdclustering
-
-    parameters:
-      general:
-        clean: true
-
     workflow:
         topoaa:
           autohis: true

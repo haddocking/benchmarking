@@ -1,14 +1,11 @@
 general:
-  haddock_dir: /trinity/login/skhatri/Benchmarking/benchmarking/haddock3
-  executable: /trinity/login/skhatri/Benchmarking/benchmarking/run-haddock3.sh
-  input_list: /trinity/login/skhatri/Benchmarking/benchmarking/benchmarking_datasets/protein-ligand-shape/input_list.txt
-  work_dir: /trinity/login/skhatri/Benchmarking/benchmarking/results/benchmark_shape
+  input_list: _ABSPATH_PWD_/protein-ligand-shape/input_list.txt
+  work_dir: _ABSPATH_PWD_/protein-ligand-shape/h24_unbound_unbound_shape
 
   execution: slurm
-  partition: medium
-  ncores: 16
-  cpus_per_task: 16
-  max_concurrent: 12
+  partition: short
+  ncores: 40
+  max_concurrent: 10
 
   mol_suffixes:
     - _r_u_shape
