@@ -1,7 +1,52 @@
+# ── Virtual environment & Python ──────────────────────────────────────────────
 .venv
-haddock3
-bin/
+env/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# ── HADDOCK3 & runner installation ────────────────────────────────────────────
+haddock3/
 haddock-runner
+bin/
+
+# ── Docking result directories ────────────────────────────────────────────────
+results/
+protein_dna/
+protein-protein/
+prot-peptide/
+protein_glycan/
+protein-ligand-shape/
+run*/
+
+# ── Benchmark datasets (large, downloaded separately) ────────────────────────
 prot-prot-bm5/BM5-clean
 prot-prot-bm5/bm5-input.txt
 prot-prot-bm5/simple
+benchmarking_datasets/
+
+# ── SLURM & job logs ──────────────────────────────────────────────────────────
+slurm-*.out
+slurm-*.err
+*.out
+*.err
+nohup.out
+
+# ── Editor & OS artefacts ─────────────────────────────────────────────────────
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ── Misc ──────────────────────────────────────────────────────────────────────
+*.log
+*.tmp
+*.bak
+.ipynb_checkpoints/
