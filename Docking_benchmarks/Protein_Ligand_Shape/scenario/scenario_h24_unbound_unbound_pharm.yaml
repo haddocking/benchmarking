@@ -1,6 +1,6 @@
 general:
-  input_list: _ABSPATH_PWD_/benchmarking_datasets/protein-ligand-shape/input_list.txt
-  work_dir: _ABSPATH_PWD_/results/benchmark_pharm
+  input_list: _ABSPATH_PWD_/input_list.txt
+  work_dir: _ABSPATH_PWD_/protein-ligand-shape/h24_unbound_unbound_pharm
 
   execution: slurm
   partition: short

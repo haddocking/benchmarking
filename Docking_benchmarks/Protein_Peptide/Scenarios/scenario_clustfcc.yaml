@@ -1,6 +1,6 @@
 general:
-  input_list: _ABSPATH_PWD_/benchmarking_datasets/protein-peptide/prot-peptide-input.txt
-  work_dir: _ABSPATH_PWD_/results/prot-peptide-HADDOCK24_default/haddock3_clustfcc
+  input_list: _ABSPATH_PWD_/prot-peptide-input.txt
+  work_dir: _ABSPATH_PWD_/prot-peptide/haddock3_clustfcc
   execution: slurm
   ncores: 40
   partition: short

@@ -1,7 +1,5 @@
 #!/bin/bash
 
-
-
 #Download and extract protein-peptide dataset
 git clone https://github.com/haddocking/protein-peptide
 

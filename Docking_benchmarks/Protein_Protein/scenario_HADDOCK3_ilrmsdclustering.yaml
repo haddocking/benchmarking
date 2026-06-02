@@ -1,6 +1,6 @@
 general:
-  input_list: _ABSPATH_PWD_/benchmarking_datasets/prot-prot-bm5/bm5-input.txt
-  work_dir: _ABSPATH_PWD_/results/HADDOCK3_ilrmsdclustering
+  input_list: _ABSPATH_PWD_/bm5-input.txt
+  work_dir: _ABSPATH_PWD_/protein-protein/HADDOCK3_ilrmsdclustering
 
   execution: slurm
   partition: short
