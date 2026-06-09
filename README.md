@@ -1,6 +1,7 @@
 <p align="center">
-  <img src="refs/images/banner.png" width="100%"/>
+  <img src="refs/images/banner.png" width="100%" style="display:block; margin:0; padding:0;"/>
 </p>
+
 # HADDOCK Benchmarking Suite
 This repository contains the benchmarking suite for the HADDOCK software suite.
 
