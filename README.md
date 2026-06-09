@@ -1,5 +1,7 @@
+<p align="center">
+  <img src="refs/images/banner.png" width="100%"/>
+</p>
 # HADDOCK Benchmarking Suite
-
 This repository contains the benchmarking suite for the HADDOCK software suite.
 
 ## Setup and Installation
