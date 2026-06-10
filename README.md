@@ -71,7 +71,7 @@ See [Usage/README.MD](Usage/README.MD) for the full guide including SLURM config
 
 ## Pipeline Overview
 
-<p align="left">
+<p align="center">
   <img src="images/haddock_runner_sequence_compact_v2.svg" width="75%" style="display:block; margin:0; padding:0;"/>
 </p>
 
