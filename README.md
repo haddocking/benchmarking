@@ -69,6 +69,12 @@ nohup ./haddock-runner <scenario.yaml> > run.out & disown && tail -f run.out
 
 See [Usage/README.MD](Usage/README.MD) for the full guide including SLURM configuration and troubleshooting.
 
+## Pipeline Overview
+
+<p align="left">
+  <img src="images/haddock_runner_sequence_compact_v2.svg" width="60%" style="display:block; margin:0; padding:0;"/>
+</p>
+
 ## Benchmark Systems
 
 | System | Dataset | Scenarios | Documentation |
