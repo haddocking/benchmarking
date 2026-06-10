@@ -3,95 +3,110 @@
 </p>
 
 # HADDOCK Benchmarking Suite
-This repository contains the benchmarking suite for the HADDOCK software suite.
 
-## Setup and Installation
+[HADDOCK3](https://github.com/haddocking/haddock3) is an information-driven docking platform developed at BonvinLab, Utrecht University, that uses experimental or predicted binding-site data as ambiguous interaction restraints to guide the assembly of biomolecular complexes. Benchmarking evaluates how reliably a docking protocol can predict the correct bound structure when starting only from the free, unbound partners — by running hundreds of complexes with known crystal structures and scoring the results against CAPRI quality thresholds (High / Medium / Acceptable). This repository provides the datasets, scenario YAML files, setup scripts, and analysis pipeline to run and compare those benchmarks across five molecular system types: protein-protein, protein-peptide, protein-DNA, protein-glycan, and shape-guided protein-ligand docking. All benchmarks are orchestrated by [haddock-runner](https://github.com/haddocking/haddock-runner), an in-house Rust tool that reads scenario YAML files, stages inputs, and dispatches SLURM jobs across cluster nodes.
 
-**VERY IMPORTANT: Here we will NOT use anaconda, nor a global installation of Haddock or Python.**
+## Repository Structure
 
-Everything must be installed in the current directory, this is to avoid conflicts with other software and keep the system clean.
+```
+Benchmarking/
+├── Setup/                      # Environment setup scripts → Setup/README.MD
+├── Docking_benchmarks/
+│   ├── Protein_Protein/        # BM5 protein-protein benchmark (230 complexes)
+│   ├── Protein_Peptide/        # Protein-peptide benchmark
+│   ├── Protein_DNA/            # Protein-DNA benchmark
+│   ├── Protein_Glycan/         # Protein-glycan benchmark
+│   └── Protein_Ligand_Shape/   # Shape-guided protein-ligand benchmark
+├── Analysis/                   # Post-run analysis and visualisation → Analysis/README.md
+└── Usage/                      # Full usage guide → Usage/README.MD
+```
 
-We will use `pyenv` to manage the python version and virtual environments.
+Each benchmark directory follows the same layout (shown for `Protein_Protein/`):
 
-The setup will be **LOCAL nothing will be changed in the cluster for other users**.
+```
+Protein_Protein/
+├── README.MD                               # Dataset description, scenarios, and run instructions
+├── setup.sh                                # Downloads and stages input structures
+└── Scenarios/                              # YAML scenario files — one per docking protocol
+    ├── scenario_HADDOCK24_default.yaml
+    ├── scenario_HADDOCK24_default_5Aambig.yaml
+    ├── scenario_HADDOCK24_ab_initio.yaml
+    ├── scenario_HADDOCK3_clustfcc.yaml
+    └── scenario_HADDOCK3_ilrmsdclustering.yaml
+```
 
-1. Install `pyenv`
-2. Compile Python 3.9.18
-3. Create a virtual environment with Python 3.9.18
-4. Clone `haddock3` repository
-5. Install `haddock3` in the virtual environment
-6. Download a static pre-compilled CNS binary
-7. Download the latest version of `haddock-runner`
+## Quick Start
+
+**1. Set up the environment**
+
+Run the setup script from the repository root. It installs pyenv, Python 3.9.18, a local virtual environment, HADDOCK3, and haddock-runner — nothing is changed system-wide.
 
 ```bash
-bash setup-tintin.sh
+bash Setup/Haddock_runner_setup.sh
 ```
 
-## Usage
+See [Setup/README.MD](Setup/README.MD) for prerequisites, a step-by-step description of what the script does, and troubleshooting notes.
 
-Simply run:
+**2. Substitute absolute paths in scenario files**
 
-```
-./haddock-runner <config-file>.yaml
-```
-
-You don't need to activate the virtual environment or wory about python, the `haddock-runner` takes care of it.
-
-## Example
+Run this once from the repository root before running any benchmark:
 
 ```bash
-# Setup the project
-bash setup-tintin.sh
-
-# Setup BM5
-cd prot-prot-bm5 && bash setup.sh && cd ..
-
-## Temporary: replace the path to the benchmarking suite
-sed -i "s|/trinity/login/rodrigo/repos/benchmarking|$(pwd)|g" prot-prot-bm5-simple.yaml
 find . -type f -name "*.yaml" -exec sed -i "s|_ABSPATH_PWD_|$PWD|g" {} +
-
-# Run the test benchmark 
-./haddock-runner prot-prot-bm5-simple.yaml
 ```
 
-This will run the benchmarking suite for the BM5 dataset using a simple scenario, the results will be stored in the `prot-prot-bm5/simple` directory.
-
-## Run the full BM5 benchmark
-
-Multiple pre-defined protein-protein docking scenarios are set up in `protprotbm5-haddock3-scenarios.yaml`.
-To run the benchmark, simply activate the `pyenv` and run `haddock-runner` with this file.
-**NOTE:** Here, `nohup`, `&` and `disown` commands are used to allow to run the process in background and disconnect from `ssh`.
+**3. Run a benchmark scenario**
 
 ```bash
-# Activate the pyenv
-source .venv/bin/activate
-
-# Run the benchmark
-nohup ./haddock-runner protprotbm5-haddock3-scenarios.yaml > bm5-scenarios.out & disown && tail -f bm5-scenarios.out
-
-# Wait several hours
+./haddock-runner Docking_benchmarks/Protein_Protein/Scenarios/scenario_HADDOCK3_clustfcc.yaml
 ```
 
-## Run the protein - ligand shape docking
-
-### Setting it up
+For long runs, use `nohup` and `disown` to keep the job alive after disconnecting from SSH:
 
 ```bash
-cd protein-ligand-shape
-chmod u+x setup.sh
-./setup.sh
-cd ..
+nohup ./haddock-runner <scenario.yaml> > run.out & disown && tail -f run.out
 ```
 
-### Running example
+See [Usage/README.MD](Usage/README.MD) for the full guide including SLURM configuration and troubleshooting.
+
+## Benchmark Systems
+
+| System | Dataset | Scenarios | Documentation |
+|---|---|---|---|
+| Protein-Protein | BM5 (230 complexes) | 5 | [Docking_benchmarks/Protein_Protein/](Docking_benchmarks/Protein_Protein/) |
+| Protein-Peptide | – | 3 | [Docking_benchmarks/Protein_Peptide/](Docking_benchmarks/Protein_Peptide/) |
+| Protein-DNA | – | 3 | [Docking_benchmarks/Protein_DNA/](Docking_benchmarks/Protein_DNA/) |
+| Protein-Glycan | – | 3 | [Docking_benchmarks/Protein_Glycan/](Docking_benchmarks/Protein_Glycan/) |
+| Protein-Ligand Shape | – | 2 | [Docking_benchmarks/Protein_Ligand_Shape/](Docking_benchmarks/Protein_Ligand_Shape/) |
+
+Each subdirectory README describes the biological context, input dataset, restraint strategy, the HADDOCK3 workflow for each scenario, and the exact run command.
+
+### Scenario overview
+
+**Protein-Protein (BM5)** — evaluates five protocols ranging from fully restrained docking (default HADDOCK2.4 AIRs) to completely blind ab initio docking, plus two HADDOCK3-specific early-clustering protocols (FCC and ilRMSD-based).
+
+**Protein-Peptide** — benchmarks three strategies: best-case true-interface restraints, fully blind ab initio docking (10,000 rigid-body models), and an early FCC clustering protocol.
+
+**Protein-DNA** — tests docking across three difficulty levels (bound-bound, bound-unbound, unbound-unbound) with DNA-specific force field parameters to handle the polyanionic backbone.
+
+**Protein-Glycan** — uses topological interaction (TI) restraints to guide docking of inherently flexible glycan chains; scenarios cover bound and unbound conformations and ensemble-based glycan sampling.
+
+**Protein-Ligand Shape** — evaluates shape-bead-guided docking and pharmacophore-enhanced shape docking for cases where only approximate ligand geometry is available.
+
+## Analysis
+
+After a benchmark run completes, generate CAPRI performance plots and a JSON summary:
 
 ```bash
-nohup ./haddock-runner protein-ligand-shape/benchmark-unbound-unbound-small.yml > prot-lig-test.out & disown && tail -f prot-lig-test.out
+python3 Analysis/AnalyseBenchmarkResults.py <benchmark_results_dir> -t protein -m irmsd
 ```
 
+The script classifies docking models by CAPRI quality (High / Medium / Acceptable / Near-acceptable / Low) at Top1–Top1000 thresholds and produces stacked bar plots, violin plots, melquiplots, and a JSON performance report. See [Analysis/README.md](Analysis/README.md) for the full option reference and output file descriptions.
 
-### Running actual benchmark
+## Contributing
 
-```bash
-./haddock-runner protein-ligand-shape/benchmark-unbound-unbound-shape.yml
-```
+See [contributing.md](contributing.md) for instructions on adding new scenarios, new benchmark systems, or improvements to the analysis pipeline.
+
+## License
+
+[Apache License 2.0](LICENSE)
