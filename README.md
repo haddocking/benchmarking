@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="refs/images/banner-new-updated.png" width="100%" style="display:block; margin:0; padding:0;"/>
+  <img src="refs/images/banner_1200dpi.png" width="100%" style="display:block; margin:0; padding:0;"/>
 </p>
 
 # HADDOCK Benchmarking Suite
