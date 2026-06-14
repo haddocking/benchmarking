@@ -93,7 +93,7 @@ Each subdirectory README describes the biological context, input dataset, restra
 
 **Protein-Peptide** — benchmarks three strategies: best-case true-interface restraints, fully blind ab initio docking (10,000 rigid-body models), and FCC clustering protocol.
 
-**Protein-DNA** — tests docking across three difficulty levels (bound-bound, bound-unbound and unbound-unbound
+**Protein-DNA** — tests docking across three difficulty levels bound-bound, bound-unbound and unbound-unbound
 
 **Protein-Glycan** — scenarios cover bound and unbound conformations and ensemble-based glycan sampling.
 
