@@ -122,7 +122,7 @@ See [contributing.md](contributing.md) for instructions on adding new scenarios,
 
 - [`haddock-runner`](https://github.com/haddocking/haddock-runner): Tool to run large scale `haddock3` simulations using multiple input molecules in different scenarios
 - [`haddock-tools`](https://github.com/haddocking/haddock-tools): Set of useful utility scripts developed over the years by the BonvinLab group members
-- [haddock-runner user manual](https://www.bonvinlab.org/haddock-runner/home.html): The online guide describing every aspects of the pipeline.
+- [`haddock-runner user manual`](https://www.bonvinlab.org/haddock-runner/home.html): The online guide describing every aspects of the pipeline
 
 ## Cite us
 
