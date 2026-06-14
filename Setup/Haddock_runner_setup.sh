@@ -1,132 +1,215 @@
 #!/bin/bash
+
+set -euo pipefail
+
 #===============================================================================
-#
-# Setup script for the project
-#
+#  Setup script — installs Python environment, HADDOCK3, and haddock-runner
 #===============================================================================
 
 export PYTHON_VERSION=3.9.18
 export VENV_NAME=.venv
 
-# Explain what the script does and wait for confirmation
-echo "[+] This script will setup the project"
-echo "[+] It will install the following packages:"
-echo "[+]     - pyenv in your HOME directory"
-echo "[+]     - python ${PYTHON_VERSION} in your HOME directory"
-echo "[+]     - virtual environment ${VENV_NAME} in the current directory"
-echo "[+]     - HADDOCK3 in the virtual environment"
-echo "[+]     - Download the haddock-runner"
-echo "[+]"
-echo "[!!] This will NOT USE ANACONDA/MINICONDA"
-echo "[!!] All installations will be LOCAL (your HOME/.pyenv and this directory)"
-echo "[+]"
-read -p "[+] Do you want to continue? (y/N) " -n 1 -r
-echo
-if [[ ! $REPLY =~ ^[Yy]$ ]]
-then
-    echo "[+] Exiting"
+BOLD="\033[1m"
+GREEN="\033[0;32m"
+YELLOW="\033[0;33m"
+RED="\033[0;31m"
+RESET="\033[0m"
+
+AUTO_YES=false
+
+# ─── Argument parsing ────────────────────────────────────────────────────────
+
+usage() {
+    echo "Usage: $0 [OPTIONS]"
+    echo ""
+    echo "Options:"
+    echo "  -y, --yes     Non-interactive mode (auto-confirm all prompts)"
+    echo "  -h, --help    Show this help message"
+    exit 0
+}
+
+for arg in "$@"; do
+    case "$arg" in
+        -y|--yes)  AUTO_YES=true ;;
+        -h|--help) usage ;;
+        *)
+            echo -e "${RED}Unknown argument: $arg${RESET}"
+            usage
+            ;;
+    esac
+done
+
+# ─── Helpers ─────────────────────────────────────────────────────────────────
+
+info()    { echo -e "  ${GREEN}✔${RESET}  $1"; }
+warn()    { echo -e "  ${YELLOW}⚠${RESET}  $1"; }
+error()   { echo -e "  ${RED}✘${RESET}  $1"; }
+section() { echo -e "\n${BOLD}▸ $1${RESET}"; }
+
+confirm() {
+    local prompt="$1"
+    if [ "$AUTO_YES" = true ]; then
+        echo "  (auto-yes) $prompt → y"
+        return 0
+    fi
+    read -rp "  $prompt (y/n): " choice
+    [[ "$choice" =~ ^[Yy]$ ]]
+}
+
+trap 'error "Setup failed at line $LINENO. Exiting."; exit 1' ERR
+
+# ─── Confirmation ─────────────────────────────────────────────────────────────
+
+echo ""
+echo -e "${BOLD}════════════════════════════════════════${RESET}"
+echo -e "${BOLD}  HADDOCK Benchmarking Suite — Setup${RESET}"
+echo -e "${BOLD}════════════════════════════════════════${RESET}"
+echo ""
+echo "  This script will install:"
+echo "    - pyenv + Python ${PYTHON_VERSION} (in \$HOME/.pyenv)"
+echo "    - a virtual environment (${VENV_NAME}) in the current directory"
+echo "    - HADDOCK3, matplotlib, rdkit"
+echo "    - Rust toolchain (if absent)"
+echo "    - haddock-runner (via cargo)"
+echo ""
+echo -e "  ${YELLOW}Note:${RESET} This does NOT use Anaconda/Miniconda."
+echo ""
+
+if ! confirm "Do you want to continue?"; then
+    echo "  Exiting."
     exit 1
 fi
 
+# ─── Python / pyenv ──────────────────────────────────────────────────────────
 
-# Configure the python environment with pyenv
-# Check if pyenv is installed
-if ! command -v pyenv &> /dev/null
-then
-    echo "[!!] pyenv could not be found"
-    echo "[!!] Installing pyenv"
+section "Checking pyenv"
+
+if ! command -v pyenv &> /dev/null; then
+    warn "pyenv not found — installing"
     curl https://pyenv.run | bash
-    echo "[!!] Adding pyenv initialization to ~/.bashrc"
     echo 'export PATH="$HOME/.pyenv/bin:$PATH"' >> ~/.bashrc
     echo 'eval "$(pyenv init -)"' >> ~/.bashrc
     echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bashrc
-    source ~/.bashrc
-else
-    echo "[+] pyenv is already installed"
-    source ~/.bashrc
 fi
 
-# Check if python 3.9.0 is installed
-if ! pyenv versions | grep ${PYTHON_VERSION} &> /dev/null
-then
-    echo "[+] Installing Python ${PYTHON_VERSION}}"
-    pyenv install ${PYTHON_VERSION}
+# Load pyenv into the current script session directly
+# (source ~/.bashrc does not work in non-interactive scripts)
+export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init --path)"
+eval "$(pyenv init -)"
+
+if ! pyenv versions | grep "${PYTHON_VERSION}" &> /dev/null; then
+    section "Installing Python ${PYTHON_VERSION}"
+    pyenv install "${PYTHON_VERSION}"
 fi
 
-# Activate the python environment
-echo "[+] Activating python ${PYTHON_VERSION}"
-pyenv shell ${PYTHON_VERSION}
+info "Activating Python ${PYTHON_VERSION}"
+pyenv shell "${PYTHON_VERSION}"
 
+# ─── Virtual environment ──────────────────────────────────────────────────────
 
-# Check if a folder called `.venv` exists in the current directory
-if [ ! -d "${VENV_NAME}" ]
-then
-    echo "[+] Creating virtual environment"
-    python -m venv ${VENV_NAME}
+section "Virtual environment"
+
+if [ ! -d "${VENV_NAME}" ]; then
+    info "Creating virtual environment"
+    python -m venv "${VENV_NAME}"
 fi
 
-# Activate virtual environment
-echo "[+] Activating virtual environment"
-source ${VENV_NAME}/bin/activate
+source "${VENV_NAME}/bin/activate"
+info "Virtual environment active"
 
+# ─── HADDOCK3 ────────────────────────────────────────────────────────────────
 
-# if [ ! -d "haddock3" ]
-# then
-#     echo "[+] Cloning HADDOCK3"
-#     git clone --recursive https://github.com/haddocking/haddock3.git  >/dev/null 2>&1
-# fi
+section "HADDOCK3"
 
-# echo "[+] Installing/Updating HADDOCK3"
-# cd haddock3
-# cd src/fcc/src
-# chmod u+x Makefile
-# make  >/dev/null 2>&1
-# cd -
-# pip install -r requirements.txt  >/dev/null 2>&1
-# # send stdout and err to null
-
-# python setup.py develop   >/dev/null 2>&1
-
-# echo "[+] Get the CNS binary"
-# mkdir -p bin/
-# curl https://surfdrive.surf.nl/files/index.php/s/f2Iy0Zg1xObSA69/download -o bin/cns  >/dev/null 2>&1
-# chmod +x bin/cns
-# cd ..
-
-
-if [ ! -d "haddock3" ]
-then
-  echo "[+] Cloning HADDOCK3"
-  git clone https://github.com/haddocking/haddock3.git >/dev/null 2>&1
+if [ ! -d "haddock3" ]; then
+    info "Cloning HADDOCK3"
+    git clone https://github.com/haddocking/haddock3.git > /dev/null 2>&1
 fi
 
-# Install haddock3
-echo "[+] Installing/Updating HADDOCK3"
+info "Installing / updating HADDOCK3"
 cd haddock3
-git pull >/dev/null 2>&1
+git pull > /dev/null 2>&1
 pip install .
 cd ..
 
-
-# Check if `haddock3` is installed
-if ! command -v haddock3 &> /dev/null
-then
-    echo "[!!] HADDOCK3 could not be found"
-    echo "[!!] Please check the installation"
+if ! command -v haddock3 &> /dev/null; then
+    error "haddock3 could not be found after install — check the output above"
     exit 1
 fi
 
-# Install matplotlib
-pip install matplotlib
+info "Installing matplotlib and rdkit"
+pip install matplotlib rdkit
 
-# Install RDKit
-pip install rdkit
+# ─── Rust toolchain ──────────────────────────────────────────────────────────
 
-# Download the latest release of the `haddock-runner`
-bash download-haddock-runner.sh
+section "Checking Rust toolchain"
 
-# Modify path in run_haddock.sh file
-sed -i "s|_ABSPATH_PWD_|$PWD|g" run-haddock3.sh
-find "protein-ligand-shape/" -type f -name "*.yml" -exec sed -i "s|_ABSPATH_PWD_|$PWD|g" {} +
+load_cargo_env() {
+    [ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
+}
 
-echo "[+] Done"
+load_cargo_env
+
+RUST_FOUND=false
+CARGO_FOUND=false
+command -v rustc &> /dev/null && RUST_FOUND=true
+command -v cargo &> /dev/null && CARGO_FOUND=true
+
+if [ "$RUST_FOUND" = true ];  then info "rustc:  $(rustc --version)";  else warn "rustc not found";  fi
+if [ "$CARGO_FOUND" = true ]; then info "cargo:  $(cargo --version)"; else warn "cargo not found"; fi
+
+if [ "$RUST_FOUND" = false ] || [ "$CARGO_FOUND" = false ]; then
+    if confirm "Install Rust toolchain via rustup?"; then
+        section "Installing Rust"
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
+            | sh -s -- -y --default-toolchain stable
+        load_cargo_env
+        info "Rust installed: $(rustc --version)"
+    else
+        error "Rust installation declined — haddock-runner requires Cargo"
+        exit 1
+    fi
+else
+    info "Rust and Cargo already available"
+fi
+
+# Ensure cargo bin is in PATH
+CARGO_BIN_LINE='export PATH="$HOME/.cargo/bin:$PATH"'
+for rc in "$HOME/.bashrc" "$HOME/.bash_profile" "$HOME/.profile"; do
+    if [ -f "$rc" ] && ! grep -q 'cargo/bin' "$rc"; then
+        echo "$CARGO_BIN_LINE" >> "$rc"
+        info "Added Cargo to PATH in $rc"
+    fi
+done
+export PATH="$HOME/.cargo/bin:$PATH"
+
+# ─── haddock-runner ──────────────────────────────────────────────────────────
+
+section "Installing haddock-runner"
+
+SKIP_INSTALL=false
+if command -v haddock-runner &> /dev/null; then
+    info "haddock-runner already installed: $(haddock-runner --version 2>/dev/null || echo unknown)"
+    if ! confirm "Reinstall / update haddock-runner?"; then
+        SKIP_INSTALL=true
+    fi
+fi
+
+if [ "$SKIP_INSTALL" = false ]; then
+    cargo install haddock-runner
+    info "haddock-runner installed successfully"
+fi
+
+# ─── Done ────────────────────────────────────────────────────────────────────
+
+echo ""
+echo -e "${BOLD}════════════════════════════════════════${RESET}"
+echo -e "${BOLD}  Setup complete${RESET}"
+echo -e "${BOLD}════════════════════════════════════════${RESET}"
+echo ""
+info "haddock-runner: $(haddock-runner --version)"
+info "Location:       $(command -v haddock-runner)"
+echo ""
+echo -e "  ${YELLOW}Note:${RESET} Restart your shell (or run ${BOLD}source ~/.bashrc${RESET}) to ensure PATH is current."
+echo ""
