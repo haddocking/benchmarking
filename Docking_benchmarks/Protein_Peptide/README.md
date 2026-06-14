@@ -34,16 +34,6 @@ This scenario applies FCC (Fraction of Common Contacts) clustering immediately a
 
 **Workflow**: `topoaa → rigidbody → caprieval → clustfcc → seletopclusts → caprieval → flexref → caprieval → emref → caprieval → clustfcc → seletopclusts → caprieval`
 
-## SLURM Cluster Settings
-
-- `execution: slurm`
-- `partition: short`
-- `ncores: 40`
-- `max_concurrent: 10`
-
 ## Running
 
-```bash
-find . -type f -name "*.yaml" -exec sed -i "s|_ABSPATH_PWD_|$PWD|g" {} +
-./haddock-runner Docking_benchmarks/Protein_Peptide/Scenarios/<scenario>.yaml
-```
+See [Usage/README.MD](../../Usage/README.MD) for path substitution, run commands, and SLURM configuration.

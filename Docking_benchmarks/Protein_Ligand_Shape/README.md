@@ -35,16 +35,6 @@ The receptor topology is handled via a split `topoaa` call: `topoaa.mol1` is run
 
 **Workflow**: `topoaa (ligand) + topoaa.mol1 (receptor) → rigidbody (1000, pharm+shape guided) → caprieval → seletop (200) → flexref → caprieval → emref → caprieval → ilrmsdmatrix → clustrmsd (1.5 Å) → seletopclusts → caprieval`
 
-## SLURM Cluster Settings
-
-- `execution: slurm`
-- `partition: short`
-- `ncores: 40`
-- `max_concurrent: 10`
-
 ## Running
 
-```bash
-find . -type f -name "*.yaml" -exec sed -i "s|_ABSPATH_PWD_|$PWD|g" {} +
-./haddock-runner Docking_benchmarks/Protein_Ligand_Shape/scenario/<scenario>.yaml
-```
+See [Usage/README.MD](../../Usage/README.MD) for path substitution, run commands, and SLURM configuration.

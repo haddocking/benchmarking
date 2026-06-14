@@ -44,25 +44,6 @@ Similar to HADDOCK3_clustfcc but uses interface-ligand RMSD (ilRMSD) matrix-base
 
 **Workflow**: `topoaa → rigidbody → caprieval → ilrmsdmatrix → clustrmsd → seletopclusts → caprieval → flexref → caprieval → mdref → caprieval → ilrmsdmatrix → clustrmsd → seletopclusts → caprieval`
 
-## SLURM Cluster Settings
-
-All scenarios are configured to run on a SLURM-managed cluster:
-
-- `execution: slurm`
-- `partition: short`
-- `ncores: 40` — number of CPU cores per job
-- `max_concurrent: 10` — maximum number of targets processed simultaneously
-
 ## Running
 
-Before running, replace the `_ABSPATH_PWD_` placeholder with the absolute path to this repository:
-
-```bash
-find . -type f -name "*.yaml" -exec sed -i "s|_ABSPATH_PWD_|$PWD|g" {} +
-```
-
-Then run a scenario with:
-
-```bash
-./haddock-runner Docking_benchmarks/Protein_Protein/Scenarios/<scenario>.yaml
-```
+See [Usage/README.MD](../../Usage/README.MD) for path substitution, run commands, and SLURM configuration.

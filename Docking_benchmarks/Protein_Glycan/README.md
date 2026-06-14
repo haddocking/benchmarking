@@ -34,16 +34,6 @@ An extended version of scenario2 that incorporates ensemble-based sampling. Mult
 
 **Workflow**: `topoaa → rigidbody (ensemble, w_vdw=1) → caprieval → ilrmsdmatrix → clustrmsd → seletopclusts → caprieval → flexref → caprieval → ilrmsdmatrix → clustrmsd → seletopclusts → caprieval`
 
-## SLURM Cluster Settings
-
-- `execution: slurm`
-- `partition: short`
-- `ncores: 40`
-- `max_concurrent: 10`
-
 ## Running
 
-```bash
-find . -type f -name "*.yaml" -exec sed -i "s|_ABSPATH_PWD_|$PWD|g" {} +
-./haddock-runner Docking_benchmarks/Protein_Glycan/scenarios/<scenario>.yaml
-```
+See [Usage/README.MD](../../Usage/README.MD) for path substitution, run commands, and SLURM configuration.
