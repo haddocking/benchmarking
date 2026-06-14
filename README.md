@@ -2,9 +2,9 @@
   <img src="images/banner_1200dpi.png" width="100%" style="display:block; margin:0; padding:0;"/>
 </p>
 
-# HADDOCK Benchmarking Suite
+# HADDOCK3 Benchmarking Suite
 
-[HADDOCK3](https://github.com/haddocking/haddock3) is an information-driven docking platform developed at BonvinLab, Utrecht University, that uses experimental or predicted binding-site data as ambiguous interaction restraints to guide the assembly of biomolecular complexes. Benchmarking evaluates how reliably a docking protocol can predict the correct bound structure when starting only from the free, unbound partners — by running hundreds of complexes with known crystal structures and scoring the results against CAPRI quality thresholds (High / Medium / Acceptable). This repository provides the datasets, scenario YAML files, setup scripts, and analysis pipeline to run and compare those benchmarks across five molecular system types: protein-protein, protein-peptide, protein-DNA, protein-glycan, and shape-guided protein-ligand docking. All benchmarks are orchestrated by [haddock-runner](https://github.com/haddocking/haddock-runner), an in-house Rust tool that reads scenario YAML files, stages inputs, and dispatches SLURM jobs across cluster nodes.
+[HADDOCK3](https://github.com/haddocking/haddock3) is an information-driven docking platform developed at [BonvinLab](https://www.bonvinlab.org/), Utrecht University, that uses experimental or predicted binding-site data as ambiguous interaction restraints to guide the assembly of biomolecular complexes. Benchmarking evaluates how reliably a docking protocol can predict the correct bound structure when starting only from the free, unbound partners — by running hundreds of complexes with known crystal structures and scoring the results against CAPRI quality thresholds. This repository provides the datasets, scenario YAML files, setup scripts, and analysis pipeline to run and compare those benchmarks across five molecular system types: protein-protein, protein-peptide, protein-DNA, protein-glycan, and shape-guided protein-ligand docking. All benchmarks are orchestrated by [haddock-runner](https://github.com/haddocking/haddock-runner), an in-house Rust tool that reads scenario YAML files, stages inputs, and dispatches SLURM jobs across cluster nodes.
 
 ## Repository Structure
 
