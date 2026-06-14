@@ -66,6 +66,7 @@ The script parses the CAPRI evaluation output (`capri_ss.tsv`) from each target 
 
 ## Troubleshooting
 
-- If jobs are not submitted, verify that `haddock-runner` is executable (`chmod +x haddock-runner`) and that the virtual environment has been activated (`source Setup/.venv/bin/activate`)
-- If paths are wrong in the YAML, re-run the `sed` substitution command above from the correct directory
+- If `haddock-runner: command not found`, run `source ~/.cargo/env` or open a new shell — the Cargo bin directory may not be on your PATH yet
+- If `haddock3: command not found`, activate the virtual environment first: `source Setup/.venv/bin/activate`
+- If paths are wrong in the YAML, re-run the `sed` substitution command from the repository root
 - If SLURM jobs fail immediately, check the partition name matches what is available on your cluster (`sinfo` to list partitions)
