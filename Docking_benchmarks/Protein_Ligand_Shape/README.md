@@ -25,15 +25,11 @@ This scenario uses purely geometric shape restraints to guide docking. The shape
 
 `autohis: true` and `delenph: false` ensure correct hydrogen handling for the ligand during topology generation.
 
-**Workflow**: `topoaa → rigidbody (1000, w_vdw=0, shape-guided) → caprieval → seletop (200) → flexref → caprieval → emref → caprieval → ilrmsdmatrix → clustrmsd (1.5 Å) → seletopclusts → caprieval`
-
 ### scenario_h24_unbound_unbound_pharm
 
 This scenario extends the shape-guided approach by incorporating pharmacophoric features alongside the geometric shape restraints. Pharmacophore points encode chemical interaction preferences — such as hydrogen bond donors/acceptors and hydrophobic regions — in addition to the spatial volume of the ligand. This provides richer chemical context for guiding the docking, and is expected to perform better than pure shape docking when the pharmacophore model accurately reflects the binding requirements of the receptor.
 
 The receptor topology is handled via a split `topoaa` call: `topoaa.mol1` is run with `autohis: true` for the protein, while the main `topoaa` block handles the ligand without automatic histidine detection (`autohis: false`) and with B-factor setting disabled (`set_bfactor: false`). The restraint files (`_ambig.tbl`, `_unambig.tbl`) include pharmacophore-derived distance restraints in addition to shape-based ones.
-
-**Workflow**: `topoaa (ligand) + topoaa.mol1 (receptor) → rigidbody (1000, pharm+shape guided) → caprieval → seletop (200) → flexref → caprieval → emref → caprieval → ilrmsdmatrix → clustrmsd (1.5 Å) → seletopclusts → caprieval`
 
 ## Running
 

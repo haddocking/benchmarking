@@ -18,31 +18,21 @@ All scenarios share the same input dataset:
 
 The default HADDOCK2.4 protocol for protein-protein docking. Ambiguous interaction restraints (AIRs) derived from experimental data or predicted interface residues are used to guide docking. The workflow follows the classic three-stage protocol: rigid-body docking to generate 1000 models, selection of the top 200, followed by semi-flexible refinement (flexref) and final water-mediated refinement (mdref). Clustering is performed using the FCC (Fraction of Common Contacts) method after the final refinement stage.
 
-**Workflow**: `topoaa → rigidbody (1000) → caprieval → seletop (200) → flexref → caprieval → mdref → caprieval → clustfcc → seletopclusts → caprieval`
-
 ### HADDOCK24_default_5Aambig
 
 Identical to the default HADDOCK2.4 protocol but with 5 Å ambiguous distance restraints applied in addition to the standard AIRs. This scenario tests whether softer, broader distance restraints can improve sampling at the interface and lead to better docking performance compared to the default setup.
-
-**Workflow**: same as HADDOCK24_default
 
 ### HADDOCK24_ab_initio
 
 An ab initio docking scenario that operates without any knowledge of the binding interface. Instead of AIRs, random ambiguous interaction restraints (ranair) are used during the rigid-body stage to sample the entire surface. A larger pool of 1000 models is generated, and the top 400 are taken into refinement. Body restraints and hydrogen bond restraints are still applied to maintain the structural integrity of each partner. This scenario is the most challenging and tests docking performance in a blind prediction context.
 
-**Workflow**: `topoaa → rigidbody (1000, ranair=true) → caprieval → seletop (400) → flexref → caprieval → mdref → caprieval → clustfcc → seletopclusts → caprieval`
-
 ### HADDOCK3_clustfcc
 
 A HADDOCK3 protocol that introduces an early clustering step immediately after rigid-body docking — before semi-flexible refinement begins. By clustering the 1000 rigid-body models with FCC first and selecting representative structures, this approach reduces the risk of over-populating the refinement stage with near-duplicate poses and improves diversity in the final ensemble. Clustering is applied a second time after the full refinement to produce the final ranked results.
 
-**Workflow**: `topoaa → rigidbody → caprieval → clustfcc → seletopclusts → caprieval → flexref → caprieval → mdref → caprieval → clustfcc → seletopclusts → caprieval`
-
 ### HADDOCK3_ilrmsdclustering
 
 Similar to HADDOCK3_clustfcc but uses interface-ligand RMSD (ilRMSD) matrix-based clustering instead of FCC at both clustering stages. ilRMSD clustering measures structural similarity in terms of the interface geometry rather than contact overlap, which can capture different aspects of pose diversity and may rank solutions differently compared to FCC-based clustering.
-
-**Workflow**: `topoaa → rigidbody → caprieval → ilrmsdmatrix → clustrmsd → seletopclusts → caprieval → flexref → caprieval → mdref → caprieval → ilrmsdmatrix → clustrmsd → seletopclusts → caprieval`
 
 ## Running
 

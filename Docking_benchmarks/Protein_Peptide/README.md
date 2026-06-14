@@ -18,21 +18,15 @@ In these benchmarks, the peptide ligand (`_l_u`) is provided as a multi-model PD
 
 This scenario uses ambiguous interaction restraints (AIRs) derived directly from the true binding interface, as known from the crystal structure. It represents the best-case restraint scenario and is used to assess the ceiling performance of the docking protocol — how well HADDOCK3 can place the peptide when it is told where to look. The workflow proceeds through rigid-body docking, semi-flexible refinement (`flexref`), and energy minimisation (`emref`), followed by RMSD-based clustering.
 
-**Workflow**: `topoaa → rigidbody (1000) → caprieval → seletop (200) → flexref → caprieval → emref → caprieval → clustrmsd → seletopclusts → caprieval`
-
 ### ab_initio
 
 The ab initio scenario docks the peptide without any prior knowledge of the binding site. Random ambiguous interaction restraints (`ranair: true`) are used in the rigid-body stage, effectively sampling the entire surface of the receptor. A much larger initial pool of 10,000 rigid-body models is generated to compensate for the lack of directional guidance. In the flexible refinement stages, contact-derived AIRs are automatically computed from the best rigid-body poses (`contactairs: true`), allowing the refinement to focus on the most plausible interface without requiring experimental restraints.
 
 This scenario is the most computationally demanding and the most realistic for blind docking predictions.
 
-**Workflow**: `topoaa → rigidbody (10000, ranair=true) → caprieval → seletop (400) → flexref (contactairs) → caprieval → emref (contactairs) → caprieval → clustrmsd → seletopclusts → caprieval`
-
 ### clustfcc
 
 This scenario applies FCC (Fraction of Common Contacts) clustering immediately after the rigid-body stage, before flexible refinement. By first clustering the rigid-body output and selecting diverse representative models, this approach improves the structural diversity of structures entering the refinement pipeline and avoids wasting computational resources on near-duplicate poses. A second round of FCC clustering is applied after the final refinement stage to produce the ranked output.
-
-**Workflow**: `topoaa → rigidbody → caprieval → clustfcc → seletopclusts → caprieval → flexref → caprieval → emref → caprieval → clustfcc → seletopclusts → caprieval`
 
 ## Running
 
