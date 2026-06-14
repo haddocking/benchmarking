@@ -89,13 +89,13 @@ Each subdirectory README describes the biological context, input dataset, restra
 
 ### Scenario overview
 
-**Protein-Protein (BM5)** — evaluates five protocols ranging from fully restrained docking (default HADDOCK2.4 AIRs) to completely blind ab initio docking, plus two HADDOCK3-specific early-clustering protocols (FCC and ilRMSD-based).
+**Protein-Protein (BM5)** — evaluates five protocols ranging from fully restrained docking (default HADDOCK2.4 AIRs) to completely blind ab initio docking, plus two HADDOCK3-specific clustering protocols (FCC and ilRMSD-based).
 
-**Protein-Peptide** — benchmarks three strategies: best-case true-interface restraints, fully blind ab initio docking (10,000 rigid-body models), and an early FCC clustering protocol.
+**Protein-Peptide** — benchmarks three strategies: best-case true-interface restraints, fully blind ab initio docking (10,000 rigid-body models), and FCC clustering protocol.
 
-**Protein-DNA** — tests docking across three difficulty levels (bound-bound, bound-unbound, unbound-unbound) with DNA-specific force field parameters to handle the polyanionic backbone.
+**Protein-DNA** — tests docking across three difficulty levels (bound-bound, bound-unbound and unbound-unbound
 
-**Protein-Glycan** — uses topological interaction (TI) restraints to guide docking of inherently flexible glycan chains; scenarios cover bound and unbound conformations and ensemble-based glycan sampling.
+**Protein-Glycan** — scenarios cover bound and unbound conformations and ensemble-based glycan sampling.
 
 **Protein-Ligand Shape** — evaluates shape-bead-guided docking and pharmacophore-enhanced shape docking for cases where only approximate ligand geometry is available.
 
@@ -128,5 +128,5 @@ See [contributing.md](contributing.md) for instructions on adding new scenarios,
 
 If you used `haddock3` or `haddock-runner` for your research, please cite :
 
-- **Research article**: M. Giulini, V. Reys, J.M.C. Teixeira, B. Jiménez-García, R.V. Honorato, A. Kravchenko, X. Xu, R. Versini, A. Engel, S. Verhoeven, A.M.J.J. Bonvin, [*HADDOCK3: A modular and versatile platform for integrative modelling of biomolecular complexes*](https://pubs.acs.org/doi/10.1021/acs.jcim.5c00969) Journal of Chemical Information and Modeling (2025). doi: 10.1021/acs.jcim.5c00969 [[BioRxiv]](https://www.biorxiv.org/content/10.1101/2025.04.30.651432v1)
+- **Research article**: M. Giulini, V. Reys, J.M.C. Teixeira, B. Jiménez-García, R.V. Honorato, A. Kravchenko, X. Xu, R. Versini, A. Engel, S. Verhoeven, A.M.J.J. Bonvin, [*HADDOCK3: A modular and versatile platform for integrative modelling of biomolecular complexes*](https://pubs.acs.org/doi/10.1021/acs.jcim.5c00969) Journal of Chemical Information and Modeling (2025). doi: 10.1021/acs.jcim.5c00969
  
