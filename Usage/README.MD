@@ -1,10 +1,10 @@
 # Usage
 
-This document describes how to run the HADDOCK benchmarking suite after the environment has been set up. For installation instructions, refer to `Setup/README.MD`.
+This document describes how to run the HADDOCK benchmarking suite after the environment has been set up. For installation instructions, refer to [Setup/README.MD](../Setup/README.MD).
 
 ## Overview
 
-The benchmarking suite uses `haddock-runner` to orchestrate large-scale docking runs across multiple targets and scenarios. Each scenario is defined by a YAML configuration file that specifies the input data, SLURM cluster settings, and the HADDOCK3 workflow to execute. The runner submits one SLURM job per target and manages concurrency automatically.
+The benchmarking suite uses [haddock-runner](https://github.com/haddocking/haddock-runner) to orchestrate large-scale docking runs across multiple targets and scenarios. Each scenario is defined by a YAML configuration file that specifies the input data, SLURM cluster settings, and the HADDOCK3 workflow to execute. The runner submits one SLURM job per target and manages concurrency automatically.
 
 ## Step 1 — Substitute absolute paths
 
@@ -38,11 +38,11 @@ Each benchmark type has its own directory under `Docking_benchmarks/`. See the R
 
 | System | Scenario directory |
 |---|---|
-| Protein-Protein | `Docking_benchmarks/Protein_Protein/Scenarios/` |
-| Protein-DNA | `Docking_benchmarks/Protein_DNA/scenarios/` |
-| Protein-Peptide | `Docking_benchmarks/Protein_Peptide/Scenarios/` |
-| Protein-Glycan | `Docking_benchmarks/Protein_Glycan/scenarios/` |
-| Protein-Ligand Shape | `Docking_benchmarks/Protein_Ligand_Shape/scenario/` |
+| Protein-Protein | [Docking_benchmarks/Protein_Protein/Scenarios/](../Docking_benchmarks/Protein_Protein/Scenarios/) |
+| Protein-DNA | [Docking_benchmarks/Protein_DNA/scenarios/](../Docking_benchmarks/Protein_DNA/scenarios/) |
+| Protein-Peptide | [Docking_benchmarks/Protein_Peptide/Scenarios/](../Docking_benchmarks/Protein_Peptide/Scenarios/) |
+| Protein-Glycan | [Docking_benchmarks/Protein_Glycan/scenarios/](../Docking_benchmarks/Protein_Glycan/scenarios/) |
+| Protein-Ligand Shape | [Docking_benchmarks/Protein_Ligand_Shape/scenario/](../Docking_benchmarks/Protein_Ligand_Shape/scenario/) |
 
 ## SLURM configuration
 
@@ -62,7 +62,7 @@ Once a benchmark run has completed, use the analysis script to generate performa
 python Analysis/AnalyseBenchmarkResults.py <benchmark_results_dir>
 ```
 
-The script parses the CAPRI evaluation output (`capri_ss.tsv`) from each target and scenario, ranks models by HADDOCK score, and produces stacked bar plots, violin plots, and a JSON performance summary. See `Analysis/README.md` for full documentation.
+The script parses the CAPRI evaluation output (`capri_ss.tsv`) from each target and scenario, ranks models by HADDOCK score, and produces stacked bar plots, violin plots, and a JSON performance summary. See [Analysis/README.md](../Analysis/README.md) for full documentation.
 
 ## Troubleshooting
 
