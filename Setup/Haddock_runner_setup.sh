@@ -122,24 +122,13 @@ info "Virtual environment active"
 
 section "HADDOCK3"
 
-if [ ! -d "haddock3" ]; then
-    info "Cloning HADDOCK3"
-    git clone https://github.com/haddocking/haddock3.git > /dev/null 2>&1
-fi
-
-info "Installing / updating HADDOCK3"
-cd haddock3
-git pull > /dev/null 2>&1
-pip install .
-cd ..
+info "Installing haddock3, matplotlib, and rdkit"
+pip install haddock3 matplotlib rdkit
 
 if ! command -v haddock3 &> /dev/null; then
     error "haddock3 could not be found after install — check the output above"
     exit 1
 fi
-
-info "Installing matplotlib and rdkit"
-pip install matplotlib rdkit
 
 # ─── Rust toolchain ──────────────────────────────────────────────────────────
 
