@@ -77,7 +77,7 @@ See [Usage/README.MD](Usage/README.MD) for the full guide including SLURM config
 
 ## Benchmark Systems
 
-| System | Dataset | Scenarios | Dataset Repo |
+| System | Dataset | Scenarios | Dataset Repository |
 |---|---|---|---|
 | Protein-Protein | 230 complexes | 5 | [haddocking/BM5-clean](https://github.com/haddocking/BM5-clean) |
 | Protein-Peptide | 98 complexes | 3 | [haddocking/protein-peptide](https://github.com/haddocking/protein-peptide) |
