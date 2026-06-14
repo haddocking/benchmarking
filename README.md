@@ -77,13 +77,13 @@ See [Usage/README.MD](Usage/README.MD) for the full guide including SLURM config
 
 ## Benchmark Systems
 
-| System | Dataset | Scenarios | Documentation |
+| System | Dataset | Scenarios | Dataset Repo |
 |---|---|---|---|
-| Protein-Protein | [230 complexes](https://github.com/haddocking/BM5-clean) | 5 | [Docking_benchmarks/Protein_Protein/](Docking_benchmarks/Protein_Protein/) |
-| Protein-Peptide | [98 complexes](https://github.com/haddocking/protein-peptide) | 3 | [Docking_benchmarks/Protein_Peptide/](Docking_benchmarks/Protein_Peptide/) |
-| Protein-DNA | [47 complexes](https://github.com/haddocking/Prot-DNABenchmark) | 3 | [Docking_benchmarks/Protein_DNA/](Docking_benchmarks/Protein_DNA/) |
-| Protein-Glycan | [89 complexes](https://github.com/haddocking/protein-glycans) | 3 | [Docking_benchmarks/Protein_Glycan/](Docking_benchmarks/Protein_Glycan/) |
-| Protein-Ligand Shape | [102 complexes](https://github.com/haddocking/shape-restrained-haddocking) | 2 | [Docking_benchmarks/Protein_Ligand_Shape/](Docking_benchmarks/Protein_Ligand_Shape/) |
+| Protein-Protein | 230 complexes | 5 | [haddocking/BM5-clean](https://github.com/haddocking/BM5-clean) |
+| Protein-Peptide | 98 complexes | 3 | [haddocking/protein-peptide](https://github.com/haddocking/protein-peptide) |
+| Protein-DNA | 47 complexes | 3 | [haddocking/Prot-DNABenchmark](https://github.com/haddocking/Prot-DNABenchmark) |
+| Protein-Glycan | 89 complexes | 3 | [haddocking/protein-glycans](https://github.com/haddocking/protein-glycans) |
+| Protein-Ligand Shape | 102 complexes | 2 | [haddocking/shape-restrained-haddocking](https://github.com/haddocking/shape-restrained-haddocking) |
 
 Each subdirectory README describes the biological context, input dataset, restraint strategy, the HADDOCK3 workflow for each scenario, and the exact run command.
 
