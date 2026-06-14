@@ -9,25 +9,28 @@ __pycache__/
 dist/
 build/
 
-# ── HADDOCK3 & runner installation ────────────────────────────────────────────
-haddock3/
-haddock-runner
+# ── HADDOCK & runner installation ─────────────────────────────────────────────
+# (haddock3 is installed via pip; haddock-runner via cargo — neither lives here)
 bin/
 
-# ── Docking result directories ────────────────────────────────────────────────
-results/
-protein_dna/
-protein-protein/
-prot-peptide/
-protein_glycan/
-protein-ligand-shape/
-run*/
+# ── Benchmark datasets (large, downloaded by each benchmark's setup.sh) ───────
+BM5-clean/
+protein-peptide/
+protein-dna/
+protein-glycans/
 
-# ── Benchmark datasets (large, downloaded separately) ────────────────────────
-prot-prot-bm5/BM5-clean
-prot-prot-bm5/bm5-input.txt
-prot-prot-bm5/simple
-benchmarking_datasets/
+# ── Generated input lists ─────────────────────────────────────────────────────
+bm5-input.txt
+prot-peptide-input.txt
+prot-dna-input.txt
+prot-glycan-input.txt
+input_list.txt
+input_list.txt.bak
+
+# ── Docking output directories ────────────────────────────────────────────────
+results/
+run*/
+HADDOCK-*/
 
 # ── SLURM & job logs ──────────────────────────────────────────────────────────
 slurm-*.out
