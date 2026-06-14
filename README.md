@@ -89,7 +89,7 @@ Each subdirectory README describes the biological context, input dataset, restra
 
 ### Scenario overview
 
-**Protein-Protein (BM5)** — evaluates five protocols ranging from fully restrained docking (default HADDOCK2.4 AIRs) to completely blind ab initio docking, plus two HADDOCK3-specific clustering protocols (FCC and ilRMSD-based).
+**Protein-Protein** — evaluates five protocols ranging from fully restrained docking (default HADDOCK2.4 AIRs) to completely blind ab initio docking, plus two HADDOCK3-specific clustering protocols (FCC and ilRMSD-based).
 
 **Protein-Peptide** — benchmarks three strategies: best-case true-interface restraints, fully blind ab initio docking (10,000 rigid-body models), and FCC clustering protocol.
 
