@@ -115,8 +115,7 @@ See [contributing.md](contributing.md) for instructions on adding new scenarios,
 
 ## Support
 
-- If you encounter any code-related issues, [open an issue](https://github.com/haddocking/benchmarking/issues/new).
-- If you have any other questions or need help, please contact us at [ask.bioexcel.eu](https://ask.bioexcel.eu/).
+- If you encounter any code-related issues, [open an issue](https://github.com/haddocking/benchmarking/issues/new)
 
 ## Useful resources
 
