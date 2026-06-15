@@ -7,8 +7,9 @@ These benchmarks use topological interaction (TI) restraints derived from the gl
 ## Dataset
 
 - **Input list**: `prot-glycan-input.txt`
-- **Molecule suffixes**: `_r_b` (receptor, bound conformation), `_l_b` (glycan ligand, bound) for bound scenarios; `_r_u` / `_l_u` for unbound scenarios
-- **Restraint files**: `_ti-aa.tbl` — topological interaction restraints derived from all-atom glycan geometry
+- **Molecule suffixes**: `_r_b` (receptor, bound), `_l_b` (glycan, bound), `_r_u` (receptor, unbound), `_l_u` (glycan, unbound), `_l_ensemble` (glycan conformational ensemble for scenario3)
+- **Restraint files**: `_ti-aa.tbl` (true interface on both protein and glycan), `_tip-ap.tbl` (true interface on protein, glycan fully passive)
+- **Reference structure**: `_analysis.pdb` — used for CAPRI evaluation
 
 ## About Topological Interaction Restraints
 
