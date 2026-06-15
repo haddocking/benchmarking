@@ -13,7 +13,10 @@ These benchmarks use topological interaction (TI) restraints derived from the gl
 
 ## About Topological Interaction Restraints
 
-Topological interaction (TI) restraints encode the spatial relationships between glycan atoms and the protein surface based on the known geometry of the sugar rings and glycosidic bonds. The `ti-aa` variant uses all-atom (aa) representation for maximum geometric accuracy.
+Topological interaction (TI) restraints encode the spatial relationships between glycan atoms and the protein surface based on the known geometry of the sugar rings and glycosidic bonds. Two variants are used:
+
+- **`ti-aa`** (true interface, all-atom): active residues are defined for both the protein and the glycan — interface residues within 3.9 Å of the partner.
+- **`tip-ap`** (true interface protein, all passive): active residues are defined for the protein only; the glycan is treated as fully passive.
 
 ## Scenarios
 
@@ -23,7 +26,7 @@ The simplest scenario: both the protein receptor and the glycan ligand are provi
 
 ### scenario2_unbound_vdw_tip_ap
 
-The protein and glycan are both provided in their unbound conformations, making this a more realistic and challenging scenario. The restraints are switched from `ti-aa` to `tip-ap` (topological interaction point, all-atom with pharmacophoric features), which encode the preferred orientation of the glycan hydroxyl groups relative to the protein surface.
+The protein and glycan are both provided in their unbound conformations, making this a more realistic and challenging scenario. The restraints are switched from `ti-aa` to `tip-ap` (true interface protein, all passive), where active residues are defined on the protein only and the glycan is treated as fully passive.
 
 ### scenario3_unbound_ens_vdw_tipap_clust
 
