@@ -125,7 +125,8 @@ See [contributing.md](contributing.md) for instructions on adding new scenarios,
 
 ## Cite us
 
-If you used `haddock3` or `haddock-runner` for your research, please cite :
+If you used `haddock3` for your research, please cite:
 
 - **Research article**: M. Giulini, V. Reys, J.M.C. Teixeira, B. Jiménez-García, R.V. Honorato, A. Kravchenko, X. Xu, R. Versini, A. Engel, S. Verhoeven, A.M.J.J. Bonvin, [*HADDOCK3: A modular and versatile platform for integrative modelling of biomolecular complexes*](https://pubs.acs.org/doi/10.1021/acs.jcim.5c00969) Journal of Chemical Information and Modeling (2025). doi: 10.1021/acs.jcim.5c00969
- 
+
+If you used a specific benchmark dataset, please also cite the relevant paper listed in the `Citation` section of each benchmark's README under `Docking_benchmarks/`.
