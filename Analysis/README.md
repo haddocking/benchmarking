@@ -1,6 +1,12 @@
 # Analysis
 
-This directory contains the post-processing and visualisation script for HADDOCK3 benchmarking results produced by `haddock-runner`. After a benchmark run completes, `AnalyseBenchmarkResults.py` parses the CAPRI evaluation output from each target and scenario, classifies docking model quality, and generates a set of summary plots and a JSON performance report.
+This directory contains the post-processing and visualisation script for HADDOCK benchmarking results produced by `haddock-runner`.
+
+## Two levels of analysis
+
+**Per-run analysis (automatic)** — HADDOCK automatically generates an `analysis/` folder inside each target's `run1/` directory as part of the docking workflow. This contains per-target HTML reports (`report.html`), scatter plots, and a `capri_ss.tsv` evaluation file. It is created by the `caprieval` module and requires no manual step.
+
+**Benchmark-wide analysis (manual)** — once all targets across a scenario have finished, `AnalyseBenchmarkResults.py` aggregates the `capri_ss.tsv` files from every target and produces overall performance plots and a JSON summary across the full dataset. This is what you run manually after the benchmark completes.
 
 ## Script
 
