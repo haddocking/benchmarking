@@ -1,8 +1,6 @@
 # Protein-Peptide Docking Benchmarks
 
-This directory contains benchmarking scenarios for protein-peptide docking using HADDOCK3. Protein-peptide interactions are among the most common and biologically important molecular recognition events, mediating processes such as signal transduction, enzyme regulation, and protein complex assembly.
-
-Peptide docking presents unique challenges compared to protein-protein docking. Peptides are inherently flexible in solution and often adopt a defined structure only upon binding to their receptor. The small size of the peptide ligand also means that the binding interface is relatively small, making both sampling and scoring more sensitive to small structural differences.
+Protein-peptide interactions are among the most common and biologically important molecular recognition events. Peptide docking presents unique challenges compared to protein-protein docking. Peptides are inherently flexible in solution and often adopt a defined structure only upon binding to their receptor. The small size of the peptide ligand also means that the binding interface is relatively small, making both sampling and scoring more sensitive to small structural differences.
 
 In these benchmarks, the peptide ligand (`_l_u`) is provided as a multi-model PDB file containing an ensemble of conformations. HADDOCK3 automatically detects the MODEL records in the file and treats each model as a member of the ensemble, sampling from it during the docking process.
 
@@ -16,7 +14,7 @@ In these benchmarks, the peptide ligand (`_l_u`) is provided as a multi-model PD
 
 ### true_interface
 
-This scenario uses ambiguous interaction restraints (AIRs) derived directly from the true binding interface, as known from the crystal structure. It represents the best-case restraint scenario and is used to assess the ceiling performance of the docking protocol — how well HADDOCK3 can place the peptide when it is told where to look. The workflow proceeds through rigid-body docking, semi-flexible refinement (`flexref`), and energy minimisation (`emref`), followed by RMSD-based clustering.
+This scenario uses ambiguous interaction restraints (AIRs) derived directly from the true binding interface, as known from the crystal structure. It represents the best-case restraint scenario and is used to assess the ceiling performance of the docking protocol — how well HADDOCK3 can place the peptide when it is told where to look.
 
 ### ab_initio
 
