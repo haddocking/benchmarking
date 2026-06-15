@@ -6,9 +6,17 @@ These scenarios benchmark docking performance across three conformational states
 
 ## Dataset
 
-- **Input list**: `prot-dna-input.txt` — lists each target with paths to protein chain(s) and DNA structure files
-- **Molecule suffixes**: `_p1_b`, `_p2_b`, `_p3_b`, `_p4_b` (protein chains, bound), `_d_b` or `_d_u` (DNA, bound or unbound depending on scenario)
-- **Restraint files**: `_b_ambig.tbl` — ambiguous restraints derived from the known binding interface
+- **Input list**: `prot-dna-input.txt` — lists each target with paths to protein chain(s), DNA structure files, restraint files, and the reference complex
+
+The molecule suffixes and restraint files differ per scenario:
+
+| Scenario | Protein suffixes | DNA suffix | Restraints |
+|---|---|---|---|
+| bound-bound | `_p1_b` … `_p4_b` | `_d_b` (co-crystal DNA) | `_b_ambig.tbl` |
+| bound-unbound | `_p1_b` … `_p4_b` | `_d_u` (canonical B-DNA) | `_b_ambig.tbl` |
+| unbound-unbound | `_p1_u` … `_p4_u` | `_d_u` (canonical B-DNA) | `_u_ambig.tbl` |
+
+Not all targets have up to four protein chains — chains `_p3` and `_p4` are only present where the complex requires them.
 
 ## Scenarios
 
