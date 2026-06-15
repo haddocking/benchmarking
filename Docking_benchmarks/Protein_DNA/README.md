@@ -12,9 +12,9 @@ The molecule suffixes and restraint files differ per scenario:
 
 | Scenario | Protein suffixes | DNA suffix | Restraints |
 |---|---|---|---|
-| bound-bound | `_p1_b` … `_p4_b` | `_d_b` (co-crystal DNA) | `_b_ambig.tbl` |
-| bound-unbound | `_p1_b` … `_p4_b` | `_d_u` (ideal B-form DNA) | `_b_ambig.tbl` |
-| unbound-unbound | `_p1_u` … `_p4_u` | `_d_u` (ideal B-form DNA) | `_u_ambig.tbl` |
+| bound-bound | `_p1_b` … `_p4_b` (bound protein) | `_d_b` (bound DNA) | `_b_ambig.tbl` |
+| bound-unbound | `_p1_b` … `_p4_b` (bound protein) | `_d_u` (unbound DNA) | `_b_ambig.tbl` |
+| unbound-unbound | `_p1_u` … `_p4_u` (unbound protein) | `_d_u` (unbound DNA) | `_u_ambig.tbl` |
 
 Not all targets have up to four protein chains — `_p3` and `_p4` are only present where the complex requires them.
 
