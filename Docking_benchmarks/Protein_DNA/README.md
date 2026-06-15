@@ -37,3 +37,9 @@ Both protein and DNA are provided in their unbound (free solution) conformations
 ## Running
 
 See [Usage/README.MD](../../Usage/README.MD) for path substitution, run commands, and SLURM configuration.
+
+## Citation
+
+The protein-DNA benchmark dataset originates from:
+
+van Dijk M. and Bonvin A.M.J.J. (2008). A protein-DNA docking benchmark. *Nucleic Acids Research*, 36, e88. https://academic.oup.com/nar/article-lookup/doi/10.1093/nar/gkn386

@@ -36,3 +36,9 @@ Similar to HADDOCK3_clustfcc but uses interface-ligand RMSD (ilRMSD) matrix-base
 ## Running
 
 See [Usage/README.MD](../../Usage/README.MD) for path substitution, run commands, and SLURM configuration.
+
+## Citation
+
+The BM5 protein-protein benchmark dataset is described in:
+
+Vreven T. et al. (2015). Updates to the integrated protein-protein interaction benchmarks. *Journal of Molecular Biology*, 427(19), 3031–3041. https://www.sciencedirect.com/science/article/abs/pii/S0022283615004180

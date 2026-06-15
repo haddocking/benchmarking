@@ -29,3 +29,9 @@ This scenario applies FCC (Fraction of Common Contacts) clustering immediately a
 ## Running
 
 See [Usage/README.MD](../../Usage/README.MD) for path substitution, run commands, and SLURM configuration.
+
+## Citation
+
+The protein-peptide benchmark dataset and docking approach are described in:
+
+Trellet M. et al. (2013). A unified conformational selection and induced fit approach to protein-peptide docking. *PLOS ONE*, 8(3), e58769. https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0058769

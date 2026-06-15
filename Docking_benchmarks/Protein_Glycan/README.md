@@ -35,3 +35,9 @@ An extended version of scenario2 that incorporates ensemble-based sampling. Mult
 ## Running
 
 See [Usage/README.MD](../../Usage/README.MD) for path substitution, run commands, and SLURM configuration.
+
+## Citation
+
+The protein-glycan docking protocol and dataset are described in:
+
+Reau M. et al. (2024). Protein-glycan docking with HADDOCK3. *Journal of Chemical Information and Modeling*. https://pubs.acs.org/doi/10.1021/acs.jcim.4c01372

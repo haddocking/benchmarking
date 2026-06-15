@@ -34,3 +34,9 @@ The receptor topology is handled via a split `topoaa` call: `topoaa.mol1` is run
 ## Running
 
 See [Usage/README.MD](../../Usage/README.MD) for path substitution, run commands, and SLURM configuration.
+
+## Citation
+
+The shape-based protein-ligand docking protocol is described in:
+
+Teixeira J.M.C. et al. (2021). Protein-ligand docking using shape-based restraints in HADDOCK. *Journal of Chemical Information and Modeling*. https://pubs.acs.org/doi/10.1021/acs.jcim.1c00796
