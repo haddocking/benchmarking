@@ -1,9 +1,8 @@
 # Protein-Protein Docking Benchmarks
 
-This directory contains benchmarking scenarios for protein-protein docking using the BM5 (Docking Benchmark 5) dataset. The benchmark evaluates both HADDOCK2.4 and HADDOCK3 docking protocols across a range of restraint strategies — from fully restrained docking using known interface information to completely ab initio docking without any prior knowledge of the binding site.
+This directory contains benchmarking scenarios for protein-protein docking using the BM5 protein-protein dataset. The benchmark evaluates both HADDOCK2.4-like and HADDOCK3 docking protocols across a range of restraint strategies — from fully restrained docking using known interface information to completely ab initio docking without any prior knowledge of the binding site.
 
-The BM5 dataset is a widely used gold standard for protein-protein docking benchmarks. It consists of 230 protein complexes with both bound and unbound structures available for each partner, enabling a rigorous assessment of docking performance under realistic conditions.
-
+The BM5 dataset consists of 230 protein complexes with both bound and unbound structures available for each partner.
 ## Dataset
 
 All scenarios share the same input dataset:
