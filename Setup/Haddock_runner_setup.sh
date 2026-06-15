@@ -7,6 +7,10 @@
 #   - a .venv virtualenv in the current directory
 #   - HADDOCK3 (from PyPI) + matplotlib + rdkit into that venv
 #   - haddock-runner v3 (Rust crate from crates.io) into $HOME/.cargo/bin
+#
+# Authors: BonvinLab, Computational Structural Biology group,
+#          Utrecht University, the Netherlands
+# Devs:    Victor G.P. Reys, Shantanu Khatri
 #===============================================================================
 set -euo pipefail
 
