@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Download protein-DNA benchmark dataset
-git clone https://github.com/haddocking/Prot-DNABenchmark protein-dna
+git clone https://github.com/haddocking/Prot-DNABenchmark
 
 # Merge NMR ensemble models back into single files for HADDOCK
 # e.g. 1HJC_p1_u_1.pdb + 1HJC_p1_u_2.pdb → 1HJC_p1_u.pdb
