@@ -16,7 +16,7 @@ The molecule suffixes and restraint files differ per scenario:
 | bound-unbound | `_p1_b` … `_p4_b` (bound protein) | `_d_u` (unbound DNA) | `_b_ambig.tbl` |
 | unbound-unbound | `_p1_u` … `_p4_u` (unbound protein) | `_d_u` (unbound DNA) | `_u_ambig.tbl` |
 
-Not all targets have up to four protein chains — `_p3` and `_p4` are only present where the complex requires them.
+> **Note:** Not all targets have up to four protein chains — `_p3` and `_p4` are only present for complexes with more than two protein subunits.
 
 `_d_u` is a computationally generated DNA structure built from the sequence, not taken from a crystal structure. Where the unbound protein is from an NMR ensemble, `setup.sh` concatenates the individual model files (e.g. `1HJC_p1_u_1.pdb`, `_2.pdb`) into a single multi-model PDB (`1HJC_p1_u.pdb`). HADDOCK3 automatically detects the MODEL records and samples from the ensemble during docking.
 
