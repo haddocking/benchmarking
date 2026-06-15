@@ -129,9 +129,4 @@ If you used `haddock3` for your research, please cite:
 
 - **Research article**: M. Giulini, V. Reys, J.M.C. Teixeira, B. Jiménez-García, R.V. Honorato, A. Kravchenko, X. Xu, R. Versini, A. Engel, S. Verhoeven, A.M.J.J. Bonvin, [*HADDOCK3: A modular and versatile platform for integrative modelling of biomolecular complexes*](https://pubs.acs.org/doi/10.1021/acs.jcim.5c00969) Journal of Chemical Information and Modeling (2025). doi: 10.1021/acs.jcim.5c00969
 
-<details>
-<summary>Using a specific benchmark dataset? Also cite the relevant paper.</summary>
-
-Each benchmark under `Docking_benchmarks/` has a `Citation` section in its README with the dataset-specific reference.
-
-</details>
+**Note:** Using a specific benchmark dataset? Also cite the relevant paper. Each benchmark under `Docking_benchmarks/` has a `Citation` section in its README with the dataset-specific reference.
