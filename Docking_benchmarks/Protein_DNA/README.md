@@ -10,17 +10,6 @@ These scenarios benchmark docking performance across three conformational states
 - **Molecule suffixes**: `_p1_b`, `_p2_b`, `_p3_b`, `_p4_b` (protein chains, bound), `_d_b` or `_d_u` (DNA, bound or unbound depending on scenario)
 - **Restraint files**: `_b_ambig.tbl` — ambiguous restraints derived from the known binding interface
 
-## DNA-Specific Force Field Parameters
-
-All scenarios share a set of DNA-specific settings that override the defaults used for protein-protein docking:
-
-- `epsilon: 78` — uses an aqueous dielectric constant to better model the highly charged DNA environment
-- `dielec: cdie` — constant dielectric model (rather than distance-dependent), appropriate for nucleic acid electrostatics
-- `w_desolv: 0` — desolvation energy term is disabled, as it is not well parameterised for DNA
-- `dnarest_on: true` — enables DNA-specific positional restraints during flexible refinement to prevent unphysical distortions of the backbone
-- `tadfactor: 4` — increases the torsion angle dynamics scaling factor during flexible refinement to allow larger backbone movements
-- `temp_cool3_init: 300` — sets the initial temperature of the final cooling stage to 300 K for DNA flexibility
-
 ## Scenarios
 
 ### bound-bound
