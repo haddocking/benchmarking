@@ -4,7 +4,7 @@ This directory contains the post-processing and visualisation script for HADDOCK
 
 ## Two levels of analysis
 
-**Per-run analysis (automatic)** — HADDOCK automatically generates an `analysis/` folder inside each target's `run1/` directory as part of the docking workflow. This contains per-target HTML reports (`report.html`), scatter plots, and a `capri_ss.tsv` evaluation file. It is created by the `caprieval` module and requires no manual step.
+**Per-run analysis** — HADDOCK3 automatically generates an `analysis/` folder inside each target's `run1/` directory as part of the docking workflow. For every `caprieval` step it writes a `N_caprieval_analysis/` subfolder (e.g. `2_caprieval_analysis/`) containing an HTML report (`report.html`), per-metric plots (`*_clt.html`), and the `capri_ss.tsv` evaluation file. The HTML reports must be served over HTTP to render correctly — run `python -m http.server --directory .` from the `analysis/` folder and open the printed URL in a browser. This folder is produced by the `caprieval` module and requires no manual step.
 
 **Benchmark-wide analysis (manual)** — once all targets across a scenario have finished, `AnalyseBenchmarkResults.py` aggregates the `capri_ss.tsv` files from every target and produces overall performance plots and a JSON summary across the full dataset. This is what you run manually after the benchmark completes.
 

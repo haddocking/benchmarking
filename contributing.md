@@ -1,6 +1,6 @@
 # Contributing to the HADDOCK Benchmarking Suite
 
-Thank you for your interest in contributing. This benchmarking suite is intended to be a living resource that grows as new docking protocols, molecular systems, and datasets become available. Contributions of any kind are welcome — new scenarios, new benchmark datasets, improvements to the analysis pipeline, bug fixes, or documentation updates.
+Thank you for your interest in contributing. This benchmarking suite is intended to be a scientific resource that grows as new docking protocols, molecular systems, and datasets become available. Contributions of any kind are welcome — new scenarios, new benchmark datasets, improvements to the analysis pipeline, bug fixes, or documentation updates.
 
 This document describes how to contribute effectively and what standards to follow.
 
