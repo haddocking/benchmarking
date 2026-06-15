@@ -4,9 +4,9 @@
 git clone https://github.com/haddocking/protein-peptide
 
 #make a output directory
-
 mkdir -p HADDOCK-Prot-peptide
 
+#rename ligand ensemble files from *_l_u_ensemble.pdb to *_l_u.pdb so they match the input-list pattern 
 find protein-peptide -name "*_l_u_ensemble.pdb" \
   -exec bash -c 'mv "$0" "${0/_l_u_ensemble/_l_u}"' {} \;
 
