@@ -4,21 +4,21 @@
 
 # HADDOCK3 Benchmarking Suite
 
-[HADDOCK3](https://github.com/haddocking/haddock3) is an information-driven docking platform developed at [BonvinLab](https://www.bonvinlab.org/), Utrecht University, that uses experimental or predicted binding-site data as ambiguous interaction restraints to guide the assembly of biomolecular complexes. Benchmarking evaluates how reliably a docking protocol can predict the correct bound structure when starting only from the free, unbound partners — by running hundreds of complexes with known crystal structures and scoring the results against CAPRI quality thresholds. This repository provides the datasets, scenario YAML files, setup scripts, and analysis pipeline to run and compare those benchmarks across five molecular system types: protein-protein, protein-peptide, protein-DNA, protein-glycan, and shape-guided protein-ligand docking. All benchmarks are orchestrated by [haddock-runner](https://github.com/haddocking/haddock-runner), an in-house Rust tool that reads scenario YAML files, stages inputs, and dispatches SLURM jobs across cluster nodes.
+[HADDOCK3](https://github.com/haddocking/haddock3) is an information-driven docking platform developed at [BonvinLab](https://www.bonvinlab.org/), Utrecht University, that uses experimental or predicted binding-site data as ambiguous interaction restraints to guide the assembly of biomolecular complexes. Benchmarking evaluates how reliably a docking protocol can predict the correct bound structure when starting only from the free, unbound partners and scoring the results against CAPRI quality thresholds. This repository provides the datasets, scenario YAML files, setup scripts, and analysis pipeline to run and compare those benchmarks across five molecular system types: protein-protein, protein-peptide, protein-DNA, protein-glycan, and shape-guided protein-ligand docking. All benchmarks are orchestrated using [haddock-runner](https://github.com/haddocking/haddock-runner), an in-house tool that reads scenario YAML files, stages inputs, and dispatches SLURM jobs across cluster nodes.
 
 ## Repository Structure
 
 ```
 Benchmarking/
-├── Setup/                      # Environment setup scripts → Setup/README.MD
+├── Setup/                      # Environment setup script
 ├── Docking_benchmarks/
-│   ├── Protein_Protein/        # BM5 protein-protein benchmark (230 complexes)
+│   ├── Protein_Protein/        # Protein-protein benchmark 
 │   ├── Protein_Peptide/        # Protein-peptide benchmark
 │   ├── Protein_DNA/            # Protein-DNA benchmark
 │   ├── Protein_Glycan/         # Protein-glycan benchmark
 │   └── Protein_Ligand_Shape/   # Shape-guided protein-ligand benchmark
-├── Analysis/                   # Post-run analysis and visualisation → Analysis/README.md
-└── Usage/                      # Full usage guide → Usage/README.MD
+├── Analysis/                   # Post-run analysis and visualisation
+└── Usage/                      # Full usage guide 
 ```
 
 Each benchmark directory follows the same layout (shown for `Protein_Protein/`):
@@ -27,7 +27,7 @@ Each benchmark directory follows the same layout (shown for `Protein_Protein/`):
 Protein_Protein/
 ├── README.MD                               # Dataset description, scenarios, and run instructions
 ├── setup.sh                                # Downloads and stages input structures
-└── Scenarios/                              # YAML scenario files — one per docking protocol
+└── Scenarios/                              # YAML scenario files
     ├── scenario_HADDOCK24_default.yaml
     ├── scenario_HADDOCK24_default_5Aambig.yaml
     ├── scenario_HADDOCK24_ab_initio.yaml
@@ -77,7 +77,7 @@ See [Usage/README.MD](Usage/README.MD) for the full guide including SLURM config
 
 ## Benchmark Systems
 
-| System | Dataset | Scenarios | Dataset Repository |
+| System | Dataset | Scenarios | Github repositories |
 |---|---|---|---|
 | Protein-Protein | 230 complexes | 5 | [haddocking/BM5-clean](https://github.com/haddocking/BM5-clean) |
 | Protein-Peptide | 98 complexes | 3 | [haddocking/protein-peptide](https://github.com/haddocking/protein-peptide) |
@@ -85,7 +85,7 @@ See [Usage/README.MD](Usage/README.MD) for the full guide including SLURM config
 | Protein-Glycan | 89 complexes | 3 | [haddocking/protein-glycans](https://github.com/haddocking/protein-glycans) |
 | Protein-Ligand Shape | 102 complexes | 2 | [haddocking/shape-restrained-haddocking](https://github.com/haddocking/shape-restrained-haddocking) |
 
-Each subdirectory README describes the biological context, input dataset, restraint strategy, the HADDOCK3 workflow for each scenario, and the exact run command.
+Each subdirectory README describes the biological context, input dataset, restraint strategy, the HADDOCK3 workflow for each scenario.
 
 ### Scenario overview
 
@@ -104,10 +104,10 @@ Each subdirectory README describes the biological context, input dataset, restra
 After a benchmark run completes, generate CAPRI performance plots and a JSON summary:
 
 ```bash
-python3 Analysis/AnalyseBenchmarkResults.py <benchmark_results_dir> -t protein -m irmsd
+python3 Analysis/AnalyseBenchmarkResults.py <benchmark_results_dir> 
 ```
 
-The script classifies docking models by CAPRI quality (High / Medium / Acceptable / Near-acceptable / Low) at Top1–Top1000 thresholds and produces stacked bar plots, violin plots, melquiplots, and a JSON performance report. See [Analysis/README.md](Analysis/README.md) for the full option reference and output file descriptions.
+The script classifies docking models by CAPRI quality (High / Medium / Acceptable / Near-acceptable / Low) and produces stacked bar plots, violin plots, melquiplots, and a JSON performance report. See [Analysis/README.md](Analysis/README.md) for the full option reference and output file descriptions.
 
 ## Contributing
 
@@ -119,7 +119,7 @@ See [contributing.md](contributing.md) for instructions on adding new scenarios,
 
 ## Useful resources
 
-- [`haddock-runner`](https://github.com/haddocking/haddock-runner): Tool to run large scale `haddock3` simulations using multiple input molecules in different scenarios
+- [`haddock-runner`](https://github.com/haddocking/haddock-runner): Tool to run large scale `haddock3` docking scenarios using multiple input molecules in different scenarios
 - [`haddock-tools`](https://github.com/haddocking/haddock-tools): Set of useful utility scripts developed over the years by the BonvinLab group members
 - [`haddock-runner user manual`](https://www.bonvinlab.org/haddock-runner/home.html): The online guide describing every aspects of the pipeline
 
