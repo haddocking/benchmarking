@@ -1,5 +1,5 @@
 general:
-  input_list: _ABSPATH_PWD_/protein-ligand-shape-input.txt
+  input_list: _ABSPATH_PWD_/input_list.txt
   work_dir: _ABSPATH_PWD_/protein-ligand-shape/h24_unbound_unbound_pharm
 
   execution: slurm
