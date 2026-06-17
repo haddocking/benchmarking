@@ -7,7 +7,7 @@ git clone https://github.com/haddocking/Prot-DNABenchmark
 # e.g. 1HJC_p1_u_1.pdb + 1HJC_p1_u_2.pdb → 1HJC_p1_u.pdb
 for dir in protein-dna/*/; do
     case=$(basename $dir)
-    for base in $(ls $dir | grep -oP "${case}_p[0-9]+_u(?=_[0-9]+\.pdb)" | sort -u); do
+    for base in $(ls $dir | grep -E "${case}_p[0-9]+_u_[0-9]+\.pdb$" | sed 's/_[0-9]*\.pdb$//' | sort -u); do
         outfile="$dir/${base}.pdb"
         if [ ! -f "$outfile" ]; then
             cat $dir/${base}_*.pdb > "$outfile"

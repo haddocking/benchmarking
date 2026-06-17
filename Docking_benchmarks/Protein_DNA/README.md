@@ -36,7 +36,7 @@ Both protein and DNA are provided in their unbound (free solution) conformations
 
 ## Running
 
-See [Usage/README.MD](../../Usage/README.MD) for path substitution, run commands, and SLURM configuration.
+See [Usage/README.md](../../Usage/README.md) for path substitution, run commands, and SLURM configuration.
 
 ## Citation
 

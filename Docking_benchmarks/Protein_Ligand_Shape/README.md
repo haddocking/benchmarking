@@ -33,7 +33,7 @@ The receptor topology is handled via a split `topoaa` call: `topoaa.mol1` is run
 
 ## Running
 
-See [Usage/README.MD](../../Usage/README.MD) for path substitution, run commands, and SLURM configuration.
+See [Usage/README.md](../../Usage/README.md) for path substitution, run commands, and SLURM configuration.
 
 ## Citation
 

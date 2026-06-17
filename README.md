@@ -25,7 +25,7 @@ Each benchmark directory follows the same layout (shown for `Protein_Protein/`):
 
 ```
 Protein_Protein/
-├── README.MD                               # Dataset description, scenarios, and run instructions
+├── README.md                               # Dataset description, scenarios, and run instructions
 ├── setup.sh                                # Downloads and stages input structures
 └── Scenarios/                              # YAML scenario files
     ├── scenario_HADDOCK24_default.yaml
@@ -45,7 +45,7 @@ Run the setup script from the repository root. It installs pyenv, Python 3.9.18,
 bash Setup/Haddock_runner_setup.sh
 ```
 
-See [Setup/README.MD](Setup/README.MD) for prerequisites, a step-by-step description of what the script does, and troubleshooting notes.
+See [Setup/README.md](Setup/README.md) for prerequisites, a step-by-step description of what the script does, and troubleshooting notes.
 
 **2. Substitute absolute paths in scenario files**
 
@@ -67,7 +67,7 @@ For long runs, use `nohup` and `disown` to keep the job alive after disconnectin
 nohup ./haddock-runner <scenario.yaml> > run.out & disown && tail -f run.out
 ```
 
-See [Usage/README.MD](Usage/README.MD) for the full guide including SLURM configuration and troubleshooting.
+See [Usage/README.md](Usage/README.md) for the full guide including SLURM configuration and troubleshooting.
 
 ## Pipeline Overview
 

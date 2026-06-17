@@ -34,7 +34,7 @@ An extended version of `scenario_unbound_vdw_tip_ap` that incorporates ensemble-
 
 ## Running
 
-See [Usage/README.MD](../../Usage/README.MD) for path substitution, run commands, and SLURM configuration.
+See [Usage/README.md](../../Usage/README.md) for path substitution, run commands, and SLURM configuration.
 
 ## Citation
 

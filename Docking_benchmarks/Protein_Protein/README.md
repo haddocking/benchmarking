@@ -35,7 +35,7 @@ Similar to HADDOCK3_clustfcc but uses interface-ligand RMSD (ilRMSD) matrix-base
 
 ## Running
 
-See [Usage/README.MD](../../Usage/README.MD) for path substitution, run commands, and SLURM configuration.
+See [Usage/README.md](../../Usage/README.md) for path substitution, run commands, and SLURM configuration.
 
 ## Citation
 

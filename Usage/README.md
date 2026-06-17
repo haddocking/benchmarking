@@ -1,6 +1,6 @@
 # Usage
 
-This document describes how to run the HADDOCK benchmarking suite after the environment has been set up. For installation instructions, refer to [Setup/README.MD](../Setup/README.MD).
+This document describes how to run the HADDOCK benchmarking suite after the environment has been set up. For installation instructions, refer to [Setup/README.md](../Setup/README.md).
 
 ## Overview
 

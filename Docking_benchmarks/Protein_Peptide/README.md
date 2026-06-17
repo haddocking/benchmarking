@@ -28,7 +28,7 @@ This scenario applies FCC (Fraction of Common Contacts) clustering immediately a
 
 ## Running
 
-See [Usage/README.MD](../../Usage/README.MD) for path substitution, run commands, and SLURM configuration.
+See [Usage/README.md](../../Usage/README.md) for path substitution, run commands, and SLURM configuration.
 
 ## Citation
 
