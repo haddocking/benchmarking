@@ -1107,11 +1107,11 @@ def map_data(
         all_scenarios += subset_scenarios
     # Search for all available scenarios
     else:
-        # Gather all scenarios
+        # Gather all scenarios (deduplicated across all targets)
+        scenarios_set: set[str] = set()
         for pdbid in pdbids:
-            scenarios = get_scenarios_names(f'{basepath}{pdbid}/')
-            all_scenarios += scenarios
-        all_scenarios += list(set(all_scenarios))
+            scenarios_set.update(get_scenarios_names(f'{basepath}{pdbid}/'))
+        all_scenarios = sorted(scenarios_set) if scenarios_set else ['']
 
     # Make sure all pdbs have all scenarios
     for pdbid in pdbids:
