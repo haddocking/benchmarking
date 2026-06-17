@@ -11,6 +11,12 @@
 # Authors: BonvinLab, Computational Structural Biology group,
 #          Utrecht University, the Netherlands
 # Devs:    Victor G.P. Reys, Shantanu Khatri
+#
+# Note: if the setup fails during Python compilation, install the required
+#       build dependencies first:
+#         sudo apt-get update && sudo apt-get install -y build-essential \
+#           libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev \
+#           libffi-dev liblzma-dev
 #===============================================================================
 set -euo pipefail
 
