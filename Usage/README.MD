@@ -66,6 +66,7 @@ The script parses the CAPRI evaluation output (`capri_ss.tsv`) from each target 
 
 ## Troubleshooting
 
+- If `Permission denied` when running a setup script, make it executable first: `chmod +x setup.sh`
 - If `haddock-runner: command not found`, run `source ~/.cargo/env` or open a new shell — the Cargo bin directory may not be on your PATH yet
 - If `haddock3: command not found`, activate the virtual environment first: `source Setup/.venv/bin/activate`
 - If paths are wrong in the YAML, re-run the `sed` substitution command from the repository root
