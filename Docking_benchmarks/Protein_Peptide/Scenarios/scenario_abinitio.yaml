@@ -1,6 +1,6 @@
 general:
   input_list: _ABSPATH_PWD_/protein-peptide-input.txt
-  work_dir: _ABSPATH_PWD_/prot-peptide/ab_initio
+  work_dir: _ABSPATH_PWD_/prot-peptide
 
   execution: slurm
   partition: short

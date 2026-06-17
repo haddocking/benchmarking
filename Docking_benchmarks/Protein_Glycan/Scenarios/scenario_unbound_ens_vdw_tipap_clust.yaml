@@ -1,6 +1,6 @@
 general:
   input_list: _ABSPATH_PWD_/protein-glycan-input.txt
-  work_dir: _ABSPATH_PWD_/protein_glycan/unbound_ens_vdw_tip-ap_clust
+  work_dir: _ABSPATH_PWD_/protein_glycan
 
   execution: slurm
   partition: short
