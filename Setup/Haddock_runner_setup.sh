@@ -21,7 +21,12 @@
 set -euo pipefail
 
 PYTHON_VERSION=3.9.18   # Python version installed via pyenv
-VENV_NAME=.venv         # virtualenv directory (created in the current folder)
+
+# Repo root = parent of this script's directory (Setup/). Anchor the venv there
+# so it's always at <repo>/.venv regardless of where the script is launched from.
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+VENV_PATH="$REPO_ROOT/.venv"
 
 # Pick the right shell rc so PATH edits land where YOUR shell will read them.
 case "${SHELL:-}" in
@@ -60,8 +65,8 @@ pyenv shell "$PYTHON_VERSION"
 # Virtualenv
 #-------------------------------------------------------------------------------
 # Create the venv only if it doesn't exist, then activate it.
-[ -d "$VENV_NAME" ] || python -m venv "$VENV_NAME"
-source "$VENV_NAME/bin/activate"
+[ -d "$VENV_PATH" ] || python -m venv "$VENV_PATH"
+source "$VENV_PATH/bin/activate"
 
 #-------------------------------------------------------------------------------
 # HADDOCK3 (+ workflow deps)
@@ -113,11 +118,11 @@ echo "  Setup complete"
 echo "---------------------------------------------------------------"
 echo "  haddock3        $(command -v haddock3)"
 echo "  haddock-runner  $(command -v haddock-runner)"
-echo "  python          $(python --version 2>&1)  ($VENV_NAME)"
+echo "  python          $(python --version 2>&1)  ($VENV_PATH)"
 echo "==============================================================="
 echo
 echo "  Activate the Python env:"
-echo "      source $VENV_NAME/bin/activate"
+echo "      source $VENV_PATH/bin/activate"
 echo
 echo "  If 'haddock-runner' is NOT found in a new shell, add this line to"
 echo "  your shell's startup file, then open a new shell:"
