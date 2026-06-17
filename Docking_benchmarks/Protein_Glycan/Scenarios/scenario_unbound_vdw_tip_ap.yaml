@@ -11,7 +11,7 @@ general:
     - _l_u
 
 scenarios:
-  - name: unbound_vdw_tip-ap_clust
+  - name: run
     workflow:
       topoaa:
 

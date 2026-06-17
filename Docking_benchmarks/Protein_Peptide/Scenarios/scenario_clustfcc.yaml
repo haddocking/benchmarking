@@ -11,7 +11,7 @@ general:
     - _l_u
 
 scenarios:
-  - name: HADDOCK3_clustfcc
+  - name: run
     workflow:
         topoaa:
           autohis: true

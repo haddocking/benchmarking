@@ -13,7 +13,7 @@ general:
     - _shape_beads
 
 scenarios:
-  - name: h24_unbound_unbound_pharm
+  - name: run
     workflow:
         topoaa:
           ligand_param_fname: _ligand.param

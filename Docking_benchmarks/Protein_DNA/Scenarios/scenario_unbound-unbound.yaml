@@ -15,7 +15,7 @@ general:
     - _d_u
 
 scenarios:
-  - name: unbound-unbound
+  - name: run
     workflow:
       topoaa:
         autohis: true

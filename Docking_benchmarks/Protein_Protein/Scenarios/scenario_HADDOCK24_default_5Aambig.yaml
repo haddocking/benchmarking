@@ -11,7 +11,7 @@ general:
     - _l_u
 
 scenarios:
-  - name: HADDOCK24_default_5Aambig
+  - name: run
     workflow:
         topoaa:
           autohis: true

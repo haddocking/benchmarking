@@ -14,7 +14,7 @@ general:
     - _l_u
 
 scenarios:
-  - name: true_interface
+  - name: run
     workflow:
         topoaa:
           autohis: true
