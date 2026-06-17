@@ -87,7 +87,16 @@ if [ ! -x "$HOME/.cargo/bin/cargo" ]; then
 fi
 source "$HOME/.cargo/env"
 export PATH="$HOME/.cargo/bin:$PATH"   # rustup cargo must win over any system v2
-rustup update stable                   # haddock-runner 3.x needs rustc >=1.92 (edition 2024)
+
+# Update only if rustc is older than 1.92 (required by haddock-runner 3.x / edition 2024)
+RUSTC_MIN="1.92"
+RUSTC_CUR=$(rustc --version 2>/dev/null | grep -oP '\d+\.\d+' | head -1)
+if [ -z "$RUSTC_CUR" ] || [ "$(printf '%s\n' "$RUSTC_MIN" "$RUSTC_CUR" | sort -V | head -1)" != "$RUSTC_MIN" ]; then
+  echo "[+] Updating Rust toolchain (current: ${RUSTC_CUR:-none}, need >= $RUSTC_MIN)"
+  rustup update stable
+else
+  echo "[=] Rust toolchain up to date ($RUSTC_CUR >= $RUSTC_MIN, skipping update)"
+fi
 
 # Make ~/.cargo/bin available in future interactive shells too.
 add_to_profile '. "$HOME/.cargo/env"'
