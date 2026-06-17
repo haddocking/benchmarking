@@ -39,10 +39,10 @@ Each benchmark type has its own directory under `Docking_benchmarks/`. See the R
 | System | Scenario directory |
 |---|---|
 | Protein-Protein | [Docking_benchmarks/Protein_Protein/Scenarios/](../Docking_benchmarks/Protein_Protein/Scenarios/) |
-| Protein-DNA | [Docking_benchmarks/Protein_DNA/scenarios/](../Docking_benchmarks/Protein_DNA/scenarios/) |
+| Protein-DNA | [Docking_benchmarks/Protein_DNA/Scenarios/](../Docking_benchmarks/Protein_DNA/Scenarios/) |
 | Protein-Peptide | [Docking_benchmarks/Protein_Peptide/Scenarios/](../Docking_benchmarks/Protein_Peptide/Scenarios/) |
-| Protein-Glycan | [Docking_benchmarks/Protein_Glycan/scenarios/](../Docking_benchmarks/Protein_Glycan/scenarios/) |
-| Protein-Ligand Shape | [Docking_benchmarks/Protein_Ligand_Shape/scenario/](../Docking_benchmarks/Protein_Ligand_Shape/scenario/) |
+| Protein-Glycan | [Docking_benchmarks/Protein_Glycan/Scenarios/](../Docking_benchmarks/Protein_Glycan/Scenarios/) |
+| Protein-Ligand Shape | [Docking_benchmarks/Protein_Ligand_Shape/Scenarios/](../Docking_benchmarks/Protein_Ligand_Shape/Scenarios/) |
 
 ## SLURM configuration
 
