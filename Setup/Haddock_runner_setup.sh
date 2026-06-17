@@ -90,7 +90,7 @@ export PATH="$HOME/.cargo/bin:$PATH"   # rustup cargo must win over any system v
 
 # Update only if rustc is older than 1.92 (required by haddock-runner 3.x / edition 2024)
 RUSTC_MIN="1.92"
-RUSTC_CUR=$(rustc --version 2>/dev/null | grep -oP '\d+\.\d+' | head -1)
+RUSTC_CUR=$(rustc --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+' | head -1)
 if [ -z "$RUSTC_CUR" ] || [ "$(printf '%s\n' "$RUSTC_MIN" "$RUSTC_CUR" | sort -V | head -1)" != "$RUSTC_MIN" ]; then
   echo "[+] Updating Rust toolchain (current: ${RUSTC_CUR:-none}, need >= $RUSTC_MIN)"
   rustup update stable
