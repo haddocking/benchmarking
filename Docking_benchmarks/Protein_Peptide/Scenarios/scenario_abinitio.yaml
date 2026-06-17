@@ -12,7 +12,7 @@ general:
     - _l_u
 
 scenarios:
-  - name: run
+  - name: run-ab_initio
     workflow:
         topoaa:
           autohis: true

@@ -15,7 +15,7 @@ general:
     - _d_b
 
 scenarios:
-  - name: run
+  - name: run-bound-bound
     workflow:
       topoaa:
         autohis: true

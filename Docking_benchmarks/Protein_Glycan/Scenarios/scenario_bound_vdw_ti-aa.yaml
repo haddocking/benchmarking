@@ -11,7 +11,7 @@ general:
     - _l_b
 
 scenarios:
-  - name: run
+  - name: run-bound_vdw_ti-aa
     workflow:
       topoaa:
 
