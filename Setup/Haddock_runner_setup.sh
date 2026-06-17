@@ -101,8 +101,8 @@ fi
 # Make ~/.cargo/bin available in future interactive shells too.
 add_to_profile '. "$HOME/.cargo/env"'
 
-echo "[+] Building haddock-runner"
-cargo install --locked --force haddock-runner
+echo "[+] Building haddock-runner (skipped if already up to date)"
+cargo install --locked haddock-runner
 
 #-------------------------------------------------------------------------------
 # Summary
