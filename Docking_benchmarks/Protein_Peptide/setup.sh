@@ -10,4 +10,4 @@ find protein-peptide -name "*_l_u_ensemble.pdb" \
 ls $(pwd)/protein-peptide/**/*.{pdb,tbl} \
 | grep -v "ana_scripts\|matched\|cg" \
 | grep -E "_r_u\.pdb$|_l_u\.pdb$|_b_ambig\.tbl$|_target\.pdb$" \
-| sort > prot-peptide-input.txt
+| sort > protein-peptide-input.txt

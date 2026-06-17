@@ -1,5 +1,5 @@
 general:
-  input_list: _ABSPATH_PWD_/prot-glycan-input.txt
+  input_list: _ABSPATH_PWD_/protein-glycan-input.txt
   work_dir: _ABSPATH_PWD_/protein_glycan/unbound_vdw_tip-ap_clust
 
   execution: slurm
