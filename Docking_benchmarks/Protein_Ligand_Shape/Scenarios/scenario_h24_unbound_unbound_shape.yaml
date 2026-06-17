@@ -1,6 +1,6 @@
 general:
   input_list: _ABSPATH_PWD_/protein-ligand-shape-input.txt
-  work_dir: _ABSPATH_PWD_/protein-ligand-shape
+  work_dir: _ABSPATH_PWD_/protein-ligand-shape/h24_unbound_unbound_shape
 
   execution: slurm
   partition: short
