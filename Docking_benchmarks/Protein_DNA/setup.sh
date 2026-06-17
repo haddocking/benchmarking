@@ -20,4 +20,4 @@ done
 # Includes all file types needed across all three scenarios
 ls $(pwd)/protein-dna/**/*.{pdb,tbl} \
   | grep -E "_p[0-9]+_u\.pdb$|_p[0-9]+_b\.pdb$|_d_u\.pdb$|_d_b\.pdb$|_u_ambig\.tbl$|_b_ambig\.tbl$|_target\.pdb$" \
-  | sort > prot-dna-input.txt
+  | sort > protein-dna-input.txt

@@ -22,7 +22,7 @@ protein-glycans/
 # ── Generated input lists ─────────────────────────────────────────────────────
 bm5-input.txt
 prot-peptide-input.txt
-prot-dna-input.txt
+protein-dna-input.txt
 prot-glycan-input.txt
 input_list.txt
 input_list.txt.bak
