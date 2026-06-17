@@ -35,14 +35,14 @@ for d in conformers/*/; do
     cd "$ROOT"
 done
 
-# Replace individual conformer entries in input_list.txt with the ensemble path
-echo "[4/4] Updating input_list.txt with ensemble paths..."
-cp input_list.txt input_list.txt.bak
-grep -vE '_l_u_[0-9]+\.pdb$' input_list.txt.bak > input_list.txt
+# Replace individual conformer entries with ensemble paths
+echo "[4/4] Updating protein-ligand-shape-input.txt with ensemble paths..."
+cp protein-ligand-shape-input.txt protein-ligand-shape-input.txt.bak
+grep -vE '_l_u_[0-9]+\.pdb$' protein-ligand-shape-input.txt.bak > protein-ligand-shape-input.txt
 for d in conformers/*/; do
     t="$(basename "$d")"
     ens="${ROOT}/conformers/${t}/${t}_l_u.pdb"
-    grep -qF "$ens" input_list.txt || echo "$ens" >> input_list.txt
+    grep -qF "$ens" protein-ligand-shape-input.txt || echo "$ens" >> protein-ligand-shape-input.txt
 done
 
 echo "Done."

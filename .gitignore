@@ -24,8 +24,8 @@ bm5-input.txt
 protein-peptide-input.txt
 protein-dna-input.txt
 protein-glycan-input.txt
-input_list.txt
-input_list.txt.bak
+protein-ligand-shape-input.txt
+protein-ligand-shape-input.txt.bak
 
 # ── Docking output directories ────────────────────────────────────────────────
 results/
