@@ -25,7 +25,6 @@ protein-peptide-input.txt
 protein-dna-input.txt
 protein-glycan-input.txt
 protein-ligand-shape-input.txt
-protein-ligand-shape-input.txt.bak
 
 # ── Docking output directories ────────────────────────────────────────────────
 results/

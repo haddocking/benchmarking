@@ -37,8 +37,9 @@ done
 
 # Replace individual conformer entries with ensemble paths
 echo "[4/4] Updating protein-ligand-shape-input.txt with ensemble paths..."
-cp protein-ligand-shape-input.txt protein-ligand-shape-input.txt.bak
-grep -vE '_l_u_[0-9]+\.pdb$' protein-ligand-shape-input.txt.bak > protein-ligand-shape-input.txt
+tmp=$(mktemp)
+grep -vE '_l_u_[0-9]+\.pdb$' protein-ligand-shape-input.txt > "$tmp"
+mv "$tmp" protein-ligand-shape-input.txt
 for d in conformers/*/; do
     t="$(basename "$d")"
     ens="${ROOT}/conformers/${t}/${t}_l_u.pdb"
