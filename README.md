@@ -83,7 +83,7 @@ See [Usage/README.md](Usage/README.md) for the full guide including SLURM config
 | Protein-Peptide | 98 complexes | 3 | [haddocking/protein-peptide](https://github.com/haddocking/protein-peptide) |
 | Protein-DNA | 47 complexes | 3 | [haddocking/Prot-DNABenchmark](https://github.com/haddocking/Prot-DNABenchmark) |
 | Protein-Glycan | 89 complexes | 3 | [haddocking/protein-glycans](https://github.com/haddocking/protein-glycans) |
-| Protein-Ligand Shape | 102 complexes | 2 | [haddocking/shape-restrained-haddocking](https://github.com/haddocking/shape-restrained-haddocking) |
+| Protein-Ligand Shape | 99 complexes | 2 | [haddocking/shape-restrained-haddocking](https://github.com/haddocking/shape-restrained-haddocking) |
 
 Each subdirectory README describes the biological context, input dataset, restraint strategy, the HADDOCK3 workflow for each scenario.
 
