@@ -986,6 +986,26 @@ def get_scenarios_names(basepath: str) -> list:
     return scenarios_names
 
 
+def _make_run_path(basepath: str, pdbid: str, scenario: str) -> str:
+    """Return the haddock3 run directory path.
+
+    When scenario is empty the run layout is flat — modules live directly
+    in ``{basepath}{pdbid}/`` with no extra ``run1`` subdirectory.
+    When a scenario name is present the legacy structure
+    ``{basepath}{pdbid}/{scenario}/run1/`` is used.
+    """
+    if scenario:
+        return f"{basepath}{pdbid}/{scenario}/run1/"
+    return f"{basepath}{pdbid}/"
+
+
+def _make_archive_path(basepath: str, pdbid: str, scenario: str) -> str:
+    """Return the haddock3 run analysis archive path."""
+    if scenario:
+        return f"{basepath}{pdbid}/{scenario}/run1_analysis.tgz"
+    return f"{basepath}{pdbid}/run1_analysis.tgz"
+
+
 def scenario_name_2_threshold(scenar_name: str) -> float:
     """Gather threshold value from scenario name.
 
@@ -1118,7 +1138,7 @@ def map_data(
         for scenario in all_scenarios:
             # Default behavior
             if not read_from_archive:
-                scenar_rundir = f"{basepath}{pdbid}/{scenario}/run1/"
+                scenar_rundir = _make_run_path(basepath, pdbid, scenario)
                 assert os.path.exists(scenar_rundir), \
                     (
                         f"[ERROR] could not find scenario `{scenario}` "
@@ -1126,7 +1146,7 @@ def map_data(
                     )
             # Case where we need to search data in the archive
             else:
-                analysis_archive = f"{basepath}{pdbid}/{scenario}/run1_analysis.tgz"
+                analysis_archive = _make_archive_path(basepath, pdbid, scenario)
                 assert os.path.exists(analysis_archive), \
                     (
                         f"[ERROR] could not find scenario `{scenario}` "
@@ -1140,9 +1160,9 @@ def map_data(
         for pdbid in pdbids:
             if not read_from_archive:
                 # Generate scenario basepath
-                scenario_bp = f"{basepath}{pdbid}/{scenario}/run1/"
+                scenario_bp = _make_run_path(basepath, pdbid, scenario)
             else:
-                scenario_bp = f"{basepath}{pdbid}/{scenario}/run1_analysis.tgz"
+                scenario_bp = _make_archive_path(basepath, pdbid, scenario)
             # Retrieve caprieval stages
             caprieval_stages = get_caprieval_stages(
                 scenario_bp,
@@ -1154,13 +1174,13 @@ def map_data(
     # Make sure all stages are computed for all pdb in all scenarios...
     for scenario in all_scenarios:
         for pdbid in pdbids:
-            archive_path = f"{basepath}{pdbid}/{scenario}/run1_analysis.tgz"
+            archive_path = _make_archive_path(basepath, pdbid, scenario)
             if read_from_archive:
                 tararchive = tarfile.open(archive_path, "r:gz")
             for stage in all_caprieval_stages:
                 if not read_from_archive:
                     # Build caprieval tsv filepath
-                    caprieval_tsv_path = f"{basepath}{pdbid}/{scenario}/run1/{stage}_caprieval/capri_ss.tsv"  # noqa : E501
+                    caprieval_tsv_path = f"{_make_run_path(basepath, pdbid, scenario)}{stage}_caprieval/capri_ss.tsv"  # noqa : E501
                     assert os.path.exists(caprieval_tsv_path), \
                         (
                             f"[ERROR] could not access CAPRIEVAL results file at: "
@@ -1193,10 +1213,10 @@ def map_data(
             for pdbid in pdbids:
                 if not read_from_archive:
                     # Build caprieval tsv filepath
-                    caprieval_tsv_path = f"{basepath}{pdbid}/{scenario}/run1/{stage}_caprieval/capri_ss.tsv"  # noqa : E501
+                    caprieval_tsv_path = f"{_make_run_path(basepath, pdbid, scenario)}{stage}_caprieval/capri_ss.tsv"  # noqa : E501
                 else:
                     caprieval_tsv_path = [
-                        f"{basepath}{pdbid}/{scenario}/run1_analysis.tgz",
+                        _make_archive_path(basepath, pdbid, scenario),
                         f"run1_analysis/{stage}_caprieval_analysis/capri_ss.tsv",
                     ]
                 # Hold datapath
