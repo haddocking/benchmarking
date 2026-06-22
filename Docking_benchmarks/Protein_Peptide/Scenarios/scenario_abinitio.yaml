@@ -15,7 +15,6 @@ scenarios:
   - name: run-ab_initio
     workflow:
         topoaa:
-          autohis: true
 
         rigidbody:
           # ab-initio: no ambig restraints, random AIRs instead, larger sampling

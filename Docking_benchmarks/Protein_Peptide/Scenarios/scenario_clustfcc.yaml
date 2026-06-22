@@ -14,7 +14,6 @@ scenarios:
   - name: run-HADDOCK3_clustfcc
     workflow:
         topoaa:
-          autohis: true
 
         rigidbody:
           tolerance: 5

@@ -18,7 +18,6 @@ scenarios:
   - name: run-bound-unbound
     workflow:
       topoaa:
-        autohis: true
         tolerance: 5
 
       rigidbody:

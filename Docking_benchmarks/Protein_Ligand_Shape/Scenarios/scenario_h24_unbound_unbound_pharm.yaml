@@ -23,7 +23,6 @@ scenarios:
           set_bfactor: false
 
         topoaa.mol1:
-          autohis: true
 
         rigidbody:
           tolerance: 5

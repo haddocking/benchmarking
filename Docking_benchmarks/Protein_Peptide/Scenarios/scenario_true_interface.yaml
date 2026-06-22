@@ -17,7 +17,6 @@ scenarios:
   - name: run-true_interface
     workflow:
         topoaa:
-          autohis: true
           clean: true
 
         rigidbody:

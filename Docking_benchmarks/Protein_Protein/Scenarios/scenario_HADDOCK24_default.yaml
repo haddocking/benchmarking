@@ -14,7 +14,6 @@ scenarios:
   - name: run-HADDOCK24_default
     workflow:
         topoaa:
-          autohis: true
 
         rigidbody:
           sampling: 1000

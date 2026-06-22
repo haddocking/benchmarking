@@ -14,7 +14,6 @@ scenarios:
   - name: run-HADDOCK3_ilrmsdclustering
     workflow:
         topoaa:
-          autohis: true
 
         rigidbody:
           ambig_fname: _ambig.tbl

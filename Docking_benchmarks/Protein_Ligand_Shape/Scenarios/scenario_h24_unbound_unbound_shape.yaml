@@ -19,7 +19,6 @@ scenarios:
           ligand_param_fname: _ligand.param
           ligand_top_fname: _ligand.top
           delenph: false
-          autohis: true
           tolerance: 5
 
         rigidbody:
