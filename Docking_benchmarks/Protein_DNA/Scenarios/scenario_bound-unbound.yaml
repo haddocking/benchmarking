@@ -50,11 +50,12 @@ scenarios:
       caprieval.2:
         reference_fname: _target.pdb
 
-      emref:
+      mdref:
         tolerance: 60
         ambig_fname: _b_ambig.tbl
         dnarest_on: true
         w_desolv: 0
+        watersteps: 1250
 
       caprieval.3:
         reference_fname: _target.pdb

@@ -54,7 +54,7 @@ scenarios:
         ambig_fname: _u_ambig.tbl
         dnarest_on: true
         w_desolv: 0
-        watersteps: 750
+        watersteps: 1250
 
       caprieval.3:
         reference_fname: _target.pdb
