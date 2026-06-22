@@ -1,6 +1,6 @@
 general:
   input_list: _ABSPATH_PWD_/protein-glycan-input.txt
-  work_dir: _ABSPATH_PWD_/protein_glycan/bound_vdw_ti-aa
+  work_dir: _ABSPATH_PWD_/benchmark_output/bound_vdw_ti-aa
 
   execution: slurm
   partition: short

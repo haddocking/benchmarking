@@ -1,6 +1,6 @@
 general:
   input_list: _ABSPATH_PWD_/protein-dna-input.txt
-  work_dir: _ABSPATH_PWD_/protein_dna/unbound-unbound
+  work_dir: _ABSPATH_PWD_/benchmark_output/unbound-unbound
 
   execution: slurm
   partition: short

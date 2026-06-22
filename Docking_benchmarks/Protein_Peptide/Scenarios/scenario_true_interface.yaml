@@ -1,6 +1,6 @@
 general:
   input_list: _ABSPATH_PWD_/protein-peptide-input.txt
-  work_dir: _ABSPATH_PWD_/prot-peptide/true_interface
+  work_dir: _ABSPATH_PWD_/benchmark_output/true_interface
 
   execution: slurm
   partition: short
