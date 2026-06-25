@@ -19,7 +19,7 @@ scenarios:
           ligand_param_fname: _ligand.param
           ligand_top_fname: _ligand.top
           delenph: false
-          autohis: false
+          autohis: true
           set_bfactor: false
 
         topoaa.mol1:
