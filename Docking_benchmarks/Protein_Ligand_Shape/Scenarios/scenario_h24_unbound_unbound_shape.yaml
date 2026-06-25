@@ -62,20 +62,6 @@ scenarios:
         caprieval.2:
           reference_fname: _ref_can.pdb
 
-        emref:
-          tolerance: 5
-          ligand_param_fname: _ligand.param
-          ligand_top_fname: _ligand.top
-          ambig_fname: _unbound_shape.tbl
-          unambig_fname: _unbound.tbl
-          randremoval: false
-          mol_fix_origin_1: true
-          mol_fix_origin_3: true
-          nseg3: 0
-          mol_shape_3: true
-          w_elec: 0.1
-          w_air: 0
-
         caprieval.3:
           reference_fname: _ref_can.pdb
 
