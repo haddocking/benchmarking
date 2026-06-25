@@ -59,10 +59,7 @@ scenarios:
       caprieval.3:
         reference_fname: _target.pdb
 
-      rmsdmatrix:
-
-      clustrmsd:
-        clust_cutoff: 5.5
+      clustfcc:
 
       seletopclusts:
         top_models: 4
