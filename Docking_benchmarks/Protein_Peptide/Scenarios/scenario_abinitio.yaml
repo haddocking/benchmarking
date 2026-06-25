@@ -52,7 +52,7 @@ scenarios:
           clust_cutoff: 5
 
         seletopclusts:
-          top_models: 4
+          top_models: 10
 
         caprieval.4:
           reference_fname: _target.pdb
