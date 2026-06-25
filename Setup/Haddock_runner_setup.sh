@@ -20,7 +20,7 @@
 #===============================================================================
 set -euo pipefail
 
-PYTHON_VERSION=3.9.18   # Python version installed via pyenv
+PYTHON_VERSION=3.14.0   # Python version installed via pyenv
 
 # Repo root = parent of this script's directory (Setup/). Anchor the venv there
 # so it's always at <repo>/.venv regardless of where the script is launched from.
