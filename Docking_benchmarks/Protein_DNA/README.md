@@ -18,7 +18,7 @@ The molecule suffixes and restraint files differ per scenario:
 
 > **Note:** Not all targets have up to four protein chains — `_p3` and `_p4` are only present for complexes with more than two protein subunits.
 
-`_d_u` is a computationally generated DNA structure built from the sequence, not taken from a crystal structure. Where the unbound protein is from an NMR ensemble, `setup.sh` concatenates the individual model files (e.g. `1HJC_p1_u_1.pdb`, `_2.pdb`) into a single multi-model PDB (`1HJC_p1_u.pdb`). HADDOCK3 automatically detects the MODEL records and samples from the ensemble during docking.
+`_d_u` is a computationally generated DNA structure built from the sequence in a B-DNA conformation, not taken from a crystal structure. Where the unbound protein is from an NMR ensemble, `setup.sh` concatenates the individual model files (e.g. `1HJC_p1_u_1.pdb`, `_2.pdb`) into a single multi-model PDB (`1HJC_p1_u.pdb`). HADDOCK3 automatically detects the MODEL records and samples from the ensemble during docking.
 
 ## Scenarios
 
