@@ -71,7 +71,6 @@ scenarios:
           clust_cutoff: 1.5
 
         seletopclusts:
-          top_clusters: 10
           top_models: 4
 
         caprieval.4:
