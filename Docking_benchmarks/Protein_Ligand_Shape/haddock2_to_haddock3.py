@@ -188,7 +188,7 @@ def gen_input_mapper():
         "shapes",
         "toppars",
         )
-    with open("input_list.txt", "w") as filout:
+    with open("protein-ligand-shape-input.txt", "w") as filout:
         for d in dirs_to_gather:
             filout.write(f"# {d.upper()}\n")
             for fpath in all_files(d):

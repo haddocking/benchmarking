@@ -1,0 +1,69 @@
+general:
+  input_list: _ABSPATH_PWD_/protein-dna-input.txt
+  work_dir: _ABSPATH_PWD_/benchmark_output/unbound-unbound
+
+  execution: slurm
+  partition: short
+  gen_archive: true
+  ncores: 40
+  max_concurrent: 10
+
+  mol_suffixes:
+    - _p1_u
+    - _p2_u
+    - _p3_u
+    - _p4_u
+    - _d_u
+
+scenarios:
+  - name: run-unbound-unbound
+    workflow:
+      topoaa:
+
+      rigidbody:
+        tolerance: 5
+        sampling: 1000
+        ambig_fname: _u_ambig.tbl
+        epsilon: 78
+        dielec: cdie
+        w_desolv: 0
+
+      caprieval.1:
+        reference_fname: _target.pdb
+
+      seletop:
+        select: 200
+
+      caprieval.2:
+        reference_fname: _target.pdb
+
+      flexref:
+        tolerance: 5
+        ambig_fname: _u_ambig.tbl
+        dnarest_on: true
+        epsilon: 78
+        dielec: cdie
+        w_desolv: 0
+        tadfactor: 4
+        temp_cool3_init: 300
+
+      caprieval.3:
+        reference_fname: _target.pdb
+
+      mdref:
+        tolerance: 5
+        ambig_fname: _u_ambig.tbl
+        dnarest_on: true
+        w_desolv: 0
+        watersteps: 1250
+
+      caprieval.4:
+        reference_fname: _target.pdb
+
+      clustfcc:
+
+      seletopclusts:
+        top_models: 4
+
+      caprieval.5:
+        reference_fname: _target.pdb
