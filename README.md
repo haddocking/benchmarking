@@ -38,7 +38,7 @@ Protein_Protein/
 
 **1. Set up the environment**
 
-Run the setup script from the repository root. It installs pyenv, Python 3.9.18, a local virtual environment, HADDOCK3, and haddock-runner — nothing is changed system-wide.
+Run the setup script from the repository root. It installs pyenv, Python 3.14.0, a local virtual environment, HADDOCK3, and haddock-runner — nothing is changed system-wide.
 
 ```bash
 bash Setup/Haddock_runner_setup.sh
@@ -78,7 +78,7 @@ See [Usage/README.md](Usage/README.md) for the full guide including SLURM config
 
 | System | Dataset | Scenarios | Github repositories |
 |---|---|---|---|
-| Protein-Protein | 230 complexes | 5 | [haddocking/BM5-clean](https://github.com/haddocking/BM5-clean) |
+| Protein-Protein | 230 complexes | 4 | [haddocking/BM5-clean](https://github.com/haddocking/BM5-clean) |
 | Protein-Peptide | 98 complexes | 3 | [haddocking/protein-peptide](https://github.com/haddocking/protein-peptide) |
 | Protein-DNA | 47 complexes | 3 | [haddocking/Prot-DNABenchmark](https://github.com/haddocking/Prot-DNABenchmark) |
 | Protein-Glycan | 89 complexes | 3 | [haddocking/protein-glycans](https://github.com/haddocking/protein-glycans) |
