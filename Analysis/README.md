@@ -140,7 +140,7 @@ Analyse only two specific scenarios and suppress plots:
 
 ```bash
 python3 Analysis/AnalyseBenchmarkResults.py results/protein-protein/ \
-    -s scenario-HADDOCK3_clustfcc scenario-HADDOCK3_ilrmsdclustering \
+    -s scenario-HADDOCK3_clustfcc \
     --no-melquiplots
 ```
 

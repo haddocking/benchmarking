@@ -31,8 +31,7 @@ Protein_Protein/
     ├── scenario_HADDOCK24_default.yaml
     ├── scenario_HADDOCK24_default_5Aambig.yaml
     ├── scenario_HADDOCK24_ab_initio.yaml
-    ├── scenario_HADDOCK3_clustfcc.yaml
-    └── scenario_HADDOCK3_ilrmsdclustering.yaml
+    └── scenario_HADDOCK3_clustfcc.yaml
 ```
 
 ## Quick Start

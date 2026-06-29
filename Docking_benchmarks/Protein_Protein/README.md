@@ -29,10 +29,6 @@ An ab initio docking scenario that operates without any knowledge of the binding
 
 A HADDOCK3 protocol that introduces an early clustering step immediately after rigid-body docking — before semi-flexible refinement begins. By clustering the 1000 rigid-body models with FCC first and selecting representative structures, this approach reduces the risk of over-populating the refinement stage with near-duplicate poses and improves diversity in the final ensemble. Clustering is applied a second time after the full refinement to produce the final ranked results.
 
-### HADDOCK3_ilrmsdclustering
-
-Similar to HADDOCK3_clustfcc but uses interface-ligand RMSD (ilRMSD) matrix-based clustering instead of FCC at both clustering stages. ilRMSD clustering measures structural similarity in terms of the interface geometry rather than contact overlap, which can capture different aspects of pose diversity and may rank solutions differently compared to FCC-based clustering.
-
 ## Running
 
 See [Usage/README.md](../../Usage/README.md) for path substitution, run commands, and SLURM configuration.
