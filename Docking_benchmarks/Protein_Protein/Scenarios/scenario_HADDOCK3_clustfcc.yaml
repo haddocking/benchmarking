@@ -30,7 +30,7 @@ scenarios:
           min_population: 4
 
         seletopclusts:
-          top_models: 4
+          top_models: 10
 
         caprieval.1:
           reference_fname: _target
@@ -61,7 +61,7 @@ scenarios:
           min_population: 4
 
         seletopclusts.1:
-          top_models: 4
+          top_models: 10
 
         caprieval.4:
           reference_fname: _target
