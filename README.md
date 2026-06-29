@@ -57,13 +57,13 @@ find . -type f -name "*.yaml" -exec sed -i "s|_ABSPATH_PWD_|$PWD|g" {} +
 **3. Run a benchmark scenario**
 
 ```bash
-./haddock-runner Docking_benchmarks/Protein_Protein/Scenarios/scenario_HADDOCK3_clustfcc.yaml
+haddock-runner Docking_benchmarks/Protein_Protein/Scenarios/scenario_HADDOCK3_clustfcc.yaml
 ```
 
 For long runs, use `nohup` and `disown` to keep the job alive after disconnecting from SSH:
 
 ```bash
-nohup ./haddock-runner <scenario.yaml> > run.out & disown && tail -f run.out
+nohup haddock-runner <scenario.yaml> > run.out & disown && tail -f run.out
 ```
 
 See [Usage/README.md](Usage/README.md) for the full guide including SLURM configuration and troubleshooting.
