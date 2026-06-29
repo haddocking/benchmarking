@@ -4,6 +4,7 @@ general:
   execution: slurm
   ncores: 40
   partition: short
+  gen_archive: true
   max_concurrent: 10
 
   mol_suffixes:
@@ -19,39 +20,39 @@ scenarios:
           tolerance: 5
           ambig_fname: _u_ambig.tbl
 
-        caprieval:
-          reference_fname: _target.pdb
-
-        # cluster the rigidbody output before flexref
-        clustfcc:
-          min_population: 4
-
-        seletopclusts:
-          top_models: 10
-
         caprieval.1:
           reference_fname: _target.pdb
 
-        flexref:
-          tolerance: 5
-          ambig_fname: _u_ambig.tbl
-
-        caprieval.2:
-          reference_fname: _target.pdb
-
-        emref:
-          tolerance: 5
-          ambig_fname: _u_ambig.tbl
-
-        caprieval.3:
-          reference_fname: _target.pdb
-
-        # second clustering pass after refinement
+        # cluster the rigidbody output before flexref
         clustfcc.1:
           min_population: 4
 
         seletopclusts.1:
           top_models: 10
 
+        caprieval.2:
+          reference_fname: _target.pdb
+
+        flexref:
+          tolerance: 5
+          ambig_fname: _u_ambig.tbl
+
+        caprieval.3:
+          reference_fname: _target.pdb
+
+        emref:
+          tolerance: 5
+          ambig_fname: _u_ambig.tbl
+
         caprieval.4:
+          reference_fname: _target.pdb
+
+        # second clustering pass after refinement
+        clustfcc.2:
+          min_population: 4
+
+        seletopclusts.2:
+          top_models: 10
+
+        caprieval.5:
           reference_fname: _target.pdb

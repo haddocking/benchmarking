@@ -4,6 +4,7 @@ general:
 
   execution: slurm
   partition: short
+  gen_archive: true
   ncores: 40
   max_concurrent: 10
 
@@ -36,13 +37,13 @@ scenarios:
           ambig_fname: _unbound_shape.tbl
           unambig_fname: _unbound.tbl
 
-        caprieval:
+        caprieval.1:
           reference_fname: _ref_can.pdb
 
         seletop:
           select: 200
 
-        caprieval.1:
+        caprieval.2:
           reference_fname: _ref_can.pdb
 
         flexref:
@@ -59,10 +60,10 @@ scenarios:
           dielec: cdie
           epsilon: 10
 
-        caprieval.2:
+        caprieval.3:
           reference_fname: _ref_can.pdb
 
-        caprieval.3:
+        caprieval.4:
           reference_fname: _ref_can.pdb
 
         ilrmsdmatrix: {}
@@ -73,5 +74,5 @@ scenarios:
         seletopclusts:
           top_models: 4
 
-        caprieval.4:
+        caprieval.5:
           reference_fname: _ref_can.pdb

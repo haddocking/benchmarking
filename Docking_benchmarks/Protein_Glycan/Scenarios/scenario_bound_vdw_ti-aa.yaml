@@ -4,6 +4,7 @@ general:
 
   execution: slurm
   partition: short
+  gen_archive: true
   ncores: 40
   max_concurrent: 10
   mol_suffixes:
@@ -20,41 +21,41 @@ scenarios:
         w_vdw: 1
         sampling: 1000
 
-      caprieval:
-        reference_fname: _analysis
-        keep_hetatm: true
-
-      ilrmsdmatrix:
-
-      clustrmsd:
-        criterion: maxclust
-        n_clusters: 50
-
-      seletopclusts:
-        top_clusters: 50
-        top_models: 20
-
       caprieval.1:
-        reference_fname: _analysis
-        keep_hetatm: true
-
-      flexref:
-        ambig_fname: _ti-aa.tbl
-
-      caprieval.2:
         reference_fname: _analysis
         keep_hetatm: true
 
       ilrmsdmatrix.1:
 
       clustrmsd.1:
+        criterion: maxclust
+        n_clusters: 50
+
+      seletopclusts.1:
+        top_clusters: 50
+        top_models: 20
+
+      caprieval.2:
+        reference_fname: _analysis
+        keep_hetatm: true
+
+      flexref:
+        ambig_fname: _ti-aa.tbl
+
+      caprieval.3:
+        reference_fname: _analysis
+        keep_hetatm: true
+
+      ilrmsdmatrix.2:
+
+      clustrmsd.2:
         criterion: distance
         clust_cutoff: 2.5
         linkage: average
 
-      seletopclusts.1:
+      seletopclusts.2:
         top_models: 4
 
-      caprieval.3:
+      caprieval.4:
         reference_fname: _analysis
         keep_hetatm: true

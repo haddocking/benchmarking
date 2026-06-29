@@ -4,6 +4,7 @@ general:
 
   execution: slurm
   partition: short
+  gen_archive: true
   ncores: 40
   max_concurrent: 10
   mol_suffixes:
@@ -24,13 +25,13 @@ scenarios:
           ligand_top_fname: _ligand.top
           tolerance: 5
 
-        caprieval:
+        caprieval.1:
           reference_fname: _target
 
         seletop:
           select: 400
 
-        caprieval.1:
+        caprieval.2:
           reference_fname: _target
 
         flexref:
@@ -40,7 +41,7 @@ scenarios:
           ligand_top_fname: _ligand.top
           tolerance: 5
 
-        caprieval.2:
+        caprieval.3:
           reference_fname: _target
 
         mdref:
@@ -50,7 +51,7 @@ scenarios:
           ligand_top_fname: _ligand.top
           tolerance: 5
 
-        caprieval.3:
+        caprieval.4:
           reference_fname: _target
 
         clustfcc:
@@ -59,5 +60,5 @@ scenarios:
         seletopclusts:
           top_models: 10
 
-        caprieval.4:
+        caprieval.5:
           reference_fname: _target

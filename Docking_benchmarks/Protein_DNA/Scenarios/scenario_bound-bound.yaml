@@ -4,6 +4,7 @@ general:
 
   execution: slurm
   partition: short
+  gen_archive: true
   ncores: 40
   max_concurrent: 10
 
@@ -27,13 +28,13 @@ scenarios:
         dielec: cdie
         w_desolv: 0
 
-      caprieval:
+      caprieval.1:
         reference_fname: _target.pdb
 
       seletop:
         select: 200
 
-      caprieval.1:
+      caprieval.2:
         reference_fname: _target.pdb
 
       flexref:
@@ -46,7 +47,7 @@ scenarios:
         tadfactor: 4
         temp_cool3_init: 300
 
-      caprieval.2:
+      caprieval.3:
         reference_fname: _target.pdb
 
       mdref:
@@ -56,7 +57,7 @@ scenarios:
         w_desolv: 0
         watersteps: 1250
 
-      caprieval.3:
+      caprieval.4:
         reference_fname: _target.pdb
 
       clustfcc:
@@ -64,5 +65,5 @@ scenarios:
       seletopclusts:
         top_models: 4
 
-      caprieval.4:
+      caprieval.5:
         reference_fname: _target.pdb
