@@ -47,7 +47,7 @@ scenarios:
         caprieval.3:
           reference_fname: _target
 
-        mdref:
+        emref:
           ambig_fname: _ambig.tbl
           unambig_fname: _restraint-bodies
           hbond_fname: _hbonds
