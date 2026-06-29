@@ -18,16 +18,24 @@ This command must be run from the root of the repository. It modifies all scenar
 
 ## Step 2 — Run a scenario
 
+Before launching a benchmark, make sure the virtual environment created during setup is activated:
+
+```bash
+source .venv/bin/activate
+```
+
+This ensures that `haddock-runner` and the submitted SLURM jobs use the correct HADDOCK3 installation.
+
 To run a single benchmarking scenario:
 
 ```bash
-./haddock-runner <path/to/scenario.yaml>
+haddock-runner <path/to/scenario.yaml>
 ```
 
 To run in the background and keep a persistent log (recommended for long benchmarks):
 
 ```bash
-nohup ./haddock-runner <scenario.yaml> > run.out & disown && tail -f run.out
+nohup haddock-runner <scenario.yaml> > run.out & disown && tail -f run.out
 ```
 
 The `nohup` and `disown` ensure the process continues running if you disconnect from SSH. The output is streamed to `run.out` and you can monitor it live with `tail -f`.
