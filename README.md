@@ -69,10 +69,51 @@ nohup haddock-runner <scenario.yaml> > run.out & disown && tail -f run.out
 See [Usage/README.md](Usage/README.md) for the full guide including SLURM configuration and troubleshooting.
 
 ## Pipeline Overview
+```mermaid
+%%{init: {'theme': 'default'}}%%
+sequenceDiagram
+    actor User
+    participant HR as haddock-runner
+    participant FS as Filesystem
+    participant SLURM
+    participant H3 as HADDOCK3
 
-<p align="center">
-  <img src="images/haddock_runner_sequence_output_dir-2.svg" width="75%" style="display:block; margin:0; padding:0;"/>
-</p>
+    User->>HR: haddock-runner input.yaml
+
+    HR->>FS: read input_list
+    FS-->>HR: targets
+
+    Note over HR: Validate config and checksums
+    Note over HR: Create jobs (scenarios x targets)
+
+    rect rgb(240, 248, 255)
+        Note over HR,FS: Setup phase - sequential
+        loop for each job
+            HR->>FS: mkdir work_dir/scenario/target/
+            HR->>FS: copy PDBs, restraints, toppar
+            HR->>FS: write run.toml
+            HR->>FS: write job.sh
+        end
+    end
+
+    rect rgb(240, 255, 240)
+        Note over HR,H3: Execution phase - up to max_concurrent parallel threads
+        loop for each job (concurrent)
+            HR->>SLURM: sbatch job.sh
+            SLURM-->>HR: job ID
+            loop poll every 2s via sacct
+                HR->>SLURM: sacct -j job_id
+                SLURM-->>HR: job state
+            end
+            SLURM->>H3: execute job.sh
+            H3->>FS: write results to run1/
+        end
+    end
+
+    HR-->>User: exit - All jobs completed
+
+    Note over User,FS: External - AnalyseBenchmarkResults.py reads from work_dir/
+```
 
 ## Benchmark Systems
 
