@@ -12,9 +12,6 @@ This directory contains the post-processing and visualisation script for HADDOCK
 
 ### `AnalyseBenchmarkResults.py`
 
-**Version**: 1.1.1  
-**Author**: BonvinLab, Computational Structural Biology group, Utrecht University
-
 The script reads `capri_ss.tsv` files produced by the `caprieval` module of HADDOCK3, ranks models by their HADDOCK score, and computes the quality of the best-ranking model at a series of top-X thresholds (Top1, Top5, Top10, Top20, Top50, Top100, Top200, Top500, Top1000). Results are classified into CAPRI performance categories and visualised across all scenarios and pipeline stages.
 
 ## Requirements
@@ -31,8 +28,8 @@ The script expects a benchmark results directory in the format produced by `hadd
 
 ```
 <benchmark_results_dir>/
-  <PDBid>/
-    <scenario_name>/
+  <scenario_name>/
+    <PDBid>/
       run1/
         02_caprieval/
           capri_ss.tsv
