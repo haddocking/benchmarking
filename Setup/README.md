@@ -6,7 +6,7 @@ This directory contains the setup script for the HADDOCK benchmarking environmen
 
 | Component | How | Location |
 |---|---|---|
-| Python 3.9.18 | pyenv | `~/.pyenv` |
+| Python 3.14.0 | pyenv | `~/.pyenv` |
 | Virtual environment | `python -m venv` | `.venv/` in repo root |
 | HADDOCK | `pip install haddock3` (PyPI) | `.venv/` |
 | matplotlib + rdkit | pip | `.venv/` |
