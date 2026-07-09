@@ -53,7 +53,7 @@ except ModuleNotFoundError:
         )
 
 
-__version__ = "1.2.0"  # July 2026
+__version__ = "2.0.0"  # July 2026
 __author__ = ", ".join((
     "BonvinLab",
     "Computational Structural Biology group",
