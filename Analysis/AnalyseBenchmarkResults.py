@@ -10,6 +10,19 @@ It is used to generate nice title to the caprieval steps.
 
 Usage:
 >python3 AnalyseBenchmarkResults.py <path/to/benchmark/dir/to/analyze/>
+
+Expected input structure
+-------------------------
+<benchmark_results_dir>/
+    <scenario_name>/
+        <PDBid>/
+            run1/
+                <stage>_caprieval/
+                    capri_ss.tsv
+
+(scenario is the OUTER directory, PDBid the INNER one -- this matches the
+directory layout currently produced by haddock-runner. The previous
+`<PDBid>/<scenario_name>/run1/` layout is no longer supported.)
 """
 
 import argparse
@@ -40,7 +53,7 @@ except ModuleNotFoundError:
         )
 
 
-__version__ = "1.1.1"  # September 2025
+__version__ = "1.2.0"  # July 2026
 __author__ = ", ".join((
     "BonvinLab",
     "Computational Structural Biology group",
@@ -52,6 +65,7 @@ __author__ = ", ".join((
     ))
 __dev__ = (
     "Victor G.P. Reys",
+    "Shantanu Khatri",
     )
 
 
@@ -290,7 +304,7 @@ def gen_graph(
     # Orient X labels
     ax.set_xticks(ax.get_xticks())
     ax.set_xticklabels(ax.get_xticklabels(), rotation=30, ha='right')
-    ylabel = "Nb. entries" if not percentage else "% sucess rate"
+    ylabel = "Nb. entries" if not percentage else "% success rate"
     ax.set_ylabel(ylabel)
 
 
@@ -537,16 +551,29 @@ def gen_full_comparison_violins(
         [so.replace('scenario-', '') for so in scenars_order],
         loc='outside lower center',
         ncols=4,
-        title="Screnarios",
+        title="Scenarios",
         )
 
     plt.gca().set_ylim(bottom=0)
 
-    # adjust border to let annotations fit inside graph
-    fig.subplots_adjust(left=0.08, top=0.95, bottom=0.12, right=0.98)
+    # Adjust border to let annotations fit inside graph. The left margin
+    # needs to hold both the y-axis label and the row-title annotations
+    # (drawn at a small fixed point-offset from it). That fixed offset
+    # becomes proportionally huge on narrow figures (e.g. a single caprieval
+    # stage -> nb_steps=1), so scale the left fraction to preserve roughly
+    # a constant absolute margin instead of leaving it fixed.
+    fig_width_in = fig.get_size_inches()[0]
+    left_margin = max(0.08, min(0.35, 1.3 / fig_width_in))
+    fig.subplots_adjust(left=left_margin, top=0.95, bottom=0.12, right=0.98)
 
     # save figure
-    plt.savefig(f"{basepath}_violins.png", format='png', dpi=DPI)
+    plt.savefig(
+        f"{basepath}_violins.png",
+        format='png',
+        dpi=DPI,
+        bbox_inches='tight',
+        pad_inches=0.3,
+        )
     return
 
 
@@ -576,7 +603,7 @@ def gen_full_comparison_melquiplots(
     """
     # Clear pervious instances of matplotlib
     clear_plt()
-    
+
     # Set progression variables
     all_generated_melquis: list[str] = []
     processed = 0
@@ -695,7 +722,13 @@ def make_scenar_melquiplots(
 
     # save figure
     figpath = f"{basepath}_{title}_melquiplot.png"
-    plt.savefig(figpath, format='png', dpi=DPI)
+    plt.savefig(
+        figpath,
+        format='png',
+        dpi=DPI,
+        bbox_inches='tight',
+        pad_inches=0.3,
+        )
     return figpath
 
 
@@ -939,71 +972,181 @@ def gen_full_comparison_barplots(
         title="performance classes",
         )
 
-    # Adjust border to let annotations fit inside graph
-    fig.subplots_adjust(left=0.15, top=0.9, bottom=0.15, right=0.98)
+    # Adjust border to let annotations fit inside graph. Same reasoning as
+    # in `gen_full_comparison_violins`: scale the left margin so a narrow
+    # figure (e.g. a single caprieval stage -> nb_cols=1) still has enough
+    # absolute room for the y-axis label and row-title annotations, instead
+    # of clipping them.
+    fig_width_in = fig.get_size_inches()[0]
+    left_margin = max(0.15, min(0.35, 1.3 / fig_width_in))
+    fig.subplots_adjust(left=left_margin, top=0.9, bottom=0.15, right=0.98)
 
     # Save figure
-    plt.savefig(f"{basepath}_capribarpolots.png", format='png', dpi=DPI)
+    plt.savefig(
+        f"{basepath}_capribarpolots.png",
+        format='png',
+        dpi=DPI,
+        bbox_inches='tight',
+        pad_inches=0.3,
+        )
     return
 
 
 def get_pdb_entries(basepath: str) -> list:
-    """Retrieve list of PDBid.
+    """Retrieve list of immediate subdirectory names.
+
+    Generic directory lister -- reused both to list scenario names at the
+    top level of the benchmark directory, and to list PDBid/target names
+    inside each scenario directory. Kept its original name for API
+    stability, even though it's no longer PDBid-specific.
 
     Parameters
     ----------
     basepath : str
-        Path to a scenario directory containing pdb entries.
+        Path to a directory whose immediate subdirectories should be listed.
 
     Return
     ------
-    pdbids : str
-        List of pdb entries benchmarked in this scenario.
+    entries : list
+        List of subdirectory names found directly under `basepath`.
     """
-    pdbids = [
+    entries = [
         pdbid_path.stem
         for pdbid_path in Path(basepath).glob("*/")
         if pdbid_path.is_dir()
         ]
-    return pdbids
+    return entries
 
 
-def get_scenarios_names(basepath: str) -> list:
-    """Retrieve list of scenario names.
+def _find_scenario_data_dir(
+        candidate_path: str,
+        _max_depth: int = 3,
+        ) -> Optional[str]:
+    """Find the directory that actually holds `<PDBid>/run1/` entries.
+
+    Checks whether `candidate_path` directly contains one or more
+    ``<PDBid>/run1/`` subdirectories. If not, and `candidate_path` has
+    exactly one subdirectory, recurses into that single subdirectory (up to
+    `_max_depth` levels) to transparently see through extra wrapper
+    directories -- e.g. a scenario directory that ended up nested one level
+    too deep, such as ``<scenario>/<scenario>/<PDBid>/run1/`` instead of
+    ``<scenario>/<PDBid>/run1/``. Only drills down when there is a single,
+    unambiguous subdirectory to descend into, so it won't misfire on
+    directories that hold unrelated clutter (e.g. output files).
+
+    Parameters
+    ----------
+    candidate_path : str
+        Directory to inspect (should end with '/').
+    _max_depth : int
+        Maximum number of wrapper levels to look through.
+
+    Return
+    ------
+    resolved : Optional[str]
+        Path to the directory directly containing `<PDBid>/run1/` entries,
+        or None if none could be found within `_max_depth` levels.
+    """
+    for entry in Path(candidate_path).glob("*/"):
+        if entry.is_dir() and (entry / "run1").is_dir():
+            return candidate_path
+    if _max_depth <= 0:
+        return None
+    subdirs = [entry for entry in Path(candidate_path).glob("*/") if entry.is_dir()]
+    if len(subdirs) == 1:
+        return _find_scenario_data_dir(
+            f"{subdirs[0]}/",
+            _max_depth=_max_depth - 1,
+            )
+    return None
+
+
+def _looks_like_scenario_dir(scenario_path: str) -> bool:
+    """Heuristic check for whether a directory is a real scenario dir.
+
+    A genuine scenario directory (as produced by haddock-runner) contains
+    at least one ``<PDBid>/run1/`` subdirectory, possibly behind a single
+    extra wrapper level (see `_find_scenario_data_dir`). This is used to
+    filter out unrelated top-level clutter that can end up alongside the
+    scenario directories -- most commonly a previous analysis output
+    directory (e.g. `Analysis/`) left inside the benchmark directory, or
+    stray/hidden directories -- so they aren't mistaken for scenarios.
+
+    Parameters
+    ----------
+    scenario_path : str
+        Candidate scenario directory path (should end with '/').
+
+    Return
+    ------
+    bool
+        True if a `<PDBid>/run1/` pattern is found inside `scenario_path`,
+        directly or behind a single unambiguous wrapper level.
+    """
+    return _find_scenario_data_dir(scenario_path) is not None
+
+
+def _resolve_scenario_dir(basepath: str, scenario: str) -> str:
+    """Resolve a scenario name to its actual data directory on disk.
+
+    Normally this is simply ``{basepath}{scenario}/``. However, some
+    benchmark directories end up with an extra wrapper level in between
+    (e.g. produced by manual reorganisation), such as::
+
+        <basepath>/<scenario>/<scenario_or_other_wrapper>/<PDBid>/run1/
+
+    instead of the expected::
+
+        <basepath>/<scenario>/<PDBid>/run1/
+
+    This transparently drills down through such wrapper levels via
+    `_find_scenario_data_dir`.
 
     Parameters
     ----------
     basepath : str
-        Path to the benchmark directory to analyse containing X scenarios.
+        Root directory containing scenario directories.
+    scenario : str
+        Scenario name.
 
     Return
     ------
-    scenarios_names : list
-        List of tested scenario names.
+    resolved : str
+        Path to the directory that actually contains `<PDBid>/run1/`
+        subdirectories for this scenario (or the original, unresolved
+        candidate if no unambiguous wrapper level could be found -- in
+        which case downstream existence checks will raise a clear error).
     """
-    scenario_paths = glob.glob(f'{basepath}scenario*/')
-    scenarios_names = [sp.split('/')[-2] for sp in scenario_paths]
-    return scenarios_names
+    candidate = f"{basepath}{scenario}/"
+    resolved = _find_scenario_data_dir(candidate)
+    return resolved if resolved is not None else candidate
 
 
-def _make_run_path(basepath: str, pdbid: str, scenario: str) -> str:
-    """Return the haddock3 run directory path.
+def get_scenario_entries(basepath: str) -> list:
+    """Retrieve list of scenario directory names at the top of `basepath`.
 
-    When scenario is empty the run layout is flat — modules live directly
-    in ``{basepath}{pdbid}/`` with no extra ``run1`` subdirectory.
-    When a scenario name is present the legacy structure
-    ``{basepath}{pdbid}/{scenario}/run1/`` is used.
+    Like `get_pdb_entries`, but filters out any top-level directory that
+    doesn't actually look like a scenario directory (see
+    `_looks_like_scenario_dir`). This protects against stray directories
+    such as a leftover `Analysis/` output folder, hidden directories, etc.
+    being mistaken for scenarios.
+
+    Parameters
+    ----------
+    basepath : str
+        Path to the benchmark directory to analyse.
+
+    Return
+    ------
+    scenarios : list
+        List of directory names under `basepath` that look like real
+        scenario directories.
     """
-    if scenario:
-        return f"{basepath}{pdbid}/{scenario}/run1/"
-    return f"{basepath}{pdbid}/"
-
-
-def _make_archive_path(basepath: str, pdbid: str, scenario: str) -> str:
-    """Return the haddock3 run analysis archive path."""
-    if scenario:
-        return f"{basepath}{pdbid}/{scenario}/run1_analysis.tgz"
-    return f"{basepath}{pdbid}/run1_analysis.tgz"
+    scenarios = [
+        name for name in get_pdb_entries(basepath)
+        if _looks_like_scenario_dir(f'{basepath}{name}/')
+        ]
+    return scenarios
 
 
 def scenario_name_2_threshold(scenar_name: str) -> float:
@@ -1073,7 +1216,7 @@ def hd3_module_2_stage(indexed_modulename: str) -> str:
     ----------
     indexed_modulename : str
         Directory name of an indexed haddock3 module name.
-        
+
 
     Return
     ------
@@ -1084,6 +1227,34 @@ def hd3_module_2_stage(indexed_modulename: str) -> str:
     return stage
 
 
+def _make_run_path(scenario_basepath: str, pdbid: str) -> str:
+    """Return the haddock3 run directory path.
+
+    Parameters
+    ----------
+    scenario_basepath : str
+        Path to the scenario's own directory (already resolved -- may be
+        ``{basepath}{scenario}/`` in multi-scenario mode, or just
+        ``{basepath}`` itself in single-scenario mode).
+    pdbid : str
+        Target/PDBid name.
+    """
+    return f"{scenario_basepath}{pdbid}/run1/"
+
+
+def _make_archive_path(scenario_basepath: str, pdbid: str) -> str:
+    """Return the haddock3 run analysis archive path.
+
+    Parameters
+    ----------
+    scenario_basepath : str
+        Path to the scenario's own directory (already resolved).
+    pdbid : str
+        Target/PDBid name.
+    """
+    return f"{scenario_basepath}{pdbid}/run1_analysis.tgz"
+
+
 def map_data(
         basepath: str,
         subset_scenarios: Optional[list[str]] = None,
@@ -1091,16 +1262,27 @@ def map_data(
         ) -> dict[str, dict[str, dict[str, dict[str, Union[str, list[str, str]]]]]]:
     """Map data in one analysis dict to accessit easily.
 
+    Expects the benchmark directory to be laid out as produced by
+    haddock-runner::
+
+        <basepath>/<scenario_name>/<PDBid>/run1/<stage>_caprieval/capri_ss.tsv
+
+    i.e. scenario is the outer directory and PDBid the inner one. This
+    holds whether `basepath` contains a single scenario directory or
+    several -- there is no special-casing, the code below just handles
+    however many scenario directories are found.
+
     Parameters
     ----------
     basepath : str
-        Path where the benchmarking scenarios can be found.
+        Path to the root directory containing one or more scenario
+        directories.
     subset_scenarios : Optional[list[str]]
         List of scenario names on which to perform the analysis.
     read_from_archive : bool, optional
         When set to True, performs the search of capri_ss.tsv files from the
         analysis archive instead of the run directory, by default False
-   
+
     Return
     ------
     dtmap : dict[str, dict[str, dict[str, dict[str, str]]]]
@@ -1118,27 +1300,44 @@ def map_data(
     """
     # Initiate mapper
     dtmap: dict[str, dict[str, dict[str, dict[str, Union[str, list[str, str]]]]]] = {}
-    # Gather all directories
-    pdbids = get_pdb_entries(basepath)
 
-    # Initiate scenarios names holder
-    all_scenarios: list[str] = []
+    # `basepath` is always the root containing one or more scenario
+    # directories -- this naturally handles both a single scenario and
+    # multiple scenarios without any special-casing, since the loops below
+    # just iterate over however many scenarios are found.
     if subset_scenarios:
-        all_scenarios += subset_scenarios
-    # Search for all available scenarios
+        all_scenarios = subset_scenarios
     else:
-        # Gather all scenarios (deduplicated across all targets)
-        scenarios_set: set[str] = set()
-        for pdbid in pdbids:
-            scenarios_set.update(get_scenarios_names(f'{basepath}{pdbid}/'))
-        all_scenarios = sorted(scenarios_set) if scenarios_set else ['']
+        # Scenarios are the top-level directories of basepath (filtered to
+        # exclude stray/unrelated directories, e.g. a leftover `Analysis/`
+        # output folder sitting inside the benchmark directory).
+        all_scenarios = sorted(get_scenario_entries(basepath))
+    assert all_scenarios, (
+        f"[ERROR] no scenario directories found directly under `{basepath}`. "
+        "Expected layout is `<basepath>/<scenario_name>/<PDBid>/run1/` -- "
+        "this applies whether there is one scenario or several."
+        )
+
+    def scenario_dir(scenario: str) -> str:
+        """Resolve a scenario name to its actual directory on disk."""
+        return _resolve_scenario_dir(basepath, scenario)
+
+    # pdbids are gathered per scenario, deduplicated across all scenarios.
+    pdbids_set: set[str] = set()
+    for scenario in all_scenarios:
+        pdbids_set.update(get_pdb_entries(scenario_dir(scenario)))
+    pdbids = sorted(pdbids_set)
+    assert pdbids, (
+        f"[ERROR] no target/PDBid directories found under any scenario in "
+        f"`{basepath}`."
+        )
 
     # Make sure all pdbs have all scenarios
-    for pdbid in pdbids:
-        for scenario in all_scenarios:
+    for scenario in all_scenarios:
+        for pdbid in pdbids:
             # Default behavior
             if not read_from_archive:
-                scenar_rundir = _make_run_path(basepath, pdbid, scenario)
+                scenar_rundir = _make_run_path(scenario_dir(scenario), pdbid)
                 assert os.path.exists(scenar_rundir), \
                     (
                         f"[ERROR] could not find scenario `{scenario}` "
@@ -1146,13 +1345,13 @@ def map_data(
                     )
             # Case where we need to search data in the archive
             else:
-                analysis_archive = _make_archive_path(basepath, pdbid, scenario)
+                analysis_archive = _make_archive_path(scenario_dir(scenario), pdbid)
                 assert os.path.exists(analysis_archive), \
                     (
                         f"[ERROR] could not find scenario `{scenario}` "
                         f"archive for entry `{pdbid}` at: {analysis_archive}"
                     )
-                
+
     all_caprieval_stages = []
     # Add scenario data to data maper
     for scenario in all_scenarios:
@@ -1160,9 +1359,9 @@ def map_data(
         for pdbid in pdbids:
             if not read_from_archive:
                 # Generate scenario basepath
-                scenario_bp = _make_run_path(basepath, pdbid, scenario)
+                scenario_bp = _make_run_path(scenario_dir(scenario), pdbid)
             else:
-                scenario_bp = _make_archive_path(basepath, pdbid, scenario)
+                scenario_bp = _make_archive_path(scenario_dir(scenario), pdbid)
             # Retrieve caprieval stages
             caprieval_stages = get_caprieval_stages(
                 scenario_bp,
@@ -1170,17 +1369,20 @@ def map_data(
                 )
             all_caprieval_stages += caprieval_stages
     all_caprieval_stages = sorted(list(set(all_caprieval_stages)))
-    
+    assert all_caprieval_stages, (
+        f"[ERROR] no caprieval stages found anywhere under `{basepath}`."
+        )
+
     # Make sure all stages are computed for all pdb in all scenarios...
     for scenario in all_scenarios:
         for pdbid in pdbids:
-            archive_path = _make_archive_path(basepath, pdbid, scenario)
+            archive_path = _make_archive_path(scenario_dir(scenario), pdbid)
             if read_from_archive:
                 tararchive = tarfile.open(archive_path, "r:gz")
             for stage in all_caprieval_stages:
                 if not read_from_archive:
                     # Build caprieval tsv filepath
-                    caprieval_tsv_path = f"{_make_run_path(basepath, pdbid, scenario)}{stage}_caprieval/capri_ss.tsv"  # noqa : E501
+                    caprieval_tsv_path = f"{_make_run_path(scenario_dir(scenario), pdbid)}{stage}_caprieval/capri_ss.tsv"  # noqa : E501
                     assert os.path.exists(caprieval_tsv_path), \
                         (
                             f"[ERROR] could not access CAPRIEVAL results file at: "
@@ -1203,7 +1405,7 @@ def map_data(
                             f"  - Target `{pdbid}`"
                             )
             if read_from_archive:
-                tararchive.close()           
+                tararchive.close()
 
     # Gather all data
     for scenario in all_scenarios:
@@ -1213,10 +1415,10 @@ def map_data(
             for pdbid in pdbids:
                 if not read_from_archive:
                     # Build caprieval tsv filepath
-                    caprieval_tsv_path = f"{_make_run_path(basepath, pdbid, scenario)}{stage}_caprieval/capri_ss.tsv"  # noqa : E501
+                    caprieval_tsv_path = f"{_make_run_path(scenario_dir(scenario), pdbid)}{stage}_caprieval/capri_ss.tsv"  # noqa : E501
                 else:
                     caprieval_tsv_path = [
-                        _make_archive_path(basepath, pdbid, scenario),
+                        _make_archive_path(scenario_dir(scenario), pdbid),
                         f"run1_analysis/{stage}_caprieval_analysis/capri_ss.tsv",
                     ]
                 # Hold datapath
@@ -1488,8 +1690,8 @@ def best_perfs(
     # Get best performing value
     best_perfomance = best_function(all_perfs)
     return best_perfomance
-        
-  
+
+
 def dtype_to_best_function(dtype: str) -> Callable:
     """Get best function.
 
@@ -1505,7 +1707,7 @@ def dtype_to_best_function(dtype: str) -> Callable:
     """
     _function = max if get_reverse_bool(dtype) else min
     return _function
-            
+
 
 def get_reverse_bool(dt_type: str) -> bool:
     """Check sorting order.
@@ -1689,6 +1891,7 @@ def gen_outputdir(outputdir: str) -> None:
 def set_output_path(
         benchmark_directory: str,
         outputpath: str,
+        label: Optional[str] = None,
         ) -> tuple[str, str]:
     """Initiate output paths and directory.
 
@@ -1698,18 +1901,22 @@ def set_output_path(
         Path to the benchmark directory to analyse
     outputpath : str
         Path to directory where to store the results
+    label : Optional[str]
+        Custom name to use for output filenames and plot titles instead of
+        the benchmark directory's basename (e.g. useful when the directory
+        is named something generic like `test-analysis`).
 
     Return
     ------
     basename : str
-        Name of the directory to analyse
+        Name used to prefix output files / title the plots.
     base_outputpath : str
         Base path where to write data
     """
     # Initiate output directory
     gen_outputdir(outputpath)
-    # Get basename of analysis
-    basename = os.path.basename(os.path.dirname(benchmark_directory))
+    # Get basename of analysis, or use the user-provided label if given
+    basename = label if label else os.path.basename(os.path.dirname(benchmark_directory))
     # Generate baseoutput path
     base_outputpath = f'{outputpath}{basename}'
     return basename, base_outputpath
@@ -1743,6 +1950,8 @@ def main(
         no_violinplots: bool = False,
         no_melquiplots: bool = False,
         read_from_archive: bool = False,
+        label: Optional[str] = None,
+        per_scenario_plots: bool = False,
         ) -> None:
     """Run the analysis procedure.
 
@@ -1771,6 +1980,14 @@ def main(
     read_from_archive : bool, optional
         When set to True, performs the search of capri_ss.tsv files from the
         analysis archive instead of the run directory, by default False
+    label : Optional[str], optional
+        Custom name to use for output filenames and plot titles instead of
+        the benchmark directory's basename, by default None
+    per_scenario_plots : bool, optional
+        In addition to the single combined comparison bar/violin plot
+        (which already shows every scenario as its own row), also
+        generate a standalone bar/violin plot for each individual
+        scenario, by default False
     """
     # Pre-setting the STDOUT print function
     vprint = partial(_vprint, silent)
@@ -1779,6 +1996,7 @@ def main(
     basename, base_outputpath = set_output_path(
         benchmark_directory,
         outputpath,
+        label=label,
         )
     vprint(f"Setting the output directory path: `{outputpath}`")
 
@@ -1816,13 +2034,17 @@ def main(
     # Write data as json
     write_json(all_scenar_perfs, f"{base_outputpath}_performances.json")
 
+    # Build a nicer plot title than the bare basename (e.g. instead of just
+    # `test-analysis`, show `Benchmark Output: test-analysis`).
+    plot_title = f"Benchmark Output: {basename}"
+
     # Draw general graph
     if not no_capriplots:
         vprint("- Generating Bar plots")
         gen_full_comparison_barplots(
             all_scenar_perfs,
             basepath=base_outputpath,
-            title=basename,
+            title=plot_title,
             progress=not silent,
             no_percentage=no_percentage,
             )
@@ -1832,7 +2054,7 @@ def main(
         gen_full_comparison_violins(
             all_scenar_perfs,
             basepath=base_outputpath,
-            title=basename,
+            title=plot_title,
             metric=metric,
             progress=not silent,
             )
@@ -1846,19 +2068,73 @@ def main(
             progress=not silent,
             )
 
+    # Draw per-scenario graphs, so each scenario also gets its own
+    # standalone bar/violin plot, not just the combined comparison figure.
+    # Skipped when there's only a single scenario overall, since in that
+    # case the combined plot and the per-scenario plot would be identical
+    # (redundant duplicate file).
+    if per_scenario_plots and len(all_scenar_perfs) > 1:
+        for scenar_name, scenar_perfs in all_scenar_perfs.items():
+            scenar_outputpath = f"{base_outputpath}_{scenar_name}"
+            scenar_title = f"{plot_title} - {scenar_name}"
+            if not no_capriplots:
+                vprint(f"- Generating Bar plot for scenario `{scenar_name}`")
+                gen_full_comparison_barplots(
+                    {scenar_name: scenar_perfs},
+                    basepath=scenar_outputpath,
+                    title=scenar_title,
+                    progress=not silent,
+                    no_percentage=no_percentage,
+                    )
+            if not no_violinplots:
+                vprint(f"- Generating Violin plot for scenario `{scenar_name}`")
+                gen_full_comparison_violins(
+                    {scenar_name: scenar_perfs},
+                    basepath=scenar_outputpath,
+                    title=scenar_title,
+                    metric=metric,
+                    progress=not silent,
+                    )
+
 
 ###################################
 # COMMAND LINE ARGUMENTS HANDLERS #
 ###################################
 def must_end_with_slash(dirpath: str) -> str:
     """Make sure a directory paths is terminating by '/'.
-    
+
+    NOTE: only appends the slash if `dirpath` already exists as a
+    directory. Suitable for `benchmark_directory`, which must already
+    exist. NOT suitable for an output path that hasn't been created yet
+    -- use `ensure_trailing_slash` for that instead, otherwise the missing
+    slash causes output filenames to get mashed together with whatever
+    prefix follows (e.g. `AnalysisHADDOCK24_ab_initio_...` instead of
+    `Analysis/HADDOCK24_ab_initio_...`), and can leave output files
+    sitting loose inside the benchmark directory itself.
+
     Parameters
     ----------
     dirpath : str
         Path to a directory
     """
     if dirpath[-1] != '/' and Path(dirpath).is_dir():
+        dirpath += '/'
+    return dirpath
+
+
+def ensure_trailing_slash(dirpath: str) -> str:
+    """Unconditionally make sure a path ends with '/'.
+
+    Unlike `must_end_with_slash`, this does not require the path to
+    already exist -- appropriate for output directories, which are
+    created later via `gen_outputdir`.
+
+    Parameters
+    ----------
+    dirpath : str
+        Path to a directory (existing or not).
+    """
+    if not dirpath.endswith('/'):
         dirpath += '/'
     return dirpath
 
@@ -1876,7 +2152,14 @@ def parse_cmd_line() -> argparse.Namespace:
     args = _get_cmd_line_args()
     # Convert directory paths
     args.benchmark_directory = must_end_with_slash(args.benchmark_directory)
-    args.output_path = must_end_with_slash(args.output_path)
+    # Default output path (when -o/--output_path isn't given) lives INSIDE
+    # the benchmark directory itself (e.g. `<benchmark_directory>/Analysis/`),
+    # not relative to wherever the script happens to be run from. If the
+    # user explicitly passes -o, that value is used as-is (relative to cwd,
+    # or absolute).
+    if args.output_path is None:
+        args.output_path = f"{args.benchmark_directory}Analysis"
+    args.output_path = ensure_trailing_slash(args.output_path)
     # Set global variables
     DPI = args.dpi
     PERFORMANCES_CLASSES = ALL_PERFORMANCES_CLASSES[args.type]
@@ -1891,7 +2174,17 @@ def parse_cmd_line() -> argparse.Namespace:
 
 def _get_cmd_line_args() -> argparse.Namespace:
     """Define and parse the command line arguments."""
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        description=(
+            "Analyse a HADDOCK3 + haddock-runner benchmark. Expects "
+            "<benchmark_directory>/<scenario_name>/<PDBid>/run1/ layout "
+            "(one or more scenarios). Generates a combined bar plot, "
+            "violin plot, per-scenario melquiplots (zipped), and a JSON "
+            "summary, written by default to Analysis/ inside the "
+            "benchmark directory."
+            ),
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+        )
     parser.add_argument(
         "benchmark_directory",
         help=(
@@ -1903,9 +2196,24 @@ def _get_cmd_line_args() -> argparse.Namespace:
     parser.add_argument(
         "-o",
         "--output_path",
-        help="Directory where to write output files.",
+        help=(
+            "Directory where to write output files. Defaults to "
+            "`Analysis/` inside the benchmark directory itself."
+            ),
         required=False,
-        default="Analysis",
+        default=None,
+        type=str,
+        )
+    parser.add_argument(
+        '-l',
+        '--label',
+        help=(
+            "Custom name to use for output filenames and plot titles, "
+            "instead of the benchmark directory's basename (useful when "
+            "the directory is named something generic, e.g. `test-analysis`)."
+            ),
+        required=False,
+        default=None,
         type=str,
         )
     parser.add_argument(
@@ -1958,6 +2266,17 @@ def _get_cmd_line_args() -> argparse.Namespace:
     parser.add_argument(
         '--no-melquiplots',
         help="Do not generate melqui plots",
+        action="store_true",
+        default=False,
+        )
+    parser.add_argument(
+        '--per-scenario-plots',
+        help=(
+            "In addition to the single combined comparison plot "
+            "(all scenarios as rows in one bar/violin plot), also "
+            "generate a separate standalone bar/violin plot for each "
+            "individual scenario. Off by default."
+            ),
         action="store_true",
         default=False,
         )
@@ -2028,6 +2347,8 @@ def maincli() -> None:
         no_violinplots=args.no_violinplots,
         no_melquiplots=args.no_melquiplots,
         read_from_archive=args.from_archive,
+        label=args.label,
+        per_scenario_plots=args.per_scenario_plots,
         )
 
 
