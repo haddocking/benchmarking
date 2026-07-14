@@ -39,7 +39,7 @@ for sys_dir in "$REPO_ROOT"/Docking_benchmarks/*/; do
   [ -f "$sys_dir/setup.sh" ] || continue
   sys="$(basename "$sys_dir")"
   log_file="$sys_dir/setup.log"
-  echo "[+] Staging dataset for $sys (log: $log_file)"
+  echo "[+] Staging dataset for $sys"
   if (cd "$sys_dir" && bash setup.sh) >"$log_file" 2>&1; then
     echo "[+] $sys dataset staged"
   else
