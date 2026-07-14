@@ -12,22 +12,22 @@
 Benchmarking/
 ├── setup.sh                    # Environment setup entry point
 ├── run.sh                      # Wrapper: activates env, execs haddock-runner
-├── analyse.sh                  # Wrapper: runs Analysis/AnalyseBenchmarkResults.py
+├── analyse.sh                  # Wrapper: runs analysis/AnalyseBenchmarkResults.py
 ├── USAGE.md                    # Full usage guide
 ├── scripts/                    # Individual setup steps, orchestrated by setup.sh
-├── Docking_benchmarks/
-│   ├── Protein_Protein/        # Protein-protein benchmark 
-│   ├── Protein_Peptide/        # Protein-peptide benchmark
-│   ├── Protein_DNA/            # Protein-DNA benchmark
-│   ├── Protein_Glycan/         # Protein-glycan benchmark
-│   └── Protein_Ligand_Shape/   # Shape-guided protein-ligand benchmark
-└── Analysis/                   # Post-run analysis and visualisation
+├── docking_benchmarks/
+│   ├── protein_protein/        # Protein-protein benchmark 
+│   ├── protein_peptide/        # Protein-peptide benchmark
+│   ├── protein_dna/            # Protein-DNA benchmark
+│   ├── protein_glycan/         # Protein-glycan benchmark
+│   └── protein_ligand_shape/   # Shape-guided protein-ligand benchmark
+└── analysis/                   # Post-run analysis and visualisation
 ```
 
-Each benchmark directory follows the same layout (shown for `Protein_Protein/`):
+Each benchmark directory follows the same layout (shown for `protein_protein/`):
 
 ```
-Protein_Protein/
+protein_protein/
 ├── README.md                               # Dataset description, scenarios, and run instructions
 ├── setup.sh                                # Downloads and stages input structures
 ├── HADDOCK24_default.yaml                  # Scenario YAML files
@@ -49,7 +49,7 @@ bash setup.sh
 **2. Run a benchmark scenario**
 
 ```bash
-./run.sh Docking_benchmarks/Protein_Protein/HADDOCK3_clustfcc.yaml
+./run.sh docking_benchmarks/protein_protein/HADDOCK3_clustfcc.yaml
 ```
 
 For long runs:
@@ -139,7 +139,7 @@ After a run completes, generate CAPRI performance plots and a JSON summary:
 ./analyse.sh <benchmark_results_dir>
 ```
 
-Classifies models by CAPRI quality (High/Medium/Acceptable/Near-acceptable/Low), producing bar/violin/melquiplots and a JSON report. See [Analysis/README.md](Analysis/README.md) for full options.
+Classifies models by CAPRI quality (High/Medium/Acceptable/Near-acceptable/Low), producing bar/violin/melquiplots and a JSON report. See [analysis/README.md](analysis/README.md) for full options.
 
 ## Contributing
 
@@ -161,4 +161,4 @@ If you used `haddock3` for your research, please cite:
 
 - **Research article**: M. Giulini, V. Reys, J.M.C. Teixeira, B. Jiménez-García, R.V. Honorato, A. Kravchenko, X. Xu, R. Versini, A. Engel, S. Verhoeven, A.M.J.J. Bonvin, [*HADDOCK3: A modular and versatile platform for integrative modelling of biomolecular complexes*](https://pubs.acs.org/doi/10.1021/acs.jcim.5c00969) Journal of Chemical Information and Modeling (2025). doi: 10.1021/acs.jcim.5c00969
 
-For specific benchmark datasets, see the `Citation` section in each `Docking_benchmarks/` subdirectory's README.
+For specific benchmark datasets, see the `Citation` section in each `docking_benchmarks/` subdirectory's README.

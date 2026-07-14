@@ -5,7 +5,7 @@
 # relative to themselves.
 #
 # Usage:
-#   ./run.sh Docking_benchmarks/<System>/<scenario>.yaml
+#   ./run.sh docking_benchmarks/<System>/<scenario>.yaml
 #   nohup ./run.sh <scenario.yaml> > run.out & disown && tail -f run.out
 set -euo pipefail
 

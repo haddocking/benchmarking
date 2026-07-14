@@ -5,10 +5,10 @@ Assumes the environment is already set up via the `setup.sh` script.
 ## Run a scenario
 
 ```bash
-./run.sh Docking_benchmarks/<System>/<scenario>.yaml
+./run.sh docking_benchmarks/<system>/<scenario>.yaml
 ```
 
-Scenario YAMLs live directly under `Docking_benchmarks/<System>/` (e.g. `Protein_Protein/HADDOCK3_clustfcc.yaml`). `run.sh` must be run from the repo root — it activates the venv and calls `binaries/haddock-runner` directly.
+Scenario YAMLs live directly under `docking_benchmarks/<system>/` (e.g. `protein_protein/HADDOCK3_clustfcc.yaml`). `run.sh` must be run from the repo root — it activates the venv and calls `binaries/haddock-runner` directly.
 
 For long runs:
 
@@ -21,7 +21,7 @@ Without `run.sh`:
 ```bash
 source .venv/bin/activate
 export PATH="$PWD/binaries:$PATH"
-haddock-runner Docking_benchmarks/<System>/<scenario>.yaml
+haddock-runner docking_benchmarks/<system>/<scenario>.yaml
 ```
 
 ## SLURM defaults
@@ -34,7 +34,7 @@ haddock-runner Docking_benchmarks/<System>/<scenario>.yaml
 ./analyse.sh <benchmark_results_dir>
 ```
 
-Parses `capri_ss.tsv`, ranks by HADDOCK score, produces CAPRI plots + JSON summary. Full options in [Analysis/README.md](Analysis/README.md).
+Parses `capri_ss.tsv`, ranks by HADDOCK score, produces CAPRI plots + JSON summary. Full options in [analysis/README.md](analysis/README.md).
 
 ## Troubleshooting
 

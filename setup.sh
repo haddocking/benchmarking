@@ -4,7 +4,7 @@
 # no conda, no changes to shell rc files.
 #
 # Runs scripts/01_python_env.sh, 02_haddock_runner.sh, 03_haddock3.sh, then
-# stages every Docking_benchmarks/*/ dataset. Each step can also be run on
+# stages every docking_benchmarks/*/ dataset. Each step can also be run on
 # its own, e.g. bash scripts/02_haddock_runner.sh to reinstall haddock-runner.
 #
 # Authors: BonvinLab, Computational Structural Biology group,
@@ -19,7 +19,7 @@ bash "$SCRIPT_DIR/01_python_env.sh"
 bash "$SCRIPT_DIR/02_haddock_runner.sh"
 bash "$SCRIPT_DIR/03_haddock3.sh"
 
-for sys_dir in "$REPO_ROOT"/Docking_benchmarks/*/; do
+for sys_dir in "$REPO_ROOT"/docking_benchmarks/*/; do
   sys_dir="${sys_dir%/}"
   [ -f "$sys_dir/setup.sh" ] || continue
   sys="$(basename "$sys_dir")"

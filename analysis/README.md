@@ -48,10 +48,10 @@ If HADDOCK3 was run with `gen_archive = true`, the analysis can be read directly
 ## Basic Usage
 
 ```bash
-python3 Analysis/AnalyseBenchmarkResults.py <path/to/benchmark_results_dir/>
+python3 analysis/AnalyseBenchmarkResults.py <path/to/benchmark_results_dir/>
 ```
 
-Output files are written to an `Analysis/` subdirectory by default.
+Output files are written to an `analysis/` subdirectory by default.
 
 ## All Options
 
@@ -60,7 +60,7 @@ positional arguments:
   benchmark_directory     Path to the directory where the benchmark was run
 
 optional arguments:
-  -o, --output_path       Directory to write output files (default: Analysis/)
+  -o, --output_path       Directory to write output files (default: analysis/)
   -m, --metric            Performance metric: irmsd or dockq (default: irmsd)
   -s, --scenario          Analyse only specific scenario(s) by name (default: all)
   -t, --type              System type for CAPRI thresholds: protein, peptide, glycan (default: protein)
@@ -133,13 +133,13 @@ The keys must match the two-digit index prefix of the caprieval directories in t
 Analyse all scenarios for a protein-protein benchmark run:
 
 ```bash
-python3 Analysis/AnalyseBenchmarkResults.py results/protein-protein/ -t protein -m irmsd
+python3 analysis/AnalyseBenchmarkResults.py results/protein-protein/ -t protein -m irmsd
 ```
 
 Analyse only two specific scenarios and suppress plots:
 
 ```bash
-python3 Analysis/AnalyseBenchmarkResults.py results/protein-protein/ \
+python3 analysis/AnalyseBenchmarkResults.py results/protein-protein/ \
     -s scenario-HADDOCK3_clustfcc \
     --no-melquiplots
 ```
@@ -147,5 +147,5 @@ python3 Analysis/AnalyseBenchmarkResults.py results/protein-protein/ \
 Read results from compressed archives (when `gen_archive = true` was set in HADDOCK3):
 
 ```bash
-python3 Analysis/AnalyseBenchmarkResults.py results/protein-peptide/ -t peptide -a
+python3 analysis/AnalyseBenchmarkResults.py results/protein-peptide/ -t peptide -a
 ```

@@ -10,13 +10,13 @@ This document describes how to contribute effectively and what standards to foll
 
 The most common and valuable contribution is a new docking scenario — a YAML configuration file that tests a specific protocol, restraint strategy, or clustering approach. A good scenario contribution should:
 
-- Be placed directly in the appropriate `Docking_benchmarks/<SystemType>/` directory (no `Scenarios/` subfolder, no `scenario_` filename prefix)
+- Be placed directly in the appropriate `docking_benchmarks/<system_type>/` directory (no `Scenarios/` subfolder, no `scenario_` filename prefix)
 - Follow the YAML structure of existing scenarios (see any existing `.yaml` file as a template)
 
 
 ### New Benchmark Systems
 
-If you want to add an entirely new molecular system (e.g. protein-RNA, antibody-antigen, protein-carbohydrate with a new dataset), create a new subdirectory under `Docking_benchmarks/` following the naming convention `System_Type/`. The directory should contain:
+If you want to add an entirely new molecular system (e.g. protein-RNA, antibody-antigen, protein-carbohydrate with a new dataset), create a new subdirectory under `docking_benchmarks/` following the naming convention `system_type/`. The directory should contain:
 
 - At least one YAML scenario file, placed directly in the system directory
 - A `README.md` documenting the biological context, the dataset, and each scenario in detail (see existing READMEs for the expected level of detail)
@@ -24,7 +24,7 @@ If you want to add an entirely new molecular system (e.g. protein-RNA, antibody-
 
 ### Analysis Improvements
 
-The analysis pipeline lives in `Analysis/`. Improvements to `AnalyseBenchmarkResults.py` — such as support for new metrics, additional plot types, or better output formatting — are welcome. If you change the output format, update `Analysis/README.md` accordingly.
+The analysis pipeline lives in `analysis/`. Improvements to `AnalyseBenchmarkResults.py` — such as support for new metrics, additional plot types, or better output formatting — are welcome. If you change the output format, update `analysis/README.md` accordingly.
 
 ### Bug Fixes and Path Issues
 

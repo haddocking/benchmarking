@@ -1734,7 +1734,7 @@ def _vprint(silence: bool, msg: str) -> None:
 #################
 def main(
         benchmark_directory: str,
-        outputpath: str = 'Analysis/',
+        outputpath: str = 'analysis/',
         scenarios: Optional[list[str]] = None,
         metric: str = "irmsd",
         silent: bool = False,
@@ -1905,7 +1905,7 @@ def _get_cmd_line_args() -> argparse.Namespace:
         "--output_path",
         help="Directory where to write output files.",
         required=False,
-        default="Analysis",
+        default="analysis",
         type=str,
         )
     parser.add_argument(

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Wrapper around Analysis/AnalyseBenchmarkResults.py: runs it with the
+# Wrapper around analysis/AnalyseBenchmarkResults.py: runs it with the
 # venv's python3 so numpy/matplotlib are there without activating anything.
 #
 # Usage:
@@ -21,4 +21,4 @@ if [ ! -x "$VENV_PATH/bin/python3" ]; then
   exit 1
 fi
 
-exec "$VENV_PATH/bin/python3" "$REPO_ROOT/Analysis/AnalyseBenchmarkResults.py" "$@"
+exec "$VENV_PATH/bin/python3" "$REPO_ROOT/analysis/AnalyseBenchmarkResults.py" "$@"
