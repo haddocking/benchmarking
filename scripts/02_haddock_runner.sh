@@ -11,12 +11,14 @@ if [ -x "$HADDOCK_RUNNER_BIN" ]; then
   exit 0
 fi
 
-# Map uname to the release asset's target triple. Only targets actually
-# published by haddocking/haddock-runner are supported (no linux/arm64).
+# Map uname to the release asset's target triple. Default to musl (static,
+# no glibc version dependency) on Linux - avoids "GLIBC_2.xx not found" on
+# older distros/cluster nodes with an outdated system glibc.
 case "$(uname -s)" in
 Linux)
   case "$(uname -m)" in
-  x86_64 | amd64) RUNNER_TARGET="x86_64-unknown-linux-gnu" ;;
+  x86_64 | amd64) RUNNER_TARGET="x86_64-unknown-linux-musl" ;;
+  arm64 | aarch64) RUNNER_TARGET="aarch64-unknown-linux-musl" ;;
   *)
     echo "[!!] Unsupported architecture for prebuilt haddock-runner on Linux: $(uname -m)"
     exit 1
