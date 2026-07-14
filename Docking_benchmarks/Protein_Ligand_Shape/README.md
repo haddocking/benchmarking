@@ -19,13 +19,13 @@ During docking, the shape beads are treated as a third molecule (`mol_shape_3: t
 
 ## Scenarios
 
-### scenario_h24_unbound_unbound_shape
+### h24_unbound_unbound_shape
 
 This scenario uses purely geometric shape restraints to guide docking. The shape beads define the approximate volume of the binding pocket and the ligand is driven towards the bead template via ambiguous distance restraints. During flexible refinement (`flexref`) and energy minimisation (`emref`), the shape beads remain fixed while the ligand is allowed to adjust its internal degrees of freedom within the envelope defined by the beads. Clustering of the final poses is performed using ilRMSD at a tight 1.5 Å cutoff to identify convergent solutions.
 
 `autohis: true` and `delenph: false` ensure correct hydrogen handling for the ligand during topology generation.
 
-### scenario_h24_unbound_unbound_pharm
+### h24_unbound_unbound_pharm
 
 This scenario extends the shape-guided approach by incorporating pharmacophoric features alongside the geometric shape restraints. Pharmacophore points encode chemical interaction preferences — such as hydrogen bond donors/acceptors and hydrophobic regions — in addition to the spatial volume of the ligand. This provides richer chemical context for guiding the docking, and is expected to perform better than pure shape docking when the pharmacophore model accurately reflects the binding requirements of the receptor.
 

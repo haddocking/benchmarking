@@ -23,7 +23,7 @@ The script reads `capri_ss.tsv` files produced by the `caprieval` module of HADD
 pip install numpy matplotlib
 ```
 
-Both packages are already installed if you ran `Setup/Haddock_runner_setup.sh`.
+Both packages are already installed if you ran `setup.sh`.
 
 ## Expected Input Structure
 
