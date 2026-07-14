@@ -1,6 +1,6 @@
 general:
-  input_list: /home/rodrigo/repos/benchmarking/protein-glycan-input.txt
-  work_dir: /home/rodrigo/repos/benchmarking/benchmark_output/unbound_ens_vdw_tip-ap_clust
+  input_list: protein-glycan-input.txt
+  work_dir: benchmark_output/unbound_ens_vdw_tip-ap_clust
 
   execution: slurm
   partition: short

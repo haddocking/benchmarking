@@ -1,6 +1,6 @@
 general:
-  input_list: /home/rodrigo/repos/benchmarking/bm5-input.txt
-  work_dir: /home/rodrigo/repos/benchmarking/benchmark_output/HADDOCK24_default
+  input_list: bm5-input.txt
+  work_dir: benchmark_output/HADDOCK24_default
 
   execution: slurm
   partition: short

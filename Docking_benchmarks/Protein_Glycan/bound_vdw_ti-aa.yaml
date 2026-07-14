@@ -1,6 +1,6 @@
 general:
-  input_list: /home/rodrigo/repos/benchmarking/protein-glycan-input.txt
-  work_dir: /home/rodrigo/repos/benchmarking/benchmark_output/bound_vdw_ti-aa
+  input_list: protein-glycan-input.txt
+  work_dir: benchmark_output/bound_vdw_ti-aa
 
   execution: slurm
   partition: short

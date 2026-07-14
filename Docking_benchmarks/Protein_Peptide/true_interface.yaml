@@ -1,6 +1,6 @@
 general:
-  input_list: /home/rodrigo/repos/benchmarking/protein-peptide-input.txt
-  work_dir: /home/rodrigo/repos/benchmarking/benchmark_output/true_interface
+  input_list: protein-peptide-input.txt
+  work_dir: benchmark_output/true_interface
 
   execution: slurm
   partition: short

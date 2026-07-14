@@ -1,6 +1,6 @@
 general:
-  input_list: /home/rodrigo/repos/benchmarking/protein-ligand-shape-input.txt
-  work_dir: /home/rodrigo/repos/benchmarking/protein-ligand-shape/h24_unbound_unbound_pharm
+  input_list: protein-ligand-shape-input.txt
+  work_dir: protein-ligand-shape/h24_unbound_unbound_pharm
 
   execution: slurm
   partition: short

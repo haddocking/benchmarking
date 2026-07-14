@@ -1,6 +1,6 @@
 general:
-  input_list: /home/rodrigo/repos/benchmarking/protein-dna-input.txt
-  work_dir: /home/rodrigo/repos/benchmarking/benchmark_output/bound-bound
+  input_list: prot-dna-input.txt
+  work_dir: benchmark_output/bound-bound
 
   execution: slurm
   partition: short
