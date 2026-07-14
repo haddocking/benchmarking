@@ -10,7 +10,7 @@ This document describes how to contribute effectively and what standards to foll
 
 The most common and valuable contribution is a new docking scenario — a YAML configuration file that tests a specific protocol, restraint strategy, or clustering approach. A good scenario contribution should:
 
-- Be placed in the appropriate `Docking_benchmarks/<SystemType>/Scenarios/` directory
+- Be placed directly in the appropriate `Docking_benchmarks/<SystemType>/` directory (no `Scenarios/` subfolder, no `scenario_` filename prefix)
 - Follow the YAML structure of existing scenarios (see any existing `.yaml` file as a template)
 
 
@@ -18,7 +18,7 @@ The most common and valuable contribution is a new docking scenario — a YAML c
 
 If you want to add an entirely new molecular system (e.g. protein-RNA, antibody-antigen, protein-carbohydrate with a new dataset), create a new subdirectory under `Docking_benchmarks/` following the naming convention `System_Type/`. The directory should contain:
 
-- A `Scenarios/` subdirectory with at least one YAML scenario file
+- At least one YAML scenario file, placed directly in the system directory
 - A `README.md` documenting the biological context, the dataset, and each scenario in detail (see existing READMEs for the expected level of detail)
 - An input list file (or instructions on where to obtain one) formatted consistently with existing input lists
 
