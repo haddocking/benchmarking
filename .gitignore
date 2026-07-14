@@ -65,4 +65,15 @@ Thumbs.db
 *.tmp
 *.bak
 .ipynb_checkpoints/
+
+# ── AI assistant local config/state ───────────────────────────────────────────
 CLAUDE.md
+CLAUDE.local.md
+.claude/settings.local.json
+.cursorrules
+.cursor/
+.windsurfrules
+.clinerules
+.roo/
+.continue/
+.aider*
