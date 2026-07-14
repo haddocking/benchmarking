@@ -34,10 +34,10 @@ An extended version of `unbound_vdw_tip-ap` that incorporates ensemble-based sam
 
 ## Running
 
-See [Usage/README.md](../../Usage/README.md) for path substitution, run commands, and SLURM configuration.
+See [USAGE.md](../../USAGE.md) for run commands and SLURM configuration.
 
 ## Citation
 
 The protein-glycan docking protocol and dataset are described in:
 
-Reau M. et al. (2024). Protein-glycan docking with HADDOCK3. *Journal of Chemical Information and Modeling*. https://pubs.acs.org/doi/10.1021/acs.jcim.4c01372
+Ranaudo A., Giulini M., Pelissou Ayuso A., Bonvin A.M.J.J. (2024). Modeling Protein-Glycan Interactions with HADDOCK. *Journal of Chemical Information and Modeling*, 64(19), 7816-7825. https://doi.org/10.1021/acs.jcim.4c01372

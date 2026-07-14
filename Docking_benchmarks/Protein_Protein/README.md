@@ -31,7 +31,7 @@ A HADDOCK3 protocol that introduces an early clustering step immediately after r
 
 ## Running
 
-See [Usage/README.md](../../Usage/README.md) for path substitution, run commands, and SLURM configuration.
+See [USAGE.md](../../USAGE.md) for run commands and SLURM configuration.
 
 ## Citation
 
