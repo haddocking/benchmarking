@@ -7,6 +7,11 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")" && pwd)"
 cd "$ROOT"
 
+# python3/rdkit and pdb_mkensemble come from the repo's .venv (installed by
+# setup.sh) - put it on PATH regardless of caller.
+REPO_ROOT="$(cd "$ROOT/../.." && pwd)"
+export PATH="$REPO_ROOT/.venv/bin:$PATH"
+
 # Rewrite HADDOCK2-style topology/parameter references to HADDOCK3 format
 echo "[1/4] Converting HADDOCK2 inputs to HADDOCK3..."
 python3 haddock2_to_haddock3.py
