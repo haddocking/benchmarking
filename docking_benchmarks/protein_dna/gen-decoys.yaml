@@ -1,0 +1,33 @@
+general:
+  input_list: prot-dna-input.txt
+  work_dir: benchmark_output/gen-decoys
+
+  execution: slurm
+  partition: short
+  gen_archive: true
+  ncores: 40
+  max_concurrent: 10
+
+  mol_suffixes:
+    - _p1_u
+    - _p2_u
+    - _p3_u
+    - _p4_u
+    - _d_u
+
+scenarios:
+  - name: decoys
+    workflow:
+      topoaa:
+
+      rigidbody:
+        # no known interface, random AIRs, single rigid-body pass to generate decoys
+        tolerance: 5
+        sampling: 1000
+        ranair: true
+        epsilon: 78
+        dielec: cdie
+        w_desolv: 0
+
+      caprieval:
+        reference_fname: _target.pdb
