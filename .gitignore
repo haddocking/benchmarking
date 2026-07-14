@@ -34,13 +34,15 @@ Docking_benchmarks/Protein_DNA/prot-dna-input.txt
 Docking_benchmarks/Protein_Glycan/protein-glycan-input.txt
 Docking_benchmarks/Protein_Ligand_Shape/protein-ligand-shape-input.txt
 
-# ── Per-system setup logs (Setup/setup.sh redirects each dataset's output here) ──
-Docking_benchmarks/*/.log
+# ── Per-system setup logs (setup.sh redirects each dataset's output here) ──────
+Docking_benchmarks/*/setup.log
 
 # ── Docking output directories ────────────────────────────────────────────────
 results/
 run*/
 HADDOCK-*/
+benchmark_output/
+Docking_benchmarks/Protein_Ligand_Shape/protein-ligand-shape/
 
 # ── SLURM & job logs ──────────────────────────────────────────────────────────
 slurm-*.out
