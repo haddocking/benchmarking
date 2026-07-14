@@ -113,7 +113,7 @@ sequenceDiagram
 |---|---|---|---|---|
 | Protein-Protein | 230 complexes | 4 | [haddocking/BM5-clean](https://github.com/haddocking/BM5-clean) | Vreven et al. (2015), *JMB* 427(19), 3031-3041 |
 | Protein-Peptide | 98 complexes | 3 | [haddocking/protein-peptide](https://github.com/haddocking/protein-peptide) | Trellet et al. (2013), *PLOS ONE* 8(3), e58769 |
-| Protein-DNA | 47 complexes | 3 | [haddocking/Prot-DNABenchmark](https://github.com/haddocking/Prot-DNABenchmark) | van Dijk & Bonvin (2008), *NAR* 36(14), e88 |
+| Protein-DNA | 47 complexes | 4 | [haddocking/Prot-DNABenchmark](https://github.com/haddocking/Prot-DNABenchmark) | van Dijk & Bonvin (2008), *NAR* 36(14), e88 |
 | Protein-Glycan | 89 complexes | 3 | [haddocking/protein-glycans](https://github.com/haddocking/protein-glycans) | Ranaudo et al. (2024), *JCIM* 64(19), 7816-7825 |
 | Protein-Ligand Shape | 99 complexes | 2 | [haddocking/shape-restrained-haddocking](https://github.com/haddocking/shape-restrained-haddocking) | Koukos et al. (2021), *JCIM* |
 
@@ -125,7 +125,7 @@ Each subdirectory README covers the biological context, dataset, restraints, and
 
 **Protein-Peptide**: true-interface restraints, blind ab initio (10,000 rigid-body models), FCC clustering.
 
-**Protein-DNA**: bound-bound, bound-unbound, unbound-unbound difficulty levels.
+**Protein-DNA**: bound-bound, bound-unbound, unbound-unbound difficulty levels, plus a gen-decoys scenario for producing a large unrefined decoy set.
 
 **Protein-Glycan**: bound/unbound conformations, ensemble-based sampling.
 
@@ -143,7 +143,7 @@ Classifies models by CAPRI quality (High/Medium/Acceptable/Near-acceptable/Low),
 
 ## Contributing
 
-See [contributing.md](contributing.md) for adding scenarios, systems, or analysis improvements.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for adding scenarios, systems, or analysis improvements, and [ADDING-SCENARIOS.md](ADDING-SCENARIOS.md) for a full walkthrough of adding a scenario.
 
 ## Support
 
