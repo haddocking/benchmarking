@@ -1,6 +1,6 @@
 general:
-  input_list: _ABSPATH_PWD_/protein-peptide-input.txt
-  work_dir: _ABSPATH_PWD_/benchmark_output/ab_initio
+  input_list: /home/rodrigo/repos/benchmarking/protein-peptide-input.txt
+  work_dir: /home/rodrigo/repos/benchmarking/benchmark_output/ab_initio
 
   execution: slurm
   partition: short

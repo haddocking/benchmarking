@@ -1,6 +1,6 @@
 general:
-  input_list: _ABSPATH_PWD_/bm5-input.txt
-  work_dir: _ABSPATH_PWD_/benchmark_output/HADDOCK24_default_5Aambig
+  input_list: /home/rodrigo/repos/benchmarking/bm5-input.txt
+  work_dir: /home/rodrigo/repos/benchmarking/benchmark_output/HADDOCK24_ab_initio
 
   execution: slurm
   partition: short
@@ -12,13 +12,13 @@ general:
     - _l_u
 
 scenarios:
-  - name: run-HADDOCK24_default_5Aambig
+  - name: run-HADDOCK24_ab_initio
     workflow:
         topoaa:
 
         rigidbody:
           sampling: 1000
-          ambig_fname: _ambig5.tbl
+          ranair: true
           unambig_fname: _restraint-bodies
           hbond_fname: _hbonds
           ligand_param_fname: _ligand.param
@@ -29,13 +29,12 @@ scenarios:
           reference_fname: _target
 
         seletop:
-          select: 200
+          select: 400
 
         caprieval.2:
           reference_fname: _target
 
         flexref:
-          ambig_fname: _ambig5.tbl
           unambig_fname: _restraint-bodies
           hbond_fname: _hbonds
           ligand_param_fname: _ligand.param
@@ -46,7 +45,6 @@ scenarios:
           reference_fname: _target
 
         emref:
-          ambig_fname: _ambig5.tbl
           unambig_fname: _restraint-bodies
           hbond_fname: _hbonds
           ligand_param_fname: _ligand.param

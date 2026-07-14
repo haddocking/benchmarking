@@ -1,6 +1,6 @@
 general:
-  input_list: _ABSPATH_PWD_/protein-glycan-input.txt
-  work_dir: _ABSPATH_PWD_/benchmark_output/bound_vdw_ti-aa
+  input_list: /home/rodrigo/repos/benchmarking/protein-glycan-input.txt
+  work_dir: /home/rodrigo/repos/benchmarking/benchmark_output/unbound_vdw_tip-ap_clust
 
   execution: slurm
   partition: short
@@ -8,16 +8,16 @@ general:
   ncores: 40
   max_concurrent: 10
   mol_suffixes:
-    - _r_b
-    - _l_b
+    - _r_u
+    - _l_u
 
 scenarios:
-  - name: run-bound_vdw_ti-aa
+  - name: run-unbound_vdw_tip-ap_clust
     workflow:
       topoaa:
 
       rigidbody:
-        ambig_fname: _ti-aa.tbl
+        ambig_fname: _tip-ap.tbl
         w_vdw: 1
         sampling: 1000
 
@@ -40,7 +40,7 @@ scenarios:
         keep_hetatm: true
 
       flexref:
-        ambig_fname: _ti-aa.tbl
+        ambig_fname: _tip-ap.tbl
 
       caprieval.3:
         reference_fname: _analysis

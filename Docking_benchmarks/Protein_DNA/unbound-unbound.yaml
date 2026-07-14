@@ -1,6 +1,6 @@
 general:
-  input_list: _ABSPATH_PWD_/protein-dna-input.txt
-  work_dir: _ABSPATH_PWD_/benchmark_output/unbound-unbound
+  input_list: /home/rodrigo/repos/benchmarking/protein-dna-input.txt
+  work_dir: /home/rodrigo/repos/benchmarking/benchmark_output/unbound-unbound
 
   execution: slurm
   partition: short

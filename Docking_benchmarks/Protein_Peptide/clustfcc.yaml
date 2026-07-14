@@ -1,6 +1,6 @@
 general:
-  input_list: _ABSPATH_PWD_/protein-peptide-input.txt
-  work_dir: _ABSPATH_PWD_/benchmark_output/HADDOCK3_clustfcc
+  input_list: /home/rodrigo/repos/benchmarking/protein-peptide-input.txt
+  work_dir: /home/rodrigo/repos/benchmarking/benchmark_output/HADDOCK3_clustfcc
   execution: slurm
   ncores: 40
   partition: short

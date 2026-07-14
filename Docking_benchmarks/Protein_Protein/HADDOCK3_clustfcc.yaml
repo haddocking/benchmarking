@@ -1,6 +1,6 @@
 general:
-  input_list: _ABSPATH_PWD_/bm5-input.txt
-  work_dir: _ABSPATH_PWD_/benchmark_output/HADDOCK24_ab_initio
+  input_list: /home/rodrigo/repos/benchmarking/bm5-input.txt
+  work_dir: /home/rodrigo/repos/benchmarking/benchmark_output/HADDOCK3_clustfcc
 
   execution: slurm
   partition: short
@@ -12,13 +12,12 @@ general:
     - _l_u
 
 scenarios:
-  - name: run-HADDOCK24_ab_initio
+  - name: run-HADDOCK3_clustfcc
     workflow:
         topoaa:
 
         rigidbody:
-          sampling: 1000
-          ranair: true
+          ambig_fname: _ambig.tbl
           unambig_fname: _restraint-bodies
           hbond_fname: _hbonds
           ligand_param_fname: _ligand.param
@@ -28,13 +27,17 @@ scenarios:
         caprieval.1:
           reference_fname: _target
 
-        seletop:
-          select: 400
+        clustfcc.1:
+          min_population: 4
+
+        seletopclusts.1:
+          top_models: 10
 
         caprieval.2:
           reference_fname: _target
 
         flexref:
+          ambig_fname: _ambig.tbl
           unambig_fname: _restraint-bodies
           hbond_fname: _hbonds
           ligand_param_fname: _ligand.param
@@ -45,6 +48,7 @@ scenarios:
           reference_fname: _target
 
         emref:
+          ambig_fname: _ambig.tbl
           unambig_fname: _restraint-bodies
           hbond_fname: _hbonds
           ligand_param_fname: _ligand.param
@@ -54,10 +58,10 @@ scenarios:
         caprieval.4:
           reference_fname: _target
 
-        clustfcc:
+        clustfcc.2:
           min_population: 4
 
-        seletopclusts:
+        seletopclusts.2:
           top_models: 10
 
         caprieval.5:
