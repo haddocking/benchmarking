@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
-#===============================================================================
-# Step 2: download haddock-runner (prebuilt binary from GitHub releases; no Rust needed)
-#===============================================================================
+#
+# Downloads haddock-runner from GitHub releases. No Rust toolchain needed.
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/_common.sh"
 
 HADDOCK_RUNNER_BIN="$BIN_DIR/haddock-runner"
@@ -11,9 +10,7 @@ if [ -x "$HADDOCK_RUNNER_BIN" ]; then
   exit 0
 fi
 
-# Map uname to the release asset's target triple. Default to musl (static,
-# no glibc version dependency) on Linux - avoids "GLIBC_2.xx not found" on
-# older distros/cluster nodes with an outdated system glibc.
+# musl build on Linux avoids GLIBC version mismatches on older/cluster nodes.
 case "$(uname -s)" in
 Linux)
   case "$(uname -m)" in

@@ -1,8 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-# pdb_mkensemble ships with pdb-tools, a haddock3 dependency installed into
-# the repo's .venv by setup.sh - put it on PATH regardless of caller.
+# pdb_mkensemble comes from pdb-tools, installed in the repo's .venv.
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 export PATH="$REPO_ROOT/.venv/bin:$PATH"
 

@@ -7,8 +7,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")" && pwd)"
 cd "$ROOT"
 
-# python3/rdkit and pdb_mkensemble come from the repo's .venv (installed by
-# setup.sh) - put it on PATH regardless of caller.
+# python3/rdkit and pdb_mkensemble come from the repo's .venv.
 REPO_ROOT="$(cd "$ROOT/../.." && pwd)"
 export PATH="$REPO_ROOT/.venv/bin:$PATH"
 

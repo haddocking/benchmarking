@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
-#===============================================================================
-# Step 3: HADDOCK3 + workflow deps into the venv created by 01_python_env.sh
-#===============================================================================
+#
+# HADDOCK3 + workflow deps into the venv from 01_python_env.sh.
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/_common.sh"
 
 echo "[+] Installing HADDOCK3"

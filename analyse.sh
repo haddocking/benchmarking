@@ -1,19 +1,15 @@
 #!/usr/bin/env bash
-#===============================================================================
-# analyse.sh — convenience wrapper around Analysis/AnalyseBenchmarkResults.py.
 #
-# The analysis script needs numpy/matplotlib from the repo's .venv. This execs
-# it with the venv's python3 directly - no manual `source .venv/bin/activate`
-# needed.
+# Wrapper around Analysis/AnalyseBenchmarkResults.py: runs it with the
+# venv's python3 so numpy/matplotlib are there without activating anything.
 #
 # Usage:
 #   ./analyse.sh <benchmark_results_dir> [options]
 #   ./analyse.sh results/protein-protein/ -t protein -m irmsd
-#===============================================================================
 set -euo pipefail
 
 THIS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$THIS_DIR/scripts/_common.sh" # sets VENV_PATH, REPO_ROOT
+source "$THIS_DIR/scripts/_common.sh"
 
 if [ $# -eq 0 ]; then
   echo "Usage: $0 <benchmark_results_dir> [options]" >&2
