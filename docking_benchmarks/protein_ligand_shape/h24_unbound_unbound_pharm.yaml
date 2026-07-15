@@ -1,0 +1,79 @@
+general:
+  input_list: protein-ligand-shape-input.txt
+  work_dir: protein-ligand-shape/h24_unbound_unbound_pharm
+
+  execution: slurm
+  partition: short
+  gen_archive: true
+  ncores: 40
+  max_concurrent: 10
+
+  mol_suffixes:
+    - _r_u_shape
+    - _l_u
+    - _shape_beads
+
+scenarios:
+  - name: run-h24_unbound_unbound_pharm
+    workflow:
+        topoaa:
+          ligand_param_fname: _ligand.param
+          ligand_top_fname: _ligand.top
+          delenph: false
+          autohis: true
+          set_bfactor: false
+
+        rigidbody:
+          tolerance: 5
+          sampling: 1000
+          rotate180: false
+          mol_fix_origin_1: true
+          mol_fix_origin_3: true
+          mol_shape_3: true
+          inter_rigid: 0.001
+          w_vdw: 0.0
+          dielec: cdie
+          ligand_param_fname: _ligand.param
+          ligand_top_fname: _ligand.top
+          ambig_fname: _ambig.tbl
+          unambig_fname: _unambig.tbl
+
+        caprieval.1:
+          reference_fname: _ref_can.pdb
+
+        seletop:
+          select: 200
+
+        caprieval.2:
+          reference_fname: _ref_can.pdb
+
+        flexref:
+          tolerance: 5
+          ligand_param_fname: _ligand.param
+          ligand_top_fname: _ligand.top
+          ambig_fname: _ambig.tbl
+          unambig_fname: _unambig.tbl
+          randremoval: false
+          mol_fix_origin_1: true
+          mol_fix_origin_3: true
+          nseg3: 0
+          mol_shape_3: true
+          dielec: cdie
+          epsilon: 10
+
+        caprieval.3:
+          reference_fname: _ref_can.pdb
+
+        caprieval.4:
+          reference_fname: _ref_can.pdb
+
+        ilrmsdmatrix: {}
+
+        clustrmsd:
+          clust_cutoff: 1.5
+
+        seletopclusts:
+          top_models: 4
+
+        caprieval.5:
+          reference_fname: _ref_can.pdb
