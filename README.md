@@ -14,6 +14,7 @@ Benchmarking/
 ├── run.sh                      # Wrapper: activates env, execs haddock-runner
 ├── analyse.sh                  # Wrapper: runs analysis/AnalyseBenchmarkResults.py
 ├── USAGE.md                    # Full usage guide
+├── versions.env                # Pinned dataset commit SHAs + haddock-runner/haddock3 versions
 ├── scripts/                    # Individual setup steps, orchestrated by setup.sh
 ├── docking_benchmarks/
 │   ├── protein_protein/        # Protein-protein benchmark 
@@ -40,7 +41,7 @@ protein_protein/
 
 **1. Set up the environment**
 
-Installs uv, Python 3.14, a venv, HADDOCK3, and haddock-runner locally (nothing system-wide), and stages every benchmark dataset:
+Installs uv, Python 3.14, a venv, HADDOCK3, and haddock-runner locally (nothing system-wide), and stages every benchmark dataset. All dataset and tool versions are pinned in [`versions.env`](versions.env) — edit it and re-run `setup.sh` to converge an existing checkout to a new pin:
 
 ```bash
 bash setup.sh
