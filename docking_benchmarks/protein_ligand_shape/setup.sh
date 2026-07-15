@@ -7,17 +7,22 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")" && pwd)"
 cd "$ROOT"
 
+source "$(cd "$ROOT/../.." && pwd)/scripts/_common.sh"
+
 # python3/rdkit and pdb_mkensemble come from the repo's .venv.
-REPO_ROOT="$(cd "$ROOT/../.." && pwd)"
-export PATH="$REPO_ROOT/.venv/bin:$PATH"
+export PATH="$VENV_PATH/bin:$PATH"
+
+# Download the shape-restrained-haddocking dataset, converging to the pinned commit
+echo "[1/5] Downloading shape-restrained-haddocking dataset..."
+clone_pinned https://github.com/haddocking/shape-restrained-haddocking.git shape-restrained-haddocking "$SHAPE_RESTRAINED_HADDOCKING_REF"
 
 # Rewrite HADDOCK2-style topology/parameter references to HADDOCK3 format
-echo "[1/4] Converting HADDOCK2 inputs to HADDOCK3..."
+echo "[2/5] Converting HADDOCK2 inputs to HADDOCK3..."
 python3 haddock2_to_haddock3.py
 
 # Produce a canonicalized ligand PDB (_can.pdb) for each reference structure;
 # skipped if the output already exists
-echo "[2/4] Canonicalizing reference ligands..."
+echo "[3/5] Canonicalizing reference ligands..."
 for d in references/*/; do
     t="$(basename "$d")"
     for src in "${d}${t}_ref.pdb" "${d}${t}_ligref.pdb"; do
@@ -28,7 +33,7 @@ done
 
 # Merge per-conformer PDBs (e.g. 1ABC_l_u_1.pdb, _2.pdb …) into a single
 # multi-model ensemble file; originals are archived into _conformers_orig/
-echo "[3/4] Building ligand ensembles..."
+echo "[4/5] Building ligand ensembles..."
 for d in conformers/*/; do
     t="$(basename "$d")"; cd "$d"
     files=( "${t}"_l_u_[0-9]*.pdb )
@@ -40,7 +45,7 @@ for d in conformers/*/; do
 done
 
 # Replace individual conformer entries with ensemble paths
-echo "[4/4] Updating protein-ligand-shape-input.txt with ensemble paths..."
+echo "[5/5] Updating protein-ligand-shape-input.txt with ensemble paths..."
 tmp=$(mktemp)
 grep -vE '_l_u_[0-9]+\.pdb$' protein-ligand-shape-input.txt > "$tmp"
 mv "$tmp" protein-ligand-shape-input.txt

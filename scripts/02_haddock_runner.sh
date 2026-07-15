@@ -4,9 +4,10 @@
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/_common.sh"
 
 HADDOCK_RUNNER_BIN="$BIN_DIR/haddock-runner"
+HADDOCK_RUNNER_STAMP="$BIN_DIR/.haddock-runner-version"
 
-if [ -x "$HADDOCK_RUNNER_BIN" ]; then
-  echo "[=] haddock-runner already installed, skipping"
+if [ -x "$HADDOCK_RUNNER_BIN" ] && [ "$(cat "$HADDOCK_RUNNER_STAMP" 2>/dev/null)" = "$HADDOCK_RUNNER_TAG" ]; then
+  echo "[=] haddock-runner $HADDOCK_RUNNER_TAG already installed, skipping"
   exit 0
 fi
 
@@ -38,8 +39,7 @@ Darwin)
   ;;
 esac
 
-RUNNER_TAG=$(curl -fsSL https://api.github.com/repos/haddocking/haddock-runner/releases/latest |
-  grep -oE '"tag_name": *"[^"]+"' | cut -d'"' -f4)
+RUNNER_TAG="$HADDOCK_RUNNER_TAG"
 
 RUNNER_ASSET="haddock-runner-${RUNNER_TAG}-${RUNNER_TARGET}.tar.gz"
 RUNNER_URL="https://github.com/haddocking/haddock-runner/releases/download/${RUNNER_TAG}/${RUNNER_ASSET}"
@@ -50,3 +50,4 @@ curl -fsSL "$RUNNER_URL" -o "$RUNNER_TMP/haddock-runner.tar.gz"
 tar -xzf "$RUNNER_TMP/haddock-runner.tar.gz" -C "$BIN_DIR" haddock-runner
 chmod +x "$HADDOCK_RUNNER_BIN"
 rm -rf "$RUNNER_TMP"
+echo "$RUNNER_TAG" >"$HADDOCK_RUNNER_STAMP"
