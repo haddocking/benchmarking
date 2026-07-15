@@ -13,6 +13,8 @@ The most common and valuable contribution is a new docking scenario — a YAML c
 - Be placed directly in the appropriate `docking_benchmarks/<system_type>/` directory (no `Scenarios/` subfolder, no `scenario_` filename prefix)
 - Follow the YAML structure of existing scenarios (see any existing `.yaml` file as a template)
 
+See [ADDING-SCENARIOS.md](ADDING-SCENARIOS.md) for a full walkthrough of the file layout, path resolution rules, and documentation expectations.
+
 
 ### New Benchmark Systems
 

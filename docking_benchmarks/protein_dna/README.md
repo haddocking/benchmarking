@@ -2,7 +2,7 @@
 
 This directory contains benchmarking scenarios for protein-DNA docking using HADDOCK3. Protein-DNA docking is significantly more challenging than protein-protein docking due to the polyanionic nature of DNA, its large conformational flexibility, and the need for specialised force field parameters to handle the nucleic acid backbone correctly.
 
-These scenarios benchmark docking performance across three conformational states of the input structures — bound-bound, bound-unbound, and unbound-unbound — representing progressively harder docking challenges. DNA-specific HADDOCK3 parameters are applied throughout to properly model the electrostatic environment and structural flexibility of the DNA molecule.
+These scenarios benchmark docking performance across three conformational states of the input structures (bound-bound, bound-unbound, and unbound-unbound), representing progressively harder docking challenges, plus a `gen-decoys` scenario for producing a large unrefined decoy set. DNA-specific HADDOCK3 parameters are applied throughout to properly model the electrostatic environment and structural flexibility of the DNA molecule.
 
 ## Dataset
 
@@ -15,6 +15,7 @@ The molecule suffixes and restraint files differ per scenario:
 | bound-bound | `_p1_b` … `_p4_b` (bound protein) | `_d_b` (bound DNA) | `_b_ambig.tbl` |
 | bound-unbound | `_p1_b` … `_p4_b` (bound protein) | `_d_u` (unbound DNA) | `_b_ambig.tbl` |
 | unbound-unbound | `_p1_u` … `_p4_u` (unbound protein) | `_d_u` (unbound DNA) | `_u_ambig.tbl` |
+| gen-decoys | `_p1_u` … `_p4_u` (unbound protein) | `_d_u` (unbound DNA) | none (`ranair`) |
 
 > **Note:** Not all targets have up to four protein chains — `_p3` and `_p4` are only present for complexes with more than two protein subunits.
 
@@ -33,6 +34,10 @@ The protein is provided in its bound conformation but the DNA is in its free (un
 ### unbound-unbound
 
 Both protein and DNA are provided in their unbound (free solution) conformations. This is the most realistic and most difficult scenario, as both partners must undergo conformational adaptation to form the correct complex.
+
+### gen-decoys
+
+Both protein and DNA are unbound, and no interface restraints are used: rigid-body docking relies on random ambiguous interaction restraints (`ranair: true`) to sample the full surface at `sampling: 1000`. Unlike the other scenarios, there's no `seletop`/refinement/clustering — just a single `caprieval` after `rigidbody`, scoring the raw decoy set as-is. Use this to generate a large pool of unrefined decoys rather than to benchmark a full docking protocol.
 
 ## Running
 
