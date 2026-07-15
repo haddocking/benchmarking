@@ -6,13 +6,11 @@ python3 haddock2_to_haddock3.py
 
 import os
 import shutil
-import subprocess
 
 from pathlib import Path
 from canonicalize_pdblig import main as canonicalize_pdblig
 
 
-LIGAND_SHAPE_GIT_REPO_URL = "https://github.com/haddocking/shape-restrained-haddocking.git"
 SHAPE_ROOT = "./shape-restrained-haddocking/"
 
 
@@ -93,7 +91,16 @@ def references():
         new_target_path = Path(references_dirpath, target)
         new_target_path.mkdir(exist_ok=True)
 
-        for fname, suffix in zip(("bound.pdb", "bound_ligand.pdb", ), ("ref", "ligref", )):
+        for fname, suffix in zip(
+            (
+                "bound.pdb",
+                "bound_ligand.pdb",
+            ),
+            (
+                "ref",
+                "ligref",
+            ),
+        ):
             fpath = Path(target_path, fname)
             new_conformer_path = Path(new_target_path, f"{target}_{suffix}.pdb")
             shutil.copyfile(fpath, new_conformer_path)
@@ -108,10 +115,21 @@ def references():
 
 def replace_in_ref(canonical, original):
     original_fpath = Path(original)
-    canonical_ref = Path(original_fpath.parent.resolve(), f"{original_fpath.stem}_can.pdb")
-    with open(original, "r") as fin, open(canonical_ref, "w") as filout, open(canonical, "r") as canlig:
+    canonical_ref = Path(
+        original_fpath.parent.resolve(), f"{original_fpath.stem}_can.pdb"
+    )
+    with (
+        open(original, "r") as fin,
+        open(canonical_ref, "w") as filout,
+        open(canonical, "r") as canlig,
+    ):
         for _ in fin:
-            if _.startswith(("ATOM", "HETATM", )):
+            if _.startswith(
+                (
+                    "ATOM",
+                    "HETATM",
+                )
+            ):
                 if _[17:20] != "UNK":
                     filout.write(_)
             elif _.startswith("TER"):
@@ -145,7 +163,12 @@ def correct_chainid(pdbpath, chainid):
         filedt = filin.readlines()
     with open(pdbpath, "w") as fout:
         for _ in filedt:
-            if _.startswith(("ATOM", "HETATM", )):
+            if _.startswith(
+                (
+                    "ATOM",
+                    "HETATM",
+                )
+            ):
                 n_ = _[:21] + chainid[0] + _[22:]
                 fout.write(n_)
             else:
@@ -159,24 +182,22 @@ def toppars():
     for target_toppar_path in list_dirs(SHAPE_ROOT + "toppar/"):
         target = target_toppar_path.stem
 
-        for fname in ("ligand.param", "ligand.top", ):
+        for fname in (
+            "ligand.param",
+            "ligand.top",
+        ):
             fpath = Path(target_toppar_path, fname)
             new_f_path = Path(toppar_dirpath, f"{target}_{fname}")
             shutil.copyfile(fpath, new_f_path)
 
 
-def download_dataset():
+def check_dataset():
     repo_dir = Path(SHAPE_ROOT)
-    if repo_dir.exists():
-        return
-    
-    git_clone = subprocess.Popen(
-        ["git", "clone", LIGAND_SHAPE_GIT_REPO_URL],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+    if not repo_dir.exists():
+        raise SystemExit(
+            f"{repo_dir} not found. setup.sh should have cloned it - run "
+            "setup.sh instead of this script directly."
         )
-    _output = git_clone.stdout.read()
-    assert repo_dir.exists()
 
 
 def gen_input_mapper():
@@ -187,7 +208,7 @@ def gen_input_mapper():
         "restraints",
         "shapes",
         "toppars",
-        )
+    )
     with open("protein-ligand-shape-input.txt", "w") as filout:
         for d in dirs_to_gather:
             filout.write(f"# {d.upper()}\n")
@@ -212,8 +233,8 @@ def to_haddock_runner():
 
 
 def main():
-    # Download the input dataset
-    download_dataset()
+    # Dataset is cloned by setup.sh before this script runs
+    check_dataset()
 
     # Make it haddock-runner / haddock3 ready
     to_haddock_runner()
@@ -231,4 +252,3 @@ def runmain():
 
 if __name__ == "__main__":
     runmain()
-
