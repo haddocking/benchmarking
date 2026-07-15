@@ -23,7 +23,7 @@ scenarios:
       rigidbody:
         # no known interface, random AIRs, single rigid-body pass to generate decoys
         tolerance: 5
-        sampling: 1000
+        sampling: 10000
         ranair: true
         epsilon: 78
         dielec: cdie

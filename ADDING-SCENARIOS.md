@@ -1,6 +1,6 @@
 # Adding a scenario
 
-How to add a new docking scenario to an existing benchmark system, using the `gen-decoys` scenario added to `docking_benchmarks/protein_dna/` as a worked example.
+How to add a new docking scenario to an existing benchmark system, using the `gen-decoys` scenario added to `docking_benchmarks/protein_dna/` as a working example.
 
 ## Where it goes
 
@@ -70,4 +70,4 @@ The other `protein_dna` scenarios (`bound-bound`, `bound-unbound`, `unbound-unbo
 - `sampling: 1000`, no `seletop`/refinement/clustering after it.
 - A single `caprieval` scores the raw decoy set as-is.
 
-Not every scenario needs to be a full benchmark protocol — match the workflow's shape to what the scenario is actually for.
+Not every scenario needs to be a full benchmark protocol, match the workflow's shape to what the scenario is actually for.
