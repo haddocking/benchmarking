@@ -1,10 +1,10 @@
 #!/bin/bash
+set -euo pipefail
 
-# Download the protein-glycans dataset
-git clone --depth 1 https://github.com/haddocking/protein-glycans.git protein-glycan-dataset || true
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)/scripts/_common.sh"
 
-# Keep only pdb_files
-rm -rf protein-glycan-dataset/{.git,analysis,cfg_files,data,LICENSE,README.md,example_pic.png}
+# Download the protein-glycans dataset, converging to the pinned commit
+clone_pinned https://github.com/haddocking/protein-glycans.git protein-glycan-dataset "$PROTEIN_GLYCANS_REF"
 
 # Create a `input-files.txt` file
 ls $(pwd)/protein-glycan-dataset/pdb_files/**/*.{pdb,tbl} | grep -v "ana_scripts\|matched\|cg" | sort >protein-glycan-input.txt

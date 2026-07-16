@@ -1,14 +1,13 @@
 #!/bin/bash
 set -euo pipefail
 
-# pdb_mkensemble comes from pdb-tools, installed in the repo's .venv.
-REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-export PATH="$REPO_ROOT/.venv/bin:$PATH"
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)/scripts/_common.sh"
 
-# Download benchmark if it does not already exist
-if [ ! -d "protein-dna" ]; then
-  git clone https://github.com/haddocking/Prot-DNABenchmark protein-dna
-fi
+# pdb_mkensemble comes from pdb-tools, installed in the repo's .venv.
+export PATH="$VENV_PATH/bin:$PATH"
+
+# Download benchmark if it does not already exist, then converge to the pinned commit
+clone_pinned https://github.com/haddocking/Prot-DNABenchmark protein-dna "$PROT_DNA_BENCHMARK_REF"
 
 # Check that pdb_mkensemble is available
 if ! command -v pdb_mkensemble >/dev/null 2>&1; then
