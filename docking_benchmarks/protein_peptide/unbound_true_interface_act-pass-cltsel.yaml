@@ -1,11 +1,10 @@
 general:
   input_list: protein-peptide-input.txt
-  work_dir: benchmark_output/ab_initio
-
+  work_dir: benchmark_output/unbound_true_interface_act-pass-cltsel
   execution: slurm
+  ncores: 40
   partition: short
   gen_archive: true
-  ncores: 40
   max_concurrent: 10
 
   mol_suffixes:
@@ -13,46 +12,42 @@ general:
     - _l_u
 
 scenarios:
-  - name: run-ab_initio
+  - name: run-unbound_true_interface_act-pass-cltsel
     workflow:
         topoaa:
 
         rigidbody:
-          # ab-initio: no ambig restraints, random AIRs instead, larger sampling
-          tolerance: 5
-          sampling: 10000
-          ranair: true
+          sampling: 3000
+          ambig_fname: _u_ambig.tbl
 
         caprieval.1:
           reference_fname: _target.pdb
 
-        seletop:
-          select: 400
+        # cluster the rigidbody output before flexref
+        clustfcc.1:
+
+        seletopclusts.1:
+          top_models: 10
 
         caprieval.2:
           reference_fname: _target.pdb
 
         flexref:
-          # AIRs derived from contacts on the rigidbody pose
-          tolerance: 5
-          contactairs: true
+          ambig_fname: _u_ambig.tbl
 
         caprieval.3:
           reference_fname: _target.pdb
 
         emref:
-          tolerance: 5
-          contactairs: true
+          ambig_fname: _u_ambig.tbl
 
         caprieval.4:
           reference_fname: _target.pdb
-         
-        rmsdmatrix: 
 
-        clustrmsd:
-          clust_cutoff: 5
+        # second clustering pass after refinement
+        clustfcc.2:
 
-        seletopclusts:
+        seletopclusts.2:
           top_models: 10
 
         caprieval.5:

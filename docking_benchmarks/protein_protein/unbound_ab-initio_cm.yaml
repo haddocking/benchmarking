@@ -1,6 +1,6 @@
 general:
   input_list: bm5-input.txt
-  work_dir: benchmark_output/HADDOCK3_clustfcc
+  work_dir: benchmark_output/unbound_ab-initio_cm
 
   execution: slurm
   partition: short
@@ -12,57 +12,51 @@ general:
     - _l_u
 
 scenarios:
-  - name: run-HADDOCK3_clustfcc
+  - name: run-unbound_ab-initio_cm
     workflow:
         topoaa:
 
         rigidbody:
-          ambig_fname: _ambig.tbl
+          sampling: 10000
+          cmrest: true
           unambig_fname: _restraint-bodies
           hbond_fname: _hbonds
           ligand_param_fname: _ligand.param
           ligand_top_fname: _ligand.top
-          tolerance: 5
 
         caprieval.1:
           reference_fname: _target
 
-        clustfcc.1:
-          min_population: 4
-
-        seletopclusts.1:
-          top_models: 10
+        seletop:
+          select: 400
 
         caprieval.2:
           reference_fname: _target
 
         flexref:
-          ambig_fname: _ambig.tbl
           unambig_fname: _restraint-bodies
           hbond_fname: _hbonds
           ligand_param_fname: _ligand.param
           ligand_top_fname: _ligand.top
-          tolerance: 5
+          contactairs: true
+          tolerance: 25
 
         caprieval.3:
           reference_fname: _target
 
         emref:
-          ambig_fname: _ambig.tbl
           unambig_fname: _restraint-bodies
           hbond_fname: _hbonds
           ligand_param_fname: _ligand.param
           ligand_top_fname: _ligand.top
-          tolerance: 5
+          contactairs: true
 
         caprieval.4:
           reference_fname: _target
 
-        clustfcc.2:
-          min_population: 4
+        clustfcc:
 
-        seletopclusts.2:
-          top_models: 10
+        seletopclusts:
 
         caprieval.5:
           reference_fname: _target

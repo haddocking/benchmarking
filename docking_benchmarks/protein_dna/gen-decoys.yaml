@@ -16,7 +16,7 @@ general:
     - _d_u
 
 scenarios:
-  - name: decoys
+  - name: run-gen-decoys
     workflow:
       topoaa:
 

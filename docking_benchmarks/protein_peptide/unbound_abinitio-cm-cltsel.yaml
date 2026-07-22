@@ -1,10 +1,11 @@
 general:
   input_list: protein-peptide-input.txt
-  work_dir: benchmark_output/HADDOCK3_clustfcc
+  work_dir: benchmark_output/unbound_ab_initio_cm-cltsel
+
   execution: slurm
-  ncores: 40
   partition: short
   gen_archive: true
+  ncores: 40
   max_concurrent: 10
 
   mol_suffixes:
@@ -12,20 +13,20 @@ general:
     - _l_u
 
 scenarios:
-  - name: run-HADDOCK3_clustfcc
+  - name: run-unbound_ab_initio_cm-cltsel
     workflow:
         topoaa:
 
         rigidbody:
-          tolerance: 5
-          ambig_fname: _u_ambig.tbl
+          # ab-initio: no ambig restraints, center-of-mass restraints instead, larger sampling
+          sampling: 9000
+          cmrest: true
 
         caprieval.1:
           reference_fname: _target.pdb
 
         # cluster the rigidbody output before flexref
         clustfcc.1:
-          min_population: 4
 
         seletopclusts.1:
           top_models: 10
@@ -34,24 +35,21 @@ scenarios:
           reference_fname: _target.pdb
 
         flexref:
-          tolerance: 5
-          ambig_fname: _u_ambig.tbl
+          # AIRs derived from contacts on the rigidbody pose
+          contactairs: true
 
         caprieval.3:
           reference_fname: _target.pdb
 
         emref:
-          tolerance: 5
-          ambig_fname: _u_ambig.tbl
+          contactairs: true
 
         caprieval.4:
           reference_fname: _target.pdb
-
-        # second clustering pass after refinement
+         
         clustfcc.2:
-          min_population: 4
 
-        seletopclusts.2:
+        seletopclusts:
           top_models: 10
 
         caprieval.5:

@@ -1,4 +1,4 @@
-# Protein-Ligand Shape Docking Benchmarks
+# Protein-Ligand Shape-restrained Docking Benchmark
 
 This directory contains benchmarking scenarios for protein-ligand docking guided by ligand shape information using HADDOCK3. Traditional protein-ligand docking assumes that the exact chemical structure of the ligand is known. However, in many real-world drug discovery scenarios — particularly in fragment-based screening, cross-docking, or cases where only approximate ligand geometry is available — the precise atomic positions of the ligand are uncertain.
 
@@ -13,23 +13,23 @@ Shape-guided docking addresses this by using a set of pseudoatoms (shape beads) 
   - `_shape_beads` — pseudoatom file defining the ligand shape template
 - **Ligand parameters**: `_ligand.param` and `_ligand.top` provide the CNS topology and parameter files for the small molecule
 
-## Shape Bead Protocol
+## Shape-restrained Docking Protocol
 
 During docking, the shape beads are treated as a third molecule (`mol_shape_3: true`) that is held fixed in space (`mol_fix_origin_3: true`). The receptor is also fixed (`mol_fix_origin_1: true`) so that only the ligand is free to move and explore the shape-defined binding pocket. Ambiguous distance restraints between the ligand and the shape beads (`_unbound_shape.tbl` or `_ambig.tbl`) pull the ligand towards the correct pose. The VdW weight in rigid-body docking is set to zero (`w_vdw: 0`) to prevent the pseudoatoms from causing steric clashes that would distort the scoring.
 
 ## Scenarios
 
-### h24_unbound_unbound_shape
+### unbound_shape-restrained
 
-This scenario uses purely geometric shape restraints to guide docking. The shape beads define the approximate volume of the binding pocket and the ligand is driven towards the bead template via ambiguous distance restraints. During flexible refinement (`flexref`) and energy minimisation (`emref`), the shape beads remain fixed while the ligand is allowed to adjust its internal degrees of freedom within the envelope defined by the beads. Clustering of the final poses is performed using ilRMSD at a tight 1.5 Å cutoff to identify convergent solutions.
+This scenario uses ambiguous shape restraints to guide the docking. The shape beads are created from the closest related ligand bound to that receptor (based on the Tversky similarity). The ligand is driven towards the bead template via ambiguous distance restraints. During flexible refinement (`flexref`) and energy minimisation (`emref`), the shape beads remain fixed while the ligand is allowed to adjust its internal degrees of freedom driven by the ambiguous restraints that drive it to overlap with the defined shape. Clustering of the final poses is performed using ilRMSD at a tight 1.5 Å cutoff to identify convergent solutions.
 
-`autohis: true` and `delenph: false` ensure correct hydrogen handling for the ligand during topology generation.
+As recommended for ligand docking, all hydrogen atoms are kept by setting `delenph: false`.
 
-### h24_unbound_unbound_pharm
+### unbound_shape-restrained-pharm
 
-This scenario extends the shape-guided approach by incorporating pharmacophoric features alongside the geometric shape restraints. Pharmacophore points encode chemical interaction preferences — such as hydrogen bond donors/acceptors and hydrophobic regions — in addition to the spatial volume of the ligand. This provides richer chemical context for guiding the docking, and is expected to perform better than pure shape docking when the pharmacophore model accurately reflects the binding requirements of the receptor.
+This scenario extends the shape-guided approach by incorporating pharmacophoric features alongside the geometric shape restraints. Pharmacophore points encode chemical interaction preferences — such as hydrogen bond donors/acceptors and hydrophobic regions — in addition to the spatial volume of the ligand. This provides richer chemical context for guiding the docking. The shape in that case is generated from the closest similarity ligand bound to the same receptor based on Tanimoto similarity.
 
-The receptor topology is handled via a split `topoaa` call: `topoaa.mol1` is run with `autohis: true` for the protein, while the main `topoaa` block handles the ligand without automatic histidine detection (`autohis: false`) and with B-factor setting disabled (`set_bfactor: false`). The restraint files (`_ambig.tbl`, `_unambig.tbl`) include pharmacophore-derived distance restraints in addition to shape-based ones.
+The restraint files (`_ambig.tbl`, `_unambig.tbl`) include pharmacophore-derived distance restraints (with occupancy value selections) in addition to shape-based ones.
 
 ## Running
 

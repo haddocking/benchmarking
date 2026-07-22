@@ -1,0 +1,60 @@
+general:
+  input_list: bm5-input.txt
+  work_dir: benchmark_output/unbound_true-interface5A
+
+  execution: slurm
+  partition: short
+  gen_archive: true
+  ncores: 40
+  max_concurrent: 10
+  mol_suffixes:
+    - _r_u
+    - _l_u
+
+scenarios:
+  - name: run-unbound_true-interface5A
+    workflow:
+        topoaa:
+
+        rigidbody:
+          ambig_fname: _ambig5.tbl
+          unambig_fname: _restraint-bodies
+          hbond_fname: _hbonds
+          ligand_param_fname: _ligand.param
+          ligand_top_fname: _ligand.top
+
+        caprieval.1:
+          reference_fname: _target
+
+        seletop:
+
+        caprieval.2:
+          reference_fname: _target
+
+        flexref:
+          ambig_fname: _ambig5.tbl
+          unambig_fname: _restraint-bodies
+          hbond_fname: _hbonds
+          ligand_param_fname: _ligand.param
+          ligand_top_fname: _ligand.top
+          tolerance: 25
+
+        caprieval.3:
+          reference_fname: _target
+
+        emref:
+          ambig_fname: _ambig5.tbl
+          unambig_fname: _restraint-bodies
+          hbond_fname: _hbonds
+          ligand_param_fname: _ligand.param
+          ligand_top_fname: _ligand.top
+
+        caprieval.4:
+          reference_fname: _target
+
+        clustfcc:
+
+        seletopclusts:
+
+        caprieval.5:
+          reference_fname: _target

@@ -1,6 +1,6 @@
 general:
   input_list: protein-glycan-input.txt
-  work_dir: benchmark_output/unbound_vdw_tip-ap_clust
+  work_dir: benchmark_output/bound_true_interface_act-pass-cltsel
 
   execution: slurm
   partition: short
@@ -8,18 +8,17 @@ general:
   ncores: 40
   max_concurrent: 10
   mol_suffixes:
-    - _r_u
-    - _l_u
+    - _r_b
+    - _l_b
 
 scenarios:
-  - name: run-unbound_vdw_tip-ap_clust
+  - name: run-bound_true_interface_act-pass-cltsel
     workflow:
       topoaa:
 
       rigidbody:
         ambig_fname: _tip-ap.tbl
         w_vdw: 1
-        sampling: 1000
 
       caprieval.1:
         reference_fname: _analysis

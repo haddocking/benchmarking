@@ -2,7 +2,7 @@
 
 This directory contains benchmarking scenarios for protein-glycan docking using HADDOCK3. Glycans are carbohydrate chains attached to proteins and lipids, and they play critical roles in cell signalling, immune recognition, and pathogen-host interactions.
 
-These benchmarks use topological interaction (TI) restraints derived from the glycan structure to guide docking, and evaluate multiple clustering strategies to identify the best-performing protocol for protein-glycan complexes.
+These benchmarks use true interface (TI) restraints derived from the glycan structure to guide docking (meaning by that that the interface residues are used to define ambiguous interaction restraints, i.e. no specific contacts), and evaluate multiple clustering strategies to identify the best-performing protocol for protein-glycan complexes. 
 
 ## Dataset
 
@@ -20,17 +20,19 @@ Ambiguous Interaction Restraints (AIRs) guide docking by defining potential cont
 
 ## Scenarios
 
-### bound_vdw_ti-aa
+As we are dealing with glycans, as recommended in the protein-glycan docking protocol paper (see below), the weight of the intermolecular van der Waals energy is increase to 1 for the scoring at the rigidbody stage (w_vdw=1) and nly flexible refinement is performed (i.e. no emref step).
 
-The simplest scenario: both the protein receptor and the glycan ligand are provided in their bound (co-crystal) conformations. TI restraints derived from the all-atom glycan structure are used alongside a van der Waals energy term (`w_vdw: 1`) during rigid-body docking.
+### bound_true_interface_act-pass-cltsel
 
-### unbound_vdw_tip-ap
+The simplest scenario: both the protein receptor and the glycan ligand are provided in their bound (co-crystal) conformations. TI restraints derived from the reference complexes are used to drive the docking. A clustering step is added after rigid-body docking to select models from from the top50 clusters for the flexible refinement.
 
-The protein and glycan are both provided in their unbound conformations, making this a more realistic and challenging scenario. The restraints are switched from `ti-aa` to `tip-ap` (true interface protein, all passive), where active residues are defined on the protein only and the glycan is treated as fully passive.
+### unbound_true_interface_act-pass-cltsel
 
-### unbound_ens_vdw_tip-ap
+Same protocol as for `bound_true_interface_act-pass-cltsel`, but starting from the unbound receptor structure and an ensemble of unbound conformations for the glycan (see reference paper below). As we are dealing with an ensemble of conformation, the sampling at the rigidbody step is increased to 4000.
 
-An extended version of `unbound_vdw_tip-ap` that incorporates ensemble-based sampling. Multiple conformations of the unbound glycan (provided as a structural ensemble) are used during the rigid-body stage to better represent the conformational space accessible to the free glycan.
+### unbound_true_interface_flexdock_act-pass-cltsel
+
+This is a special docking scenario, in which the docking takes place during the flexible refinement stage (i.e. no rigibbody docking step). To this end the length of the protocol is increased (mdsteps statements in the yaml file), the glycan is treated as fully flexible with a sampling parametere of 500.
 
 ## Running
 
