@@ -1,6 +1,6 @@
 general:
   input_list: bm5-input.txt
-  work_dir: benchmark_output/unbound_true-interface-cltsel
+  work_dir: benchmark_output/unbound_true-interface5A-cltsel
 
   execution: slurm
   partition: short
