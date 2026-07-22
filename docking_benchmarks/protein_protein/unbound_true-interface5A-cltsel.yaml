@@ -12,7 +12,7 @@ general:
     - _l_u
 
 scenarios:
-  - name: run-unbound_true-interface-cltsel
+  - name: run-unbound_true-interface5A-cltsel
     workflow:
         topoaa:
 
