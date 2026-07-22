@@ -1,6 +1,6 @@
 general:
   input_list: protein-peptide-input-test.txt
-  work_dir: benchmark_output/unbound_true_interface_act-pass-cltsel
+  work_dir: benchmark_output/unbound_true_interface-test
 
   execution: local
   partition: short
