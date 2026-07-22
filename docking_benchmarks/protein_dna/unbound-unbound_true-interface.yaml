@@ -1,6 +1,6 @@
 general:
   input_list: prot-dna-input.txt
-  work_dir: benchmark_output
+  work_dir: benchmark_output/unbound-unbound_true-interface
 
   execution: slurm
   partition: short

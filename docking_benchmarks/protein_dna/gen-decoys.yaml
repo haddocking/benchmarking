@@ -1,6 +1,6 @@
 general:
   input_list: prot-dna-input.txt
-  work_dir: benchmark_outputs
+  work_dir: benchmark_outputs/gen-decoys
 
   execution: slurm
   partition: short

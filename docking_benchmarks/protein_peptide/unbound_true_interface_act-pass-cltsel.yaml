@@ -1,6 +1,6 @@
 general:
   input_list: protein-peptide-input.txt
-  work_dir: benchmark_output
+  work_dir: benchmark_output/unbound_true_interface_act-pass-cltsel
   execution: slurm
   ncores: 40
   partition: short

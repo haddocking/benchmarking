@@ -1,6 +1,6 @@
 general:
   input_list: protein-ligand-shape-input.txt
-  work_dir: protein-ligand-shape
+  work_dir: protein-ligand-shape/unbound_shape-restrained
 
   execution: slurm
   partition: short

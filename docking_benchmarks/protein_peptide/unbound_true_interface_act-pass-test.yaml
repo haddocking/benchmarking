@@ -1,6 +1,6 @@
 general:
   input_list: protein-peptide-input-test.txt
-  work_dir: benchmark_output
+  work_dir: benchmark_output/unbound_true_interface_act-pass-cltsel
 
   execution: local
   partition: short
@@ -20,14 +20,14 @@ scenarios:
         topoaa:
 
         rigidbody:
-          sampling: 60
+          sampling: 30
           ambig_fname: _b_ambig.tbl
 
         caprieval.1:
           reference_fname: _target.pdb
 
         seletop:
-          select: 8
+          select: 4
 
         caprieval.2:
           reference_fname: _target.pdb

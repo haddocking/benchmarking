@@ -1,6 +1,6 @@
 general:
   input_list: protein-peptide-input.txt
-  work_dir: benchmark_output
+  work_dir: benchmark_output/unbound_ab_initio_ranair-cltsel
 
   execution: slurm
   partition: short
