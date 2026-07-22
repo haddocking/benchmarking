@@ -1,6 +1,6 @@
 general:
   input_list: protein-glycan-input.txt
-  work_dir: benchmark_output/unbound_ens_vdw_tip-ap_clust
+  work_dir: benchmark_output
 
   execution: slurm
   partition: short
@@ -12,7 +12,7 @@ general:
     - _l_ensemble
 
 scenarios:
-  - name: run-unbound_ens_vdw_tip-ap_clust
+  - name: run-unbound_true-interface_act-pass-cltsel
     workflow:
       topoaa:
 

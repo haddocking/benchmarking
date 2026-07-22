@@ -1,6 +1,6 @@
 general:
   input_list: prot-dna-input.txt
-  work_dir: benchmark_output/gen-decoys
+  work_dir: benchmark_outputs
 
   execution: slurm
   partition: short
@@ -16,7 +16,7 @@ general:
     - _d_u
 
 scenarios:
-  - name: decoys
+  - name: run-gen-decoys
     workflow:
       topoaa:
 

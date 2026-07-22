@@ -1,6 +1,6 @@
 general:
   input_list: protein-ligand-shape-input.txt
-  work_dir: protein-ligand-shape/h24_unbound_unbound_shape
+  work_dir: protein-ligand-shape
 
   execution: slurm
   partition: short
@@ -14,17 +14,14 @@ general:
     - _shape_beads
 
 scenarios:
-  - name: run-h24_unbound_unbound_shape
+  - name: unbound_shape-restrained
     workflow:
         topoaa:
           ligand_param_fname: _ligand.param
           ligand_top_fname: _ligand.top
           delenph: false
-          tolerance: 5
 
         rigidbody:
-          tolerance: 5
-          sampling: 1000
           rotate180: false
           mol_fix_origin_1: true
           mol_fix_origin_3: true
@@ -47,7 +44,6 @@ scenarios:
           reference_fname: _ref_can.pdb
 
         flexref:
-          tolerance: 5
           ligand_param_fname: _ligand.param
           ligand_top_fname: _ligand.top
           randremoval: false
@@ -63,9 +59,6 @@ scenarios:
         caprieval.3:
           reference_fname: _ref_can.pdb
 
-        caprieval.4:
-          reference_fname: _ref_can.pdb
-
         ilrmsdmatrix: {}
 
         clustrmsd:
@@ -74,5 +67,5 @@ scenarios:
         seletopclusts:
           top_models: 4
 
-        caprieval.5:
+        caprieval.4:
           reference_fname: _ref_can.pdb

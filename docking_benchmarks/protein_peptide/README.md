@@ -12,19 +12,41 @@ In these benchmarks, the peptide ligand (`_l_u`) is provided as a multi-model PD
 
 ## Scenarios
 
-### true_interface
+### bound_true_interface_act-pass
 
-This scenario uses ambiguous interaction restraints (AIRs) derived directly from the true binding interface, as known from the crystal structure. It represents the best-case restraint scenario and is used to assess the ceiling performance of the docking protocol — how well HADDOCK3 can place the peptide when it is told where to look.
+This scenario uses ambiguous interaction restraints (AIRs) derived directly from the true binding interface on the protein, as known from the crystal structure and with the peptide defined as fully passive. It represents a close to best-case restraint scenario (we don't assume any knowledge of the binding residues on the peptide) and is used to assess the ceiling performance of the docking protocol — how well HADDOCK3 can place the peptide when it is told where to look. The bound conformations of the protein and peptide are used as starting models. 
 
-### ab_initio
+### unbound_true_interface_act-pass
 
-The ab initio scenario docks the peptide without any prior knowledge of the binding site. Random ambiguous interaction restraints (`ranair: true`) are used in the rigid-body stage, effectively sampling the entire surface of the receptor. A much larger initial pool of 10,000 rigid-body models is generated to compensate for the lack of directional guidance. In the flexible refinement stages, contact-derived AIRs are automatically computed from the best rigid-body poses (`contactairs: true`), allowing the refinement to focus on the most plausible interface without requiring experimental restraints.
+This scenario uses ambiguous interaction restraints (AIRs) derived directly from the true binding interface on the protein, as known from the crystal structure and with the peptide defined as fully passive. It represents a close to best-case restraint scenario (we don't assume any knowledge of the binding residues on the peptide) and is used to assess the ceiling performance of the docking protocol — how well HADDOCK3 can place the peptide when it is told where to look. The unbound conformation of the protein and an ensemble of three peptide conformations (a-helic, polyproline and extended) are used as starting models. The sampling at rigidbody is increased to 3000 to account for the ensemble of starting conformations of the peptide.
+
+### unbound_true_interface_act-pass-cltsel
+
+This scenario is similar to the `unbound_true_interface_act-pass` one, but applies FCC (Fraction of Common Contacts) clustering immediately after the rigid-body stage, before flexible refinement. By first clustering the rigid-body output and selecting diverse representative models, this approach improves the structural diversity of structures entering the refinement pipeline.  
+
+### unbound_abinitio-cm
+
+The ab initio scenario docks the peptide without any prior knowledge of the binding site. Center-of-mass restraints (`cmrest: true`) are used in the rigid-body stage. A much larger initial pool of 9000 rigid-body models (3000 per starting peptide conformation) is generated to compensate for the lack of directional guidance. The top400 models are selected for further refinement. In the flexible refinement stages, contact-derived AIRs are automatically computed from the best rigid-body poses (`contactairs: true`), allowing the refinement to focus on the most plausible interface without requiring experimental restraints.
+
+This scenario is computationally demanding and the most realistic for blind docking predictions.
+
+### unbound_abinitio-cm-cltsel
+
+This scenario is similar to the `unbound_abinitio-cm` one, but applies FCC (Fraction of Common Contacts) clustering immediately after the rigid-body stage, before flexible refinement. By first clustering the rigid-body output and selecting diverse representative models, this approach improves the structural diversity of structures entering the refinement pipeline.  
 
 This scenario is the most computationally demanding and the most realistic for blind docking predictions.
 
-### clustfcc
+### unbound_ab_initio-ranair
 
-This scenario applies FCC (Fraction of Common Contacts) clustering immediately after the rigid-body stage, before flexible refinement. By first clustering the rigid-body output and selecting diverse representative models, this approach improves the structural diversity of structures entering the refinement pipeline and avoids wasting computational resources on near-duplicate poses. A second round of FCC clustering is applied after the final refinement stage to produce the ranked output.
+The ab initio scenario docks the peptide without any prior knowledge of the binding site. Random ambiguous interaction restraints (`ranair: true`) are used in the rigid-body stage, effectively sampling the entire surface of the receptor. A much larger initial pool of 9000 rigid-body models (3000 per starting peptide conformation)  is generated to compensate for the lack of directional guidance. The top400 models are selected for further refinement. In the flexible refinement stages, contact-derived AIRs are automatically computed from the best rigid-body poses (`contactairs: true`), allowing the refinement to focus on the most plausible interface without requiring experimental restraints.
+
+This scenario is computationally demanding and the most realistic for blind docking predictions.
+
+### unbound_ab_initio-ranair-cltsel
+
+This scenario is similar to the `unbound_abinitio-ranair` one, but applies FCC (Fraction of Common Contacts) clustering immediately after the rigid-body stage, before flexible refinement. By first clustering the rigid-body output and selecting diverse representative models, this approach improves the structural diversity of structures entering the refinement pipeline.  
+
+This scenario is the most computationally demanding and the most realistic for blind docking predictions.
 
 ## Running
 

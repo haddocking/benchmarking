@@ -1,6 +1,6 @@
 general:
   input_list: protein-peptide-input.txt
-  work_dir: benchmark_output/ab_initio
+  work_dir: benchmark_output
 
   execution: slurm
   partition: short
@@ -13,44 +13,41 @@ general:
     - _l_u
 
 scenarios:
-  - name: run-ab_initio
+  - name: run-unbound_ab_initio_ranair-cltsel
     workflow:
         topoaa:
 
         rigidbody:
           # ab-initio: no ambig restraints, random AIRs instead, larger sampling
-          tolerance: 5
-          sampling: 10000
+          sampling: 9000
           ranair: true
 
         caprieval.1:
           reference_fname: _target.pdb
 
-        seletop:
-          select: 400
+        # cluster the rigidbody output before flexref
+        clustfcc.1:
+
+        seletopclusts.1:
+          top_models: 10
 
         caprieval.2:
           reference_fname: _target.pdb
 
         flexref:
           # AIRs derived from contacts on the rigidbody pose
-          tolerance: 5
           contactairs: true
 
         caprieval.3:
           reference_fname: _target.pdb
 
         emref:
-          tolerance: 5
           contactairs: true
 
         caprieval.4:
           reference_fname: _target.pdb
          
-        rmsdmatrix: 
-
-        clustrmsd:
-          clust_cutoff: 5
+        clustfcc.2:
 
         seletopclusts:
           top_models: 10

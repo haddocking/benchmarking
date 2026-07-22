@@ -1,0 +1,48 @@
+general:
+  input_list: protein-glycan-input.txt
+  work_dir: benchmark_output
+
+  execution: slurm
+  partition: short
+  gen_archive: true
+  ncores: 40
+  max_concurrent: 10
+  mol_suffixes:
+    - _r_u
+    - _l_ensemble
+
+scenarios:
+  - name: run-unbound_true-interface_flexdock_act-pass-cltsel
+    workflow:
+      topoaa:
+
+      flexref:
+        sampling_factor: 500
+        randrot: true
+        separate: true
+        mdsteps_rigid: 5000 
+        mdsteps_cool1: 5000
+        mdsteps_cool2: 10000
+        mdsteps_cool3: 10000
+        fle_sta_1: 1
+        fle_end_1: 99
+        fle_seg_1: "B"
+        ambig_fname: _tip-ap.tbl
+
+      caprieval.1:
+        reference_fname: _analysis
+        keep_hetatm: true
+
+      ilrmsdmatrix:
+
+      clustrmsd:
+        criterion: distance
+        clust_cutoff: 2.5
+        linkage: average
+
+      seletopclusts:
+        top_models: 4
+
+      caprieval.2:
+        reference_fname: _analysis
+        keep_hetatm: true

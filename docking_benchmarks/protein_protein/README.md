@@ -1,6 +1,6 @@
 # Protein-Protein Docking Benchmarks
 
-This directory contains benchmarking scenarios for protein-protein docking using the BM5 protein-protein dataset. The benchmark evaluates both HADDOCK2.4-like and HADDOCK3 docking protocols across a range of restraint strategies — from fully restrained docking using known interface information to completely ab initio docking without any prior knowledge of the binding site.
+This directory contains benchmarking scenarios for protein-protein docking using the BM5 protein-protein dataset. The benchmark evaluates docking protocols across a range of restraint strategies — from fully restrained docking using known interface information to completely ab initio docking without any prior knowledge of the binding site.
 
 The BM5 dataset consists of 230 protein complexes with both bound and unbound structures available for each partner.
 ## Dataset
@@ -13,21 +13,26 @@ All scenarios share the same input dataset:
 
 ## Scenarios
 
-### HADDOCK24_default
+### unbound_true-interface
 
-The default HADDOCK2.4 protocol for protein-protein docking. Ambiguous interaction restraints (AIRs) derived from experimental data or predicted interface residues are used to guide docking. The workflow follows the classic three-stage protocol: rigid-body docking to generate 1000 models, selection of the top 200, followed by semi-flexible refinement (flexref) and final water-mediated refinement (mdref). Clustering is performed using the FCC (Fraction of Common Contacts) method after the final refinement stage.
+The default protocol for protein-protein docking. Ambiguous interaction restraints (AIRs) derived from experimental data or predicted interface residues are used to guide docking. In this case the restraints were derived from the true interface in the reference complexes (using a cutoff of 3.9A). The identified residues were used to define ambiguous interaction restraints. The workflow follows the classic three-stage protocol: rigid-body docking to generate 1000 models, selection of the top 200, followed by semi-flexible refinement (flexref) and final water-mediated refinement (mdref). Clustering is performed using the FCC (Fraction of Common Contacts) method after the final refinement stage.
 
-### HADDOCK24_default_5Aambig
+### unbound_true-interface5A
 
-Identical to the default HADDOCK2.4 protocol but with 5 Å ambiguous distance restraints applied in addition to the standard AIRs. This scenario tests whether softer, broader distance restraints can improve sampling at the interface and lead to better docking performance compared to the default setup.
+Identical to the `unbound_true-interface` protocol but with ambiguous distance restraints derived from interface residues defined using a 5A distance cutoff (a wider definition of the interface).
 
-### HADDOCK24_ab_initio
 
-An ab initio docking scenario that operates without any knowledge of the binding interface. Instead of AIRs, random ambiguous interaction restraints (ranair) are used during the rigid-body stage to sample the entire surface. A larger pool of 1000 models is generated, and the top 400 are taken into refinement. Body restraints and hydrogen bond restraints are still applied to maintain the structural integrity of each partner. This scenario is the most challenging and tests docking performance in a blind prediction context.
+### unbound_true-interface5A-cltsel
 
-### HADDOCK3_clustfcc
+Identical to the `unbound_true-interface5A` protocol, but applies FCC (Fraction of Common Contacts) clustering immediately after the rigid-body stage, before flexible refinement. By first clustering the rigid-body output and selecting diverse representative models, this approach improves the structural diversity of structures entering the refinement pipeline. 
 
-A HADDOCK3 protocol that introduces an early clustering step immediately after rigid-body docking — before semi-flexible refinement begins. By clustering the 1000 rigid-body models with FCC first and selecting representative structures, this approach reduces the risk of over-populating the refinement stage with near-duplicate poses and improves diversity in the final ensemble. Clustering is applied a second time after the full refinement to produce the final ranked results.
+### unbound_ab-initio_cm
+
+An ab initio docking scenario that operates without any knowledge of the binding interface. Instead of AIRs, center of mass restraints (`cmrest`) are used during the rigid-body stage. A larger pool of 10000 models is generated, and the top 400 are taken into refinement. Body restraints and hydrogen bond restraints are still applied to maintain the structural integrity of each partner. This scenario is the most challenging and tests docking performance in a blind prediction context.
+
+### unbound_ab-initio_ranair
+
+An ab initio docking scenario that operates without any knowledge of the binding interface. Instead of AIRs, random interaction restraints (`ranair`) are defined by randomly selecting patches on surface of the two proteins. Those are used during the rigid-body stage. A larger pool of 10000 models is generated, and the top 400 are taken into refinement. Body restraints and hydrogen bond restraints are still applied to maintain the structural integrity of each partner. This scenario is the most challenging and tests docking performance in a blind prediction context.
 
 ## Running
 

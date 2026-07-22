@@ -1,6 +1,6 @@
 general:
   input_list: prot-dna-input.txt
-  work_dir: benchmark_output/unbound-unbound
+  work_dir: benchmark_output
 
   execution: slurm
   partition: short
@@ -9,21 +9,22 @@ general:
   max_concurrent: 10
 
   mol_suffixes:
-    - _p1_u
-    - _p2_u
-    - _p3_u
-    - _p4_u
+    - _p1_b
+    - _p2_b
+    - _p3_b
+    - _p4_b
     - _d_u
 
 scenarios:
-  - name: run-unbound-unbound
+  - name: run-bound-unbound_true-interface
     workflow:
       topoaa:
+        tolerance: 5
 
       rigidbody:
-        tolerance: 5
+        tolerance: 25
         sampling: 1000
-        ambig_fname: _u_ambig.tbl
+        ambig_fname: _b_ambig.tbl
         epsilon: 78
         dielec: cdie
         w_desolv: 0
@@ -38,8 +39,8 @@ scenarios:
         reference_fname: _target.pdb
 
       flexref:
-        tolerance: 5
-        ambig_fname: _u_ambig.tbl
+        tolerance: 60
+        ambig_fname: _b_ambig.tbl
         dnarest_on: true
         epsilon: 78
         dielec: cdie
@@ -51,8 +52,8 @@ scenarios:
         reference_fname: _target.pdb
 
       mdref:
-        tolerance: 5
-        ambig_fname: _u_ambig.tbl
+        tolerance: 60
+        ambig_fname: _b_ambig.tbl
         dnarest_on: true
         w_desolv: 0
         watersteps: 1250
@@ -60,7 +61,9 @@ scenarios:
       caprieval.4:
         reference_fname: _target.pdb
 
+
       clustfcc:
+        min_population: 4
 
       seletopclusts:
         top_models: 4
