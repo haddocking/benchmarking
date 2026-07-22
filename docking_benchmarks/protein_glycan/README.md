@@ -2,7 +2,7 @@
 
 This directory contains benchmarking scenarios for protein-glycan docking using HADDOCK3. Glycans are carbohydrate chains attached to proteins and lipids, and they play critical roles in cell signalling, immune recognition, and pathogen-host interactions.
 
-These benchmarks use true interface (TI) restraints derived from the glycan structure to guide docking (meaning by that that the interface residues are used to define ambiguous interaction restraints, i.e. no specific contacts), and evaluate multiple clustering strategies to identify the best-performing protocol for protein-glycan complexes. T
+These benchmarks use true interface (TI) restraints derived from the glycan structure to guide docking (meaning by that that the interface residues are used to define ambiguous interaction restraints, i.e. no specific contacts), and evaluate multiple clustering strategies to identify the best-performing protocol for protein-glycan complexes. 
 
 ## Dataset
 
