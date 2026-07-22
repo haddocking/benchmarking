@@ -54,6 +54,18 @@ bash setup.sh
 ./run.sh docking_benchmarks/protein_protein/HADDOCK3_clustfcc.yaml
 ```
 
+**3. Run all scenarios for a given benchmark**
+
+```bash
+./run-all.sh docking_benchmarks/protein_protein
+```
+
+**4. Run all scenarios for all  benchmarks**
+
+```bash
+./run-all.sh
+```
+
 For long runs:
 
 ```bash
