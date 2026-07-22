@@ -34,7 +34,7 @@ protein_protein/
 ├── unbound_ab-initio_cm.yaml               # Scenario YAML files
 ├── unbound_ab-initio_ranair.yaml
 ├── unbound_true-interface.yaml
-└── unbound_true-interface5A-cltsel.yaml
+├── unbound_true-interface5A-cltsel.yaml
 └── unbound_true-interface5A.yaml
 ```
 
