@@ -31,10 +31,11 @@ Each benchmark directory follows the same layout (shown for `protein_protein/`):
 protein_protein/
 ├── README.md                               # Dataset description, scenarios, and run instructions
 ├── setup.sh                                # Downloads and stages input structures
-├── HADDOCK24_default.yaml                  # Scenario YAML files
-├── HADDOCK24_default_5Aambig.yaml
-├── HADDOCK24_ab_initio.yaml
-└── HADDOCK3_clustfcc.yaml
+├── unbound_ab-initio_cm.yaml               # Scenario YAML files
+├── unbound_ab-initio_ranair.yaml
+├── unbound_true-interface.yaml
+└── unbound_true-interface5A-cltsel.yaml
+└── unbound_true-interface5A.yaml
 ```
 
 ## Quick Start
@@ -122,15 +123,17 @@ Each subdirectory README covers the biological context, dataset, restraints, and
 
 ### Scenario overview
 
-**Protein-Protein**: restrained (HADDOCK2.4 AIRs) through blind ab initio docking, plus two HADDOCK3 clustering protocols (FCC, ilRMSD).
+**Protein-Protein**: various restrained and ab-initio docking.
 
-**Protein-Peptide**: true-interface restraints, blind ab initio (10,000 rigid-body models), FCC clustering.
+**Protein-Peptide**: various restrained and ab-initio docking.
 
 **Protein-DNA**: bound-bound, bound-unbound, unbound-unbound difficulty levels, plus a gen-decoys scenario for producing a large unrefined decoy set.
 
-**Protein-Glycan**: bound/unbound conformations, ensemble-based sampling.
+**Protein-Glycan**: bound/unbound conformations, ensemble-based restrained docking and one scenario in which the docking takes place during the flexible refinement stages.
 
-**Protein-Ligand Shape**: shape-bead-guided and pharmacophore-enhanced docking for approximate ligand geometry.
+**Protein-Ligand Shape**: shape-restrained and pharmacophore-enhanced docking.
+
+See the respective README.md files for details.
 
 ## Analysis
 
