@@ -22,7 +22,16 @@ if [ ! -x "$BIN_DIR/haddock-runner" ]; then
 fi
 source "$VENV_PATH/bin/activate"
 
-target="${1:-$REPO_ROOT/docking_benchmarks}"
+target="${1:-docking_benchmarks}"
+if [[ "$target" != /* ]]; then
+  target="$REPO_ROOT/$target"
+fi
+
+if [[ ! -e "$target" ]]; then
+  echo "[!!] Target not found: $target" >&2
+  exit 1
+fi
+
 if [[ -f "$target" ]]; then
   scenarios=("$target")
 else
@@ -30,7 +39,7 @@ else
 fi
 
 if [ "${#scenarios[@]}" -eq 0 ]; then
-  echo "[!!] No scenario YAMLs found under docking_benchmarks/" >&2
+  echo "[!!] No scenario YAMLs found under $target" >&2
   exit 1
 fi
 
