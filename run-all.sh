@@ -22,10 +22,24 @@ if [ ! -x "$BIN_DIR/haddock-runner" ]; then
 fi
 source "$VENV_PATH/bin/activate"
 
-mapfile -t scenarios < <(find "$REPO_ROOT/docking_benchmarks" -mindepth 2 -maxdepth 2 -name '*.yaml' | sort)
+target="${1:-docking_benchmarks}"
+if [[ "$target" != /* ]]; then
+  target="$REPO_ROOT/$target"
+fi
+
+if [[ ! -e "$target" ]]; then
+  echo "[!!] Target not found: $target" >&2
+  exit 1
+fi
+
+if [[ -f "$target" ]]; then
+  scenarios=("$target")
+else
+  mapfile -t scenarios < <(find "$target" -mindepth 1 -maxdepth 2 -name '*.yaml' | sort)
+fi
 
 if [ "${#scenarios[@]}" -eq 0 ]; then
-  echo "[!!] No scenario YAMLs found under docking_benchmarks/" >&2
+  echo "[!!] No scenario YAMLs found under $target" >&2
   exit 1
 fi
 
