@@ -118,7 +118,7 @@ sequenceDiagram
 
     HR-->>User: exit - All jobs completed
 
-    Note over User,FS: External - AnalyseBenchmarkResults.py reads from work_dir/
+    Note over User,FS: External - analysebenchmarkresults.py reads from work_dir/
 ```
 
 ## Benchmark Systems
