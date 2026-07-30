@@ -6,11 +6,11 @@ This directory contains the post-processing and visualisation script for HADDOCK
 
 **Per-run analysis** — HADDOCK3 automatically generates an `analysis/` folder inside each target's `run1/` directory as part of the docking workflow. For every `caprieval` step it writes a `N_caprieval_analysis/` subfolder (e.g. `2_caprieval_analysis/`) containing an HTML report (`report.html`), per-metric plots (`*_clt.html`), and the `capri_ss.tsv` evaluation file. The HTML reports must be served over HTTP to render correctly — run `python -m http.server --directory .` from the `analysis/` folder and open the printed URL in a browser. This folder is produced by the `caprieval` module and requires no manual step.
 
-**Benchmark-wide analysis (manual)** — once all targets across a scenario have finished, `AnalyseBenchmarkResults.py` aggregates the `capri_ss.tsv` files from every target and produces overall performance plots and a JSON summary across the full dataset. This is what you run manually after the benchmark completes.
+**Benchmark-wide analysis (manual)** — once all targets across a scenario have finished, `analysebenchmarkresults.py` aggregates the `capri_ss.tsv` files from every target and produces overall performance plots and a JSON summary across the full dataset. This is what you run manually after the benchmark completes.
 
 ## Script
 
-### `AnalyseBenchmarkResults.py`
+### `analysebenchmarkresults.py`
 
 **Version**: 1.1.1  
 **Author**: BonvinLab, Computational Structural Biology group, Utrecht University
@@ -48,7 +48,7 @@ If HADDOCK3 was run with `gen_archive = true`, the analysis can be read directly
 ## Basic Usage
 
 ```bash
-python3 analysis/AnalyseBenchmarkResults.py <path/to/benchmark_results_dir/>
+python3 analysis/analysebenchmarkresults.py <path/to/benchmark_results_dir/>
 ```
 
 Output files are written to an `analysis/` subdirectory by default.
@@ -133,13 +133,13 @@ The keys must match the two-digit index prefix of the caprieval directories in t
 Analyse all scenarios for a protein-protein benchmark run:
 
 ```bash
-python3 analysis/AnalyseBenchmarkResults.py results/protein-protein/ -t protein -m irmsd
+python3 analysis/analysebenchmarkresults.py results/protein-protein/ -t protein -m irmsd
 ```
 
 Analyse only two specific scenarios and suppress plots:
 
 ```bash
-python3 analysis/AnalyseBenchmarkResults.py results/protein-protein/ \
+python3 analysis/analysebenchmarkresults.py results/protein-protein/ \
     -s scenario-HADDOCK3_clustfcc \
     --no-melquiplots
 ```
@@ -147,5 +147,5 @@ python3 analysis/AnalyseBenchmarkResults.py results/protein-protein/ \
 Read results from compressed archives (when `gen_archive = true` was set in HADDOCK3):
 
 ```bash
-python3 analysis/AnalyseBenchmarkResults.py results/protein-peptide/ -t peptide -a
+python3 analysis/analysebenchmarkresults.py results/protein-peptide/ -t peptide -a
 ```

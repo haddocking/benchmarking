@@ -6,7 +6,7 @@ Generates multiple-plots analysing different scenarios performances.
 Please modify the Global variable: CAPRIEVAL_STEPS to suite your needs.
 It is used to generate nice title to the caprieval steps.
 Usage:
->python3 AnalyseBenchmarkResults.py <path/to/benchmark/dir/to/analyze/>
+>python3 analysebenchmarkresults.py <path/to/benchmark/dir/to/analyze/>
 Expected input structure
 -------------------------
 <benchmark_results_dir>/

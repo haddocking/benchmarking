@@ -26,7 +26,7 @@ If you want to add an entirely new molecular system (e.g. protein-RNA, antibody-
 
 ### Analysis Improvements
 
-The analysis pipeline lives in `analysis/`. Improvements to `AnalyseBenchmarkResults.py` — such as support for new metrics, additional plot types, or better output formatting — are welcome. If you change the output format, update `analysis/README.md` accordingly.
+The analysis pipeline lives in `analysis/`. Improvements to `analysebenchmarkresults.py` — such as support for new metrics, additional plot types, or better output formatting — are welcome. If you change the output format, update `analysis/README.md` accordingly.
 
 ### Bug Fixes and Path Issues
 
