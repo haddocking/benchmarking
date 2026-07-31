@@ -6,16 +6,17 @@ This directory contains the post-processing and visualisation script for HADDOCK
 
 **Per-run analysis** — HADDOCK3 automatically generates an `analysis/` folder inside each target's `run1/` directory as part of the docking workflow. For every `caprieval` step it writes a `N_caprieval_analysis/` subfolder (e.g. `2_caprieval_analysis/`) containing an HTML report (`report.html`), per-metric plots (`*_clt.html`), and the `capri_ss.tsv` evaluation file. The HTML reports must be served over HTTP to render correctly — run `python -m http.server --directory .` from the `analysis/` folder and open the printed URL in a browser. This folder is produced by the `caprieval` module and requires no manual step.
 
-**Benchmark-wide analysis (manual)** — once all targets across a scenario have finished, `AnalyseBenchmarkResults.py` aggregates the `capri_ss.tsv` files from every target and produces overall performance plots and a JSON summary across the full dataset. This is what you run manually after the benchmark completes.
+**Benchmark-wide analysis (manual)** — once all targets across a scenario have finished, `analysebenchmarkresults.py` aggregates the `capri_ss.tsv` files from every target and produces overall performance plots and a JSON summary across the full dataset. This is what you run manually after the benchmark completes.
 
 ## Script
 
-### `AnalyseBenchmarkResults.py`
+### `analysebenchmarkresults.py`
 
-**Version**: 1.1.1  
-**Author**: BonvinLab, Computational Structural Biology group, Utrecht University
+**Version**: 2.0.0
 
 The script reads `capri_ss.tsv` files produced by the `caprieval` module of HADDOCK3, ranks models by their HADDOCK score, and computes the quality of the best-ranking model at a series of top-X thresholds (Top1, Top5, Top10, Top20, Top50, Top100, Top200, Top500, Top1000). Results are classified into CAPRI performance categories and visualised across all scenarios and pipeline stages.
+
+Caprieval stage names are **auto-detected** from the module each `caprieval` evaluated, so column titles read `rigidbody`, `flexref`, `emref`, `seletopclusts`, etc. without manual configuration (see *Customising Caprieval Stage Labels*).
 
 ## Requirements
 
@@ -27,12 +28,12 @@ Both packages are already installed if you ran `setup.sh`.
 
 ## Expected Input Structure
 
-The script expects a benchmark results directory in the format produced by `haddock-runner`. Each target is a subdirectory named by its PDB ID, and within each target there is one subdirectory per scenario, each containing a `run1/` directory with the HADDOCK3 output.
+The script expects a benchmark results directory in the format produced by `haddock-runner`. The **scenario** is the outer directory and the **target (PDB ID)** is the inner one — each scenario contains one subdirectory per target, each with a `run1/` directory holding the HADDOCK3 output.
 
 ```
 <benchmark_results_dir>/
-  <PDBid>/
-    <scenario_name>/
+  <scenario_name>/
+    <PDBid>/
       run1/
         02_caprieval/
           capri_ss.tsv
@@ -43,35 +44,50 @@ The script expects a benchmark results directory in the format produced by `hadd
         ...
 ```
 
-If HADDOCK3 was run with `gen_archive = true`, the analysis can be read directly from the compressed analysis archives (`run1_analysis.tgz`) using the `--from-archive` flag.
+Scenario discovery accepts a target that holds **either** a live `run1/` directory (default mode) **or** a `run1_analysis.tgz` archive (`--from-archive` mode), so it works whether or not the runs were archived. If HADDOCK3 was run with `gen_archive = true`, the analysis can be read directly from the compressed archives using the `--from-archive` (`-a`) flag.
 
 ## Basic Usage
 
 ```bash
-python3 analysis/AnalyseBenchmarkResults.py <path/to/benchmark_results_dir/>
+python3 analysis/analysebenchmarkresults.py <path/to/benchmark_results_dir/>
 ```
 
-Output files are written to an `analysis/` subdirectory by default.
+By default, output files are written to an `Analysis/` subdirectory **inside the benchmark directory itself**. Use `-o` to write elsewhere.
 
 ## All Options
 
 ```
 positional arguments:
   benchmark_directory     Path to the directory where the benchmark was run
+                          (contains the scenario subdirectories)
 
 optional arguments:
-  -o, --output_path       Directory to write output files (default: analysis/)
-  -m, --metric            Performance metric: irmsd or dockq (default: irmsd)
+  -o, --output_path       Directory to write output files
+                          (default: Analysis/ inside the benchmark directory)
+  -l, --label             Custom name used for output filenames and plot titles
+                          instead of the benchmark directory's basename
+  -m, --metric            Performance metric: irmsd, dockq, or ilrmsd.
+                          Default is type-aware: ilrmsd for glycan and
+                          small_molecule, irmsd otherwise
   -s, --scenario          Analyse only specific scenario(s) by name (default: all)
-  -t, --type              System type for CAPRI thresholds: protein, peptide, glycan (default: protein)
-  -d, --dpi               DPI for output figures (default: 400)
+  -t, --type              System type for CAPRI thresholds:
+                          protein, peptide, glycan, dna, small_molecule
+                          (default: protein)
+  -d, --dpi               DPI for output figures (default: 200)
   -n, --no-percentage     Report raw counts instead of percentages in bar plots
   -a, --from-archive      Read capri_ss.tsv from run1_analysis.tgz archives
   -q, --quiet             Suppress all stdout output
   --no-capriplots         Skip CAPRI bar plot generation
-  --no-violinplots        Skip violin plot generation
-  --no-melquiplots        Skip melquiplot generation
+  --violinplots           Also generate violin plots (OFF by default)
+  --melquiplots           Also generate melquiplots (OFF by default)
+  --per-scenario-plots    In addition to the combined comparison figure, also
+                          write a standalone bar/violin plot per scenario
+  --custom-labels         Path to JSON file containing custom labeling of
+                          caprieval steps (see *Customising Caprieval Stage
+                          Labels*)
 ```
+
+> **Changed in 2.0.0:** bar plots are generated by default; **violin and melqui plots are now OFF by default** and must be enabled with `--violinplots` / `--melquiplots` (the old `--no-violinplots` / `--no-melquiplots` flags were removed).
 
 ## Output Files
 
@@ -80,16 +96,30 @@ Running the script produces the following files in the output directory:
 | File | Description |
 |---|---|
 | `*_performances.json` | JSON summary of best model quality at each top-X threshold per scenario and caprieval stage |
-| `*_capribarpolots.png` | Stacked bar plots showing the fraction of targets with High / Medium / Acceptable / Near-acceptable / Low quality models at each threshold, for each scenario and caprieval stage |
-| `*_violins.png` | Violin plots showing the distribution of performance metric values across all targets, broken down by scenario and caprieval stage |
-| `*_melquiplots.zip` | Archive of per-scenario melquiplots — one column per target, one row per caprieval stage, colour-coded by CAPRI quality class |
-| `*_benchmark_mapper.json` | Internal mapping of scenario/target/stage to file paths (cached to speed up re-runs) |
+| `*_capribarplots.png` | Stacked bar plots showing the fraction of targets with High / Medium / Acceptable / Near-acceptable quality models at each threshold, for each scenario and caprieval stage |
+| `*_violins.png` | (only with `--violinplots`) Violin plots of the metric distribution across all targets, by scenario and caprieval stage |
+| `*_melquiplots.zip` | (only with `--melquiplots`) Archive of per-scenario melquiplots — one column per target, one row per caprieval stage, colour-coded by CAPRI quality class |
+| `*_benchmark_mapper.json` | Internal mapping of scenario/target/stage to file paths |
+
+The plot title is `Benchmark output - <metric>` by default (e.g. `Benchmark output - irmsd`), or your `-l/--label` value if given.
+
+## Metric by system type
+
+The default metric depends on the system type; an explicit `-m` always wins. Requesting a metric a type does not define (e.g. `-t glycan -m irmsd`) exits with a clear error.
+
+| Type | irmsd | ilrmsd | dockq | Default |
+|---|:---:|:---:|:---:|---|
+| protein | ✓ |  | ✓ | irmsd |
+| peptide | ✓ |  | ✓ | irmsd |
+| dna | ✓ |  | ✓ | irmsd |
+| glycan |  | ✓ | ✓ | ilrmsd |
+| small_molecule |  | ✓ | ✓ | ilrmsd |
 
 ## Performance Classes
 
-Models are classified according to CAPRI criteria. The thresholds differ by system type and metric:
+Models are classified according to CAPRI criteria. The thresholds differ by system type and metric.
 
-**Protein-Protein / Protein-DNA (iRMSD)**
+**Protein / DNA (iRMSD)**
 
 | Class | iRMSD range |
 |---|---|
@@ -98,9 +128,8 @@ Models are classified according to CAPRI criteria. The thresholds differ by syst
 | Acceptable | 2 – 4 Å |
 | Near-acceptable | 4 – 6 Å |
 | Low | > 6 Å |
-| Missing | No model generated |
 
-**Protein-Peptide / Protein-Glycan (iRMSD)**
+**Peptide (iRMSD)**
 
 | Class | iRMSD range |
 |---|---|
@@ -110,42 +139,67 @@ Models are classified according to CAPRI criteria. The thresholds differ by syst
 | Near-acceptable | 2 – 3 Å |
 | Low | > 3 Å |
 
-DockQ thresholds are also available (`--metric dockq`) with corresponding class boundaries defined in the script.
+**Glycan / Small molecule (ilRMSD)**
+
+| Class | ilRMSD range |
+|---|---|
+| High | < 1 Å |
+| Medium | 1 – 2 Å |
+| Acceptable | 2 – 3 Å |
+| Near-acceptable | 3 – 4 Å |
+| Low | > 4 Å |
 
 ## Customising Caprieval Stage Labels
 
-By default, caprieval stages are labelled by their module index (e.g. `02`, `04`). You can assign human-readable names by editing the `CAPRIEVAL_STEPS` dictionary near the top of the script:
+Caprieval stages are auto-named at runtime from the module each one evaluated, so no configuration is required by default.
+Nevertheless, the user can provide a JSON file containing custom labeling scheme for all (or only some) for the steps.
+This can be done by using the `custom-labels` parameter, followed by the path to that file.
 
-```python
-CAPRIEVAL_STEPS = {
-    '02': 'rigidbody',
-    '04': 'seletop 200',
-    '06': 'flexref',
-    '08': 'emref',
-    '11': 'top 4 models per fcc clust',
+The keys must be strings matching the zero-padded index prefix of the caprieval directories (e.g. `"06"` for `06_caprieval/`), exactly as printed in the `- Caprieval stage names:` log line. Any stage not listed keeps its auto-detected name (or falls back to `<index>_caprieval` if it could not be detected).
+
+The label can be **any text you like** — you are not limited to the module name. For example, to give fully custom, descriptive titles:
+```json
+{
+    "02": "Rigid-body docking",
+    "04": "Top-200 selection",
+    "06": "Flexible refinement",
+    "08": "Energy minimisation",
+    "12": "Final clustered models"
 }
 ```
 
-The keys must match the two-digit index prefix of the caprieval directories in the HADDOCK3 run output (e.g. `02_caprieval/`). Any stage not listed here will be labelled `<index>_caprieval` automatically.
+**Important note:** in JSON, only use double-quotes (`"`) for strings !
+> **Reminder:** the keys are the stage **indices** as they appear in *your* run, which can differ between benchmarks/pipelines (e.g. `seletopclusts` may be `11` in one run and `12` in another). Check the `- Caprieval stage names:` line the script prints and use those indices.
 
 ## Examples
 
 Analyse all scenarios for a protein-protein benchmark run:
 
 ```bash
-python3 analysis/AnalyseBenchmarkResults.py results/protein-protein/ -t protein -m irmsd
+python3 analysis/analysebenchmarkresults.py results/protein-protein/ -t protein -m irmsd
 ```
 
-Analyse only two specific scenarios and suppress plots:
+Analyse only one scenario and also enable the melquiplot:
 
 ```bash
-python3 analysis/AnalyseBenchmarkResults.py results/protein-protein/ \
+python3 analysis/analysebenchmarkresults.py results/protein-protein/ \
     -s scenario-HADDOCK3_clustfcc \
-    --no-melquiplots
+    --melquiplots
 ```
 
 Read results from compressed archives (when `gen_archive = true` was set in HADDOCK3):
 
 ```bash
-python3 analysis/AnalyseBenchmarkResults.py results/protein-peptide/ -t peptide -a
+python3 analysis/analysebenchmarkresults.py results/protein-peptide/ -t peptide -a
+```
+
+Analyse a glycan benchmark (defaults to the ilrmsd metric):
+
+```bash
+python3 analysis/analysebenchmarkresults.py results/protein-glycan/ -t glycan -a
+```
+Run analysis with custom-lables 
+
+```bash
+python3 analysis/analysebenchmarkresults.py results/protein-protein/ --custom-labels custom-labels-examples.json
 ```

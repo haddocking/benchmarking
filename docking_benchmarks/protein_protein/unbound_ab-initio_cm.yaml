@@ -15,6 +15,8 @@ scenarios:
   - name: run-unbound_ab-initio_cm
     workflow:
         topoaa:
+          ligand_param_fname: _ligand.param
+          ligand_top_fname: _ligand.top
 
         rigidbody:
           sampling: 10000

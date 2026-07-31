@@ -12,7 +12,7 @@
 Benchmarking/
 ├── setup.sh                    # Environment setup entry point
 ├── run.sh                      # Wrapper: activates env, execs haddock-runner
-├── analyse.sh                  # Wrapper: runs analysis/AnalyseBenchmarkResults.py
+├── analyse.sh                  # Wrapper: runs analysis/analysebenchmarkresults.py
 ├── USAGE.md                    # Full usage guide
 ├── versions.env                # Pinned dataset commit SHAs + haddock-runner/haddock3 versions
 ├── scripts/                    # Individual setup steps, orchestrated by setup.sh
