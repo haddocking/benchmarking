@@ -195,3 +195,8 @@ Analyse a glycan benchmark (defaults to the ilrmsd metric):
 ```bash
 python3 analysis/analysebenchmarkresults.py results/protein-glycan/ -t glycan -a
 ```
+Run analysis with custom-lables 
+
+```bash
+python3 analysis/analysebenchmarkresults.py results/protein-protein/ --custom-labels custom-labels-examples.json
+```
