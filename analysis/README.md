@@ -148,40 +148,24 @@ Models are classified according to CAPRI criteria. The thresholds differ by syst
 
 ## Customising Caprieval Stage Labels
 
-Caprieval stages are auto-named at runtime from the module each one evaluated, so no configuration is needed in the common case. To **override** a label, edit the `CAPRIEVAL_STEPS` dictionary near the top of the script — a manual entry takes precedence over the auto-detected name:
+Caprieval stages are auto-named at runtime from the module each one evaluated, so no configuration is required by default.
+Nevertheless, the user can provide a JSON file containing custom labeling scheme for all (or only some) for the steps.
+This can be done by using the `custom-labels` parameter, followed by the path to that file.
 
-```python
-CAPRIEVAL_STEPS = {
-    '02': 'rigidbody',
-    '04': 'seletop 200',
-    '06': 'flexref',
-    '08': 'emref',
-    '12': 'seletopclusts',
-}
-```
-
-The keys must be strings matching the zero-padded index prefix of the caprieval directories (e.g. `'06'` for `06_caprieval/`), exactly as printed in the `- Caprieval stage names:` log line. Any stage not listed keeps its auto-detected name (or falls back to `<index>_caprieval` if it could not be detected).
+The keys must be strings matching the zero-padded index prefix of the caprieval directories (e.g. `"06"` for `06_caprieval/`), exactly as printed in the `- Caprieval stage names:` log line. Any stage not listed keeps its auto-detected name (or falls back to `<index>_caprieval` if it could not be detected).
 
 The label can be **any text you like** — you are not limited to the module name. For example, to give fully custom, descriptive titles:
-
-```python
-CAPRIEVAL_STEPS = {
-    '02': 'Rigid-body docking',
-    '04': 'Top-200 selection',
-    '06': 'Flexible refinement',
-    '08': 'Energy minimisation',
-    '12': 'Final clustered models',
+```json
+{
+    "02": "Rigid-body docking",
+    "04": "Top-200 selection",
+    "06": "Flexible refinement",
+    "08": "Energy minimisation",
+    "12": "Final clustered models"
 }
 ```
 
-With this, the plot column titles (and the `- Caprieval stage names:` log) read your custom text instead of the auto-detected `rigidbody` / `flexref` / `emref` / `seletopclusts`. You can also override just a subset — list only the stages you want to rename and leave the rest to auto-detection:
-
-```python
-CAPRIEVAL_STEPS = {
-    '12': 'Final clustered models',   # only this one is renamed
-}
-```
-
+**Important note:** in JSON, only use double-quotes (`"`) for strings !
 > **Reminder:** the keys are the stage **indices** as they appear in *your* run, which can differ between benchmarks/pipelines (e.g. `seletopclusts` may be `11` in one run and `12` in another). Check the `- Caprieval stage names:` line the script prints and use those indices.
 
 ## Examples

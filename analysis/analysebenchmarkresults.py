@@ -64,15 +64,6 @@ __dev__ = (
 ####################
 # GLOBAL VARIABLES #
 ####################
-# Caprieval stage names are now auto-detected at runtime from the module each
-# caprieval evaluated (see detect_stage_modules() / DETECTED_STAGE_NAMES), so
-# they are correct per benchmark type without manual editing.
-#
-# This dict is only an OPTIONAL manual override / fallback, used solely for a
-# stage that could not be auto-detected. Leave it empty to let auto-detection
-# handle everything (undetected stages then fall back to `<index>_caprieval`).
-# To force a custom label for a specific stage, add e.g. '02': 'rigidbody'.
-CAPRIEVAL_STEPS: dict[str, str] = {}
 # Set threshold of top X structures to take into account
 TOP_X_THRESHOLDS = (1, 5, 10, 20, 50, 100, 200, 500, 1000, )
 # Set number of entries to display in melquiplot
@@ -203,6 +194,12 @@ LEGEND_PERF_ORDER = tuple(
     )
 # DPI of the generated figures
 DPI = 200
+# Name of the stages
+CAPRIEVAL_STEPS: dict[str, str] = {}
+# Auto-detected {stage_index: module_name}, filled at runtime by
+# detect_stage_modules(). Takes precedence over the hardcoded CAPRIEVAL_STEPS.
+DETECTED_STAGE_NAMES: dict[str, str] = {}
+
 ####################
 # DEFINE FUNCTIONS #
 ####################
@@ -409,9 +406,25 @@ def adjacent_values(
     lower_adjacent_value = q1 - (q3 - q1) * 1.5
     lower_adjacent_value = np.clip(lower_adjacent_value, vals[0], q1)
     return lower_adjacent_value, upper_adjacent_value
-# Auto-detected {stage_index: module_name}, filled at runtime by
-# detect_stage_modules(). Takes precedence over the hardcoded CAPRIEVAL_STEPS.
-DETECTED_STAGE_NAMES: dict[str, str] = {}
+def load_custom_stage_labels(custom_labels_fpath: Optional[str]) -> dict[str, str]:
+    """Load user provided custom labeling scheme.
+
+    Parameters
+    ----------
+    custom_labels_fpath : Optional[str]
+        Index of the caprieval stage
+    Returns
+    -------
+    custom_labels : dict[str, str]
+        Name of the stages
+    """
+    if custom_labels_fpath and os.path.exists(custom_labels_fpath):
+        try:
+            with open(custom_labels_fpath, "r") as fin:
+                return json.load(fin)
+        except:
+            return {}
+    return {}
 def stage_name(cname: str) -> str:
     """Return a human-readable name for a caprieval stage.
     Preference order:
@@ -532,7 +545,7 @@ def gen_full_comparison_violins(
             # Set labels on last row only
             labels = None
             if ri + 1 == nb_thresh:
-                labels = [so.replace('scenario-', '') for so in scenars_order]
+                labels = [so for so in scenars_order]
             # Write bars
             gen_violin(
                 ax,
@@ -1812,6 +1825,7 @@ def _vprint(silence: bool, msg: str) -> None:
     """
     if not silence:
         print(msg)
+
 #################
 # Main function #
 #################
@@ -1827,6 +1841,7 @@ def main(
         melquiplots: bool = False,
         read_from_archive: bool = False,
         label: Optional[str] = None,
+        custom_labels: Optional[str] = None,
         per_scenario_plots: bool = False,
         ) -> None:
     """Run the analysis procedure.
@@ -1858,6 +1873,8 @@ def main(
     label : Optional[str], optional
         Custom name to use for output filenames and plot titles instead of
         the benchmark directory's basename, by default None
+    custom_labels: Optional[str], optional
+        Path to file containing the custom labeling scheme for scenarios
     per_scenario_plots : bool, optional
         In addition to the single combined comparison bar/violin plot
         (which already shows every scenario as its own row), also
@@ -1882,6 +1899,9 @@ def main(
         subset_scenarios=scenarios,
         read_from_archive=read_from_archive,
         )
+    # Potentially load the custom labeling scheme provided by the user
+    global CAPRIEVAL_STEPS
+    CAPRIEVAL_STEPS = load_custom_stage_labels(custom_labels)
     # Auto-detect a human name for each caprieval stage from the module it
     # evaluated (overrides the hardcoded CAPRIEVAL_STEPS for plot titles).
     global DETECTED_STAGE_NAMES
@@ -1976,6 +1996,7 @@ def main(
                     metric=metric,
                     progress=not silent,
                     )
+
 ###################################
 # COMMAND LINE ARGUMENTS HANDLERS #
 ###################################
@@ -2100,7 +2121,7 @@ def _get_cmd_line_args() -> argparse.Namespace:
         )
     parser.add_argument(
         '-l',
-        '--label',
+        '--plot-label',
         help=(
             "Custom name to use for output filenames and plot titles, "
             "instead of the benchmark directory's basename (useful when "
@@ -2126,7 +2147,11 @@ def _get_cmd_line_args() -> argparse.Namespace:
     parser.add_argument(
         '-s',
         '--scenario',
-        help="Name(s) of a specific scenario(s) to analyze. Can be multiple of them, separated by space. By default, all scenarios will be analysed together.",
+        help=(
+            "Name(s) of a specific scenario(s) to analyze. "
+            "Can be multiple of them, separated by space. "
+            "By default, all scenarios will be analysed together."
+            ),
         required=False,
         default=None,
         nargs="+",
@@ -2204,6 +2229,14 @@ def _get_cmd_line_args() -> argparse.Namespace:
         action="store_true",
         default=False,
         )
+    parser.add_argument(
+        "--custom-labels",
+        "-c",
+        help="Path to json file containing custom labeling of steps. ",
+        required=False,
+        default=None,
+        type=str,
+        )
     args = parser.parse_args()
     return args
 def welcome_msg(silent: bool) -> None:
@@ -2222,6 +2255,7 @@ def welcome_msg(silent: bool) -> None:
         f"{'#' * 80}\n"
     )
     _vprint(silent, msg)
+
 ############################
 # COMMAND LINE ENTRY POINT #
 ############################
@@ -2240,7 +2274,8 @@ def maincli() -> None:
         violinplots=args.violinplots,
         melquiplots=args.melquiplots,
         read_from_archive=args.from_archive,
-        label=args.label,
+        label=args.plot_label,
+        custom_labels=args.custom_labels,
         per_scenario_plots=args.per_scenario_plots,
         )
 if __name__ == "__main__":
