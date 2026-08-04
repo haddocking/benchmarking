@@ -969,6 +969,7 @@ def gen_full_comparison_barplots(
             xycoords=ax.yaxis.label,
             textcoords='offset points',
             size='large',
+            rotation='vertical',
             ha='right',
             va='center',
             )
