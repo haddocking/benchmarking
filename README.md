@@ -74,6 +74,15 @@ nohup ./run.sh <scenario.yaml> > run.out & disown && tail -f run.out
 
 See [USAGE.md](USAGE.md) for the full guide, SLURM configuration, and troubleshooting.
 
+## Interactive notebook
+
+[`notebook/HADDOCK3_protein_peptide_small_benchmark.ipynb`](notebook/HADDOCK3_protein_peptide_small_benchmark.ipynb)
+walks through the full install → dataset → run → analyse flow on a 5-complex
+subset of the protein–peptide benchmark, with sampling reduced so it runs
+interactively on a few CPU cores in minutes. It is meant for understanding how
+the pipeline fits together — an end-to-end sanity check, not a source of
+benchmark numbers.
+
 ## Pipeline Overview
 ```mermaid
 %%{init: {'theme': 'default'}}%%
