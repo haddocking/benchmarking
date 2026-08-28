@@ -76,12 +76,11 @@ See [USAGE.md](USAGE.md) for the full guide, SLURM configuration, and troublesho
 
 ## Interactive notebook
 
-[`notebook/HADDOCK3_protein_peptide_small_benchmark.ipynb`](notebook/HADDOCK3_protein_peptide_small_benchmark.ipynb)
-walks through the full install → dataset → run → analyse flow on a 5-complex
-subset of the protein–peptide benchmark, with sampling reduced so it runs
-interactively on a few CPU cores in minutes. It is meant for understanding how
-the pipeline fits together — an end-to-end sanity check, not a source of
-benchmark numbers.
+The [`notebook/HADDOCK3_protein_peptide_small_benchmark.ipynb`](notebook/HADDOCK3_protein_peptide_small_benchmark.ipynb) notebook provides a guided, end-to-end walkthrough of the protein–peptide benchmarking workflow using a small subset of five complexes.
+
+It covers the complete workflow, including software setup, dataset preparation, benchmark execution with `haddock-runner`, HADDOCK3 docking, and inspection of the resulting CAPRI evaluation tables.
+
+To keep the notebook suitable for interactive execution, the sampling is intentionally reduced compared with the full benchmark. The notebook is therefore intended as a **functional and reproducibility test of the workflow**, rather than as a source of production-scale benchmark results.
 
 ## Pipeline Overview
 ```mermaid
