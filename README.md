@@ -74,6 +74,12 @@ nohup ./run.sh <scenario.yaml> > run.out & disown && tail -f run.out
 
 See [USAGE.md](USAGE.md) for the full guide, SLURM configuration, and troubleshooting.
 
+## Interactive notebook
+
+The [`notebook/HADDOCK3_protein_peptide_small_benchmark.ipynb`](notebook/HADDOCK3_protein_peptide_small_benchmark.ipynb) notebook provides a guided, end-to-end walkthrough of the protein–peptide benchmarking workflow using a small subset of five complexes.
+
+It covers the complete workflow, including software setup, dataset preparation, benchmark execution with `haddock-runner`, HADDOCK3 docking, and analysis.
+
 ## Pipeline Overview
 ```mermaid
 %%{init: {'theme': 'default'}}%%

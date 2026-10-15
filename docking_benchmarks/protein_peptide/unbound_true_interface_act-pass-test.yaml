@@ -20,7 +20,7 @@ scenarios:
         topoaa:
 
         rigidbody:
-          sampling: 30
+          sampling: 40
           ambig_fname: _b_ambig.tbl
 
         caprieval.1:
