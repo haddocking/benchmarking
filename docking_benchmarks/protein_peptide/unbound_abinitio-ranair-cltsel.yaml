@@ -1,6 +1,6 @@
 general:
-  input_list: protein-peptide-input.txt
-  work_dir: benchmark_output/unbound_ab_initio_ranair-cltsel
+  input_list: protein-peptide-input-unbound.txt
+  work_dir: benchmark_output/uu-abinitio-ranair-cltsel
 
   execution: slurm
   partition: short
@@ -13,7 +13,7 @@ general:
     - _l_u
 
 scenarios:
-  - name: run-unbound_ab_initio_ranair-cltsel
+  - name: uu-abinitio-ranair-cltsel
     workflow:
         topoaa:
 

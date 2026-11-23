@@ -1,6 +1,6 @@
 general:
   input_list: protein-peptide-input.txt
-  work_dir: benchmark_output/bound_true_interface_act-pass
+  work_dir: benchmark_output/bb-ti-act-pass
 
   execution: slurm
   partition: short
@@ -15,7 +15,7 @@ general:
     - _l_b
 
 scenarios:
-  - name: run-bound_true_interface_act-pass
+  - name: bb-ti-act-pass
     workflow:
         topoaa:
 
