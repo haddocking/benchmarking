@@ -4,7 +4,7 @@
 
 # HADDOCK3 Benchmarking Suite
 
-[HADDOCK3](https://github.com/haddocking/haddock3) is an information-driven docking platform from [BonvinLab](https://www.bonvinlab.org/), Utrecht University. This repository holds datasets, scenario YAMLs, setup scripts, and an analysis pipeline for benchmarking HADDOCK3 docking protocols (starting from unbound partners, scored against CAPRI quality thresholds) across five system types: protein-protein, protein-peptide, protein-DNA, protein-glycan, and shape-guided protein-ligand. Runs are orchestrated by [haddock-runner](https://github.com/haddocking/haddock-runner), which reads the scenario YAMLs and dispatches SLURM jobs.
+[HADDOCK3](https://github.com/haddocking/haddock3) is an information-driven docking platform from [BonvinLab](https://www.bonvinlab.org/), Utrecht University. This repository holds datasets, scenario YAMLs, setup scripts, and an analysis pipeline for benchmarking HADDOCK3 docking protocols (starting from unbound partners, scored against CAPRI quality thresholds) across six system types: protein-protein, protein-peptide, protein-DNA, protein-glycan, nanobody-antigen, and shape-guided protein-ligand. Runs are orchestrated by [haddock-runner](https://github.com/haddocking/haddock-runner), which reads the scenario YAMLs and dispatches SLURM jobs.
 
 ## Repository Structure
 
@@ -21,6 +21,7 @@ Benchmarking/
 │   ├── protein_peptide/        # Protein-peptide benchmark
 │   ├── protein_dna/            # Protein-DNA benchmark
 │   ├── protein_glycan/         # Protein-glycan benchmark
+│   ├── nanobody_antigen/       # Nanobody-antigen benchmark
 │   └── protein_ligand_shape/   # Shape-guided protein-ligand benchmark
 └── analysis/                   # Post-run analysis and visualisation
 ```
@@ -135,6 +136,7 @@ sequenceDiagram
 | Protein-Peptide | 98 complexes | 3 | [haddocking/protein-peptide](https://github.com/haddocking/protein-peptide) | Trellet et al. (2013), *PLOS ONE* 8(3), e58769 |
 | Protein-DNA | 47 complexes | 4 | [haddocking/Prot-DNABenchmark](https://github.com/haddocking/Prot-DNABenchmark) | van Dijk & Bonvin (2008), *NAR* 36(14), e88 |
 | Protein-Glycan | 89 complexes | 3 | [haddocking/protein-glycans](https://github.com/haddocking/protein-glycans) | Ranaudo et al. (2024), *JCIM* 64(19), 7816-7825 |
+| Nanobody-Antigen | 40 complexes | 4 | [haddocking/nanobodies](https://github.com/haddocking/nanobodies) | Sánchez-Marín et al. (2026), *JCIM* 66, 11445-11458 |
 | Protein-Ligand Shape | 99 complexes | 2 | [haddocking/shape-restrained-haddocking](https://github.com/haddocking/shape-restrained-haddocking) | Koukos et al. (2021), *JCIM* |
 
 Each subdirectory README covers the biological context, dataset, restraints, and workflow per scenario.
@@ -148,6 +150,8 @@ Each subdirectory README covers the biological context, dataset, restraints, and
 **Protein-DNA**: bound-bound, bound-unbound, unbound-unbound difficulty levels, plus a gen-decoys scenario for producing a large unrefined decoy set.
 
 **Protein-Glycan**: bound/unbound conformations, ensemble-based restrained docking and one scenario in which the docking takes place during the flexible refinement stages.
+
+**Nanobody-Antigen**: predicted nanobody ensemble docked on the unbound antigen, with restraints of four information scenarios (real, loose and two-hit interface, all surface).
 
 **Protein-Ligand Shape**: shape-restrained and pharmacophore-enhanced docking.
 
