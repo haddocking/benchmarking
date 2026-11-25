@@ -37,6 +37,7 @@ scenarios:
         flexref:
           # AIRs derived from contacts on the rigidbody pose
           contactairs: true
+          tolerance: 75
 
         caprieval.3:
           reference_fname: _target.pdb
@@ -49,7 +50,7 @@ scenarios:
          
         clustfcc.2:
 
-        seletopclusts:
+        seletopclusts.2:
           top_models: 10
 
         caprieval.5:
