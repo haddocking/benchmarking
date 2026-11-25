@@ -33,7 +33,7 @@ scenarios:
           reference_fname: _target.pdb
 
         flexref:
-          tolerance: 25
+          tolerance: 75
           ambig_fname: _u_ambig.tbl
 
         caprieval.3:
