@@ -17,4 +17,4 @@ for dir in protein-glycan-dataset/pdb_files/*/; do
   for f in ${id}_r_u.pdb ${id}_l_ensemble.pdb ${id}_tip-ap.tbl ${id}_analysis.pdb; do
     echo "$(pwd)/protein-glycan-dataset/pdb_files/${id}/${f}"
   done
-done >protein-glycan-input-unbound.txt
+done | sort >protein-glycan-input-unbound.txt
