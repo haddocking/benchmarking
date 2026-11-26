@@ -1,5 +1,5 @@
 general:
-  input_list: protein-glycan-input-unbound.txt
+  input_list: protein-glycan-input-flexdock.txt
   work_dir: benchmark_output/uu-ti-flexdock-act-pass-cltsel
 
   execution: slurm
@@ -8,7 +8,7 @@ general:
   ncores: 40
   max_concurrent: 10
   mol_suffixes:
-    - _r_u
+    - _r_u_ensemble
     - _l_ensemble
 
 scenarios:
@@ -17,7 +17,7 @@ scenarios:
       topoaa:
 
       flexref:
-        sampling_factor: 500
+        sampling_factor: 25
         randrot: true
         separate: true
         mdsteps_rigid: 5000 
