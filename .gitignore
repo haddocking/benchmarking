@@ -18,6 +18,7 @@ docking_benchmarks/protein_protein/protein-protein-dataset/
 docking_benchmarks/protein_peptide/protein-peptide-dataset/
 docking_benchmarks/protein_dna/protein-dna/
 docking_benchmarks/protein_glycan/protein-glycan-dataset/
+docking_benchmarks/nanobody_antigen/nanobody-antigen-dataset/
 docking_benchmarks/protein_ligand_shape/shape-restrained-haddocking/
 docking_benchmarks/protein_ligand_shape/conformers/
 docking_benchmarks/protein_ligand_shape/references/
@@ -32,6 +33,7 @@ docking_benchmarks/protein_protein/bm5-input.txt
 docking_benchmarks/protein_peptide/protein-peptide-input.txt
 docking_benchmarks/protein_dna/prot-dna-input.txt
 docking_benchmarks/protein_glycan/protein-glycan-input.txt
+docking_benchmarks/nanobody_antigen/nanobody-antigen-input.txt
 docking_benchmarks/protein_ligand_shape/protein-ligand-shape-input.txt
 
 # ── Per-system setup logs (setup.sh redirects each dataset's output here) ──────
