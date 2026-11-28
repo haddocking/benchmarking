@@ -1,6 +1,6 @@
 general:
-  input_list: protein-peptide-input.txt
-  work_dir: benchmark_output/unbound_true_interface_act-pass
+  input_list: protein-peptide-input-unbound.txt
+  work_dir: benchmark_output/uu-ti-act-pass
 
   execution: slurm
   partition: short
@@ -15,14 +15,14 @@ general:
     - _l_u
 
 scenarios:
-  - name: run-unbound_true_interface_act-pass
+  - name: uu-ti-act-pass
     workflow:
         topoaa:
           clean: true
 
         rigidbody:
           sampling: 3000
-          ambig_fname: _b_ambig.tbl
+          ambig_fname: _u_ambig.tbl
 
         caprieval.1:
           reference_fname: _target.pdb
@@ -34,13 +34,14 @@ scenarios:
           reference_fname: _target.pdb
 
         flexref:
-          ambig_fname: _b_ambig.tbl
+          ambig_fname: _u_ambig.tbl
+          tolerance: 75
 
         caprieval.3:
           reference_fname: _target.pdb
 
         emref:
-          ambig_fname: _b_ambig.tbl
+          ambig_fname: _u_ambig.tbl
 
         caprieval.4:
           reference_fname: _target.pdb

@@ -1,6 +1,6 @@
 general:
-  input_list: protein-peptide-input.txt
-  work_dir: benchmark_output/unbound_ab_initio_ranair
+  input_list: protein-peptide-input-unbound.txt
+  work_dir: benchmark_output/uu-abinitio-ranair
 
   execution: slurm
   partition: short
@@ -13,7 +13,7 @@ general:
     - _l_u
 
 scenarios:
-  - name: run-unbound_ab_initio_ranair
+  - name: uu-abinitio-ranair
     workflow:
         topoaa:
 
@@ -34,6 +34,7 @@ scenarios:
         flexref:
           # AIRs derived from contacts on the rigidbody pose
           contactairs: true
+          tolerance: 75
 
         caprieval.3:
           reference_fname: _target.pdb

@@ -1,6 +1,6 @@
 general:
   input_list: protein-peptide-input-test.txt
-  work_dir: benchmark_output/unbound_true_interface-test
+  work_dir: benchmark_output/uu-ti-act-pass-test
 
   execution: local
   partition: short
@@ -15,13 +15,13 @@ general:
     - _l_u
 
 scenarios:
-  - name: run-unbound-true_interface-test
+  - name: uu-ti-act-pass-test
     workflow:
         topoaa:
 
         rigidbody:
           sampling: 40
-          ambig_fname: _b_ambig.tbl
+          ambig_fname: _u_ambig.tbl
 
         caprieval.1:
           reference_fname: _target.pdb
@@ -33,14 +33,14 @@ scenarios:
           reference_fname: _target.pdb
 
         flexref:
-          tolerance: 25
-          ambig_fname: _b_ambig.tbl
+          tolerance: 75
+          ambig_fname: _u_ambig.tbl
 
         caprieval.3:
           reference_fname: _target.pdb
 
         emref:
-          ambig_fname: _b_ambig.tbl
+          ambig_fname: _u_ambig.tbl
 
         caprieval.4:
           reference_fname: _target.pdb
