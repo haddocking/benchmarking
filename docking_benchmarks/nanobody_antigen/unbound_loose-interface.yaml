@@ -1,0 +1,58 @@
+general:
+  input_list: nanobody-antigen-input.txt
+  work_dir: benchmark_output/uu-loose-interface
+
+  execution: slurm
+  partition: short
+  gen_archive: true
+  ncores: 40
+  max_concurrent: 10
+
+  # nanobody: IBMu ensemble (ImmuneBuilder + AlphaFold2-Multimer models),
+  #  antigen: unbound structure
+  mol_suffixes:
+    - _af_multi_imbuilder_ensemble
+    - _l_u
+
+scenarios:
+  - name: uu-loose-interface
+    workflow:
+      topoaa:
+
+      rigidbody:
+        tolerance: 5
+        ambig_fname: _loose_ambig.tbl
+        unambig_fname: _l_u_unambig.tbl
+
+      caprieval.1:
+        reference_fname: _ref.pdb
+
+      seletop:
+        select: 200
+
+      caprieval.2:
+        reference_fname: _ref.pdb
+
+      flexref:
+        tolerance: 25
+        ambig_fname: _loose_ambig.tbl
+        unambig_fname: _l_u_unambig.tbl
+
+      caprieval.3:
+        reference_fname: _ref.pdb
+
+      emref:
+        tolerance: 5
+        ambig_fname: _loose_ambig.tbl
+        unambig_fname: _l_u_unambig.tbl
+
+      caprieval.4:
+        reference_fname: _ref.pdb
+
+      clustfcc:
+
+      seletopclusts:
+        top_models: 4
+
+      caprieval.5:
+        reference_fname: _ref.pdb
