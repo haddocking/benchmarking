@@ -33,6 +33,8 @@ docking_benchmarks/protein_protein/bm5-input.txt
 docking_benchmarks/protein_peptide/protein-peptide-input.txt
 docking_benchmarks/protein_dna/prot-dna-input.txt
 docking_benchmarks/protein_glycan/protein-glycan-input.txt
+docking_benchmarks/protein_glycan/protein-glycan-input-unbound.txt
+docking_benchmarks/protein_glycan/protein-glycan-input-flexdock.txt
 docking_benchmarks/nanobody_antigen/nanobody-antigen-input.txt
 docking_benchmarks/protein_ligand_shape/protein-ligand-shape-input.txt
 

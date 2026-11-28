@@ -1,6 +1,6 @@
 general:
-  input_list: protein-glycan-input.txt
-  work_dir: benchmark_output/unbound_true-interface_flexdock_act-pass-cltsel
+  input_list: protein-glycan-input-flexdock.txt
+  work_dir: benchmark_output/uu-ti-flexdock-act-pass-cltsel
 
   execution: slurm
   partition: short
@@ -8,16 +8,16 @@ general:
   ncores: 40
   max_concurrent: 10
   mol_suffixes:
-    - _r_u
+    - _r_u_ensemble
     - _l_ensemble
 
 scenarios:
-  - name: run-unbound_true-interface_flexdock_act-pass-cltsel
+  - name: uu-ti-flexdock-act-pass-cltsel
     workflow:
       topoaa:
 
       flexref:
-        sampling_factor: 500
+        sampling_factor: 25
         randrot: true
         separate: true
         mdsteps_rigid: 5000 
